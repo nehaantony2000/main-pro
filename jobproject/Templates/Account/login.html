@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+	{% extends 'base.html' %}
+{% load static %}
+<html>
+    
+	{% block content %}
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'Account/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'Account/css/owl.carousel.min.css' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'Account/css/bootstrap.min.css' %}">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="'{% static 'Account/css/style.css' %}">
+
+    <title>Login #8</title>
+  </head>
+  <body>
+  
+
+  
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 order-md-2">
+          <img src="https://i.pinimg.com/564x/39/14/71/3914718ae0f34605f20ec4f0fff4eda5.jpg" alt="Image" class="img-fluid">
+        </div>
+        <div class="col-md-6 contents">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="mb-4">
+              <h3>Sign In  </h3>
+              </div>
+            <form  onsubmit="return validatee()" method="POST" action="{% url 'login' %}" id="form">
+              {% include 'Message.html' %}
+              {% csrf_token %}
+              <div class="form-group first">
+                <label for="username">Email ID:</label>
+                <input type="email" required="required" name="email" class="form-control" id="email" placeholder="Email" autocomplete="off"
+								>
+								<span id="names" style="font-size:12px;margin-top:-5px;" style="color:red" class="text-danger"></span>
+                            
+
+              </div>
+              <div class="form-group last mb-4">
+                <label for="password">Password</label>
+                <input type="password" required="required" class="form-control " id="password" name="password" placeholder="Password">
+                                <span id="names" style="font-size:12px;margin-top:-5px;" style="color:red" class="text-danger"></span>
+					
+                
+              </div>
+              <div class="form-group last mb-4">
+              <div style="margin-left:+0%;">
+                <div class="g-recaptcha" data-sitekey="6LfDo94iAAAAABypusc-iWabt4MGiUWnuqXHupRM"></div>
+
+<div id="g-recaptcha-error"></div>
+</div>
+</div>
+              <div class="d-flex mb-5 align-items-center">
+                <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
+                  <input type="checkbox" checked="checked"/>
+                  <div class="control__indicator"></div>
+                </label>
+                <span class="ml-auto"><a href="/Account/forgotPassword/" class="forgot-pass">Forgot Password</a></span> 
+              </div>
+
+              <input type="submit" name="submit" value="Log In" class="btn text-white btn-block btn-primary">
+            <br>
+            <br>
+
+
+              <h6>Don,t have an Account? <a href="{% url 'register' %}"> Register Now!</a></h6>
+              
+              
+            </form>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  
+    <script src="{% static 'Account/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'Account/js/popper.min.js' %}"></script>
+    <script src="{% static 'Account/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'Account/js/main.js' %}"></script>
+    <script type="text/javascript">
+      // function verifyCaptcha() {
+      // 	document.getElementById('g-recaptcha-error').innerHTML = '';
+      // }
+    
+      
+      
+      function validatee() {
+                
+                if (grecaptcha.getResponse() == "") {
+    
+                    document.getElementById('g-recaptcha-error').textContent = "Enter the Captcha";
+                    document.getElementById("g-recaptcha-error").style.color = "red";
+                    return false;
+                }
+                else if (grecaptcha.getResponse() == "") {
+                    alert(response)
+                    document.getElementById('g-recaptcha-error').innerHTML =
+                        '<span style="color:red;">This field is required.</span>';
+                    return false;
+                }
+                else {
+                    return true;
+                }
+        }
+    </script>
+    </body>
+    {% endblock %}
+    
+    	
+  
+</html>

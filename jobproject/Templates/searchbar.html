@@ -1,0 +1,48 @@
+{% extends 'Employee/userbase.html' %}
+{% load static %}
+<html>
+  {% block content %}
+  
+<body>
+<div class="container">
+	<!-- Recent Jobs -->
+	<div class="eleven columns">
+	<div class="padding-right">
+		
+		
+
+
+		<ul class="job-list full">
+			{% for i in  key1 %}
+			<li>
+				<div class="thumb"><img src="{{i.logo.url}}" class="img-responsive" alt=""/></a></div>
+				
+				<div class="job-list-content">
+					<a href="{%  url 'singlejob' i.id %} ">
+					<h4>  	{{i.companyname}}/{{i.jobname}} <span class="full-time">Full-Time</span></h4>
+					<div class="job-icons">
+						<span><i class="fa fa-briefcase"></i> {{i.jobname}}</span>
+						<span><i class="fa fa-map-marker"></i> {{i.location}}</span>
+						<span><i class="fa fa-money"></i>{{i.salarypackage}}</span>
+						
+					</div>
+					<p> {{i.companyaddress}}</p>
+				</div>
+				</a>
+				<div class="clearfix"></div>
+			</li>
+
+			{% endfor %}
+		</ul>
+		
+
+		
+
+	</div>
+  <div class="clearfix"></div>
+	</div>  
+</div>
+<div class="clearfix"></div>
+</body>
+{% endblock %}
+</html>

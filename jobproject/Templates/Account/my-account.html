@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+	{% extends 'base.html' %}
+{% load static %}
+<html>
+    
+	{% block content %}
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'Account/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'Account/css/owl.carousel.min.css' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'Account/css/bootstrap.min.css' %}">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="'{% static 'Account/css/style.css' %}">
+
+    <title>Login #8</title>
+  </head>
+  <body>
+  
+
+  
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 order-md-2">
+          <img src="https://thumbs.dreamstime.com/b/online-registration-sign-up-concept-young-man-signing-login-to-account-smartphone-app-user-interface-secure-password-194944772.jpg" alt="Image" class="img-fluid">
+        </div>
+        <div class="col-md-6 contents">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="mb-4">
+              <h3>Sign In  </h3>
+              </div>
+			  <form method="POST"   onclick="return validation()" action="{% url 'register' %}" id="register">
+				{% csrf_token %}
+				{% include 'Message.html' %}
+				<div class="form-group first">
+					<label for="role">Register As:</label>
+					<select path="role" id="role"  name="role" class="form-control input-sm">
+						<option value="" disabled>select</option>
+						<option value="is_employee">Employee</option>
+						<option value="is_company">Company</option>
+					</select>
+	
+				  </div>
+				  <div class="form-group first">
+					<label for="username">First Name:</label>
+					<input type="text" path="firstName" name="first_name" id="firstname"  autocomplete="off"  onkeyup='fnameValidation(this)' required class="form-control input-sm"/>
+                    <span id="name" style="font-size:12px;margin-top:-5px;"  style="color:red"  class="text-danger"></span>
+               
+				  </div>
+				  <div class="form-group first">
+					<label for="username">Last Name:</label>
+					<input type="text" path="lastName" name="last_name" id="lastname"   autocomplete="off" onkeyup='lnameValidation(this)' required class="form-control input-sm"/>
+                    <span id="names" style="font-size:12px;margin-top:-5px;" style="color:red" class="text-danger"></span>
+                </div>
+				  <div class="form-group first">
+					<label for="username">Email ID:</label>
+					<input type="email" name="email" path="email" autocomplete="off" id="email" style="color:red" onkeyup='emailValidation(this)' required  class="form-control input-sm"/>
+                    <span id="mail" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
+                </div>
+              <div class="form-group first">
+                <label for="username">Mobile Number:</label>
+				<input type="tel" path="Mobile" id="mobile"  onkeyup='phoneValidation(this)' autocomplete="off"  required name="mobile" class="form-control input-sm"/>
+				<span id="pho" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
+			</div>
+
+             
+              <div class="form-group last mb-4">
+                <label for="password">Password</label>
+                <input type="password" name="password" autocomplete="off" path="password"  onkeyup='passwordValidation(this)' required id="password" class="form-control input-sm"/>
+                    <span id="pa1" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
+                </div>
+				<div class="form-group last mb-4">
+					<label for="password"> Repeat Password</label>
+					<input type="password" name="cpassword" autocomplete="off"   path="cpassword" id="cpassword"onkeyup='cpasswordValidation(this)' required  class="form-control input-sm"/>
+                 <span id="pa1" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
+                </div>
+
+             
+
+              <input type="submit" name="submit" value="Sign in" class="btn text-white btn-block btn-primary">
+
+        
+              
+              
+            </form>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  
+    <script src="{% static 'Account/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'Account/js/popper.min.js' %}"></script>
+    <script src="{% static 'Account/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'Account/js/main.js' %}"></script>
+ 
+<script>
+
+
+	function inputValidation(inputTxt){
+		
+		var regx = /^[0-9a-zA-Z ]+$/;
+		var textField = document.getElementById("textField");
+			
+		if(inputTxt.value != '' ){
+		
+			if(inputTxt.value.length >= 5){
+			
+				if(inputTxt.value.match(regx)){
+					textField.textContent = 'Good input';
+					textField.style.color = "green";
+						
+				}else{
+					textField.textContent = 'only numbers, letters And White space';
+					textField.style.color = "red";
+				}  
+			}else{
+				textField.textContent = 'your input is less than 5 chracters';
+				textField.style.color = "red";
+			}   
+		}else{
+			textField.textContent = 'your input is empty';
+			textField.style.color = "red";
+		}
+	}
+		function fnameValidation(inputTxt){
+	
+	var regx = /^[a-zA-Z]+$/;
+	var textField = document.getElementById("name");
+	
+	if(inputTxt.value != '' ){
+	
+		if(inputTxt.value.length >= 2){
+	
+			if(inputTxt.value.match(regx)){
+				textField.textContent = '';
+				textField.style.color = "green";
+	
+			}else{
+				textField.textContent = 'only characters allowded';
+				textField.style.color = "red";
+			}
+		}else{
+			textField.textContent = 'your input mut me more than two chracters';
+			textField.style.color = "red";
+		}
+	}else{
+		textField.textContent = 'your input is empty';
+	
+		textField.style.color = "red";
+	}
+	}
+	
+	function lnameValidation(inputTxt){
+	
+	var regx = /^[a-zA-Z  ]+$/;
+	var textField = document.getElementById("names");
+	
+	if(inputTxt.value != '' ){
+	
+		if(inputTxt.value.length >= 1){
+	
+			if(inputTxt.value.match(regx)){
+				textField.textContent = '';
+				textField.style.color = "green";
+	
+			}else{
+				textField.textContent = 'only characters allowded';
+				textField.style.color = "red";
+			}
+		}else{
+			textField.textContent = 'your input mut me more than two chracters';
+			textField.style.color = "red";
+		}
+	}else{
+		textField.textContent = 'your input is empty';
+		textField.style.color = "red";
+	}
+	}
+	
+	function addressValidation(inputTxt){
+	
+	var regx = /^[a-zA-Z-()]+$/;
+	var textField = document.getElementById("address");
+	
+	if(inputTxt.value != '' ){
+	
+		if(inputTxt.value.length >= 4){
+	
+			if(inputTxt.value.match(regx)){
+				textField.textContent = '';
+				textField.style.color = "green";
+	
+			}else{
+				textField.textContent = 'only characters allowded';
+				textField.style.color = "red";
+			}
+		}else{
+			textField.textContent = 'your input mut me more than two chracters';
+			textField.style.color = "red";
+		}
+	}else{
+		textField.textContent = 'your input is empty';
+		textField.style.color = "red";
+	}
+	}
+	
+	
+	function emailValidation(inputTxt){
+	// ^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$
+	var regx = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+	var textField = document.getElementById("email");
+	
+	if(inputTxt.value != '' ){
+		if(inputTxt.value.match(regx)){
+			textField.textContent = '';
+			textField.style.color = "green";
+		}else{
+			textField.textContent = 'email is not valid!!!';
+			textField.style.color = "red";
+		}
+	}else{
+		textField.textContent = 'your input is empty';
+		textField.style.color = "red";
+	}
+	}
+	
+	function phoneValidation(inputTxt){
+	
+	var regx = /^[6-9][0-9]{9}$/;
+	var textField = document.getElementById("pho");
+	
+	if(inputTxt.value != '' ){
+		if(inputTxt.value.match(regx)){
+			textField.textContent = '';
+			textField.style.color = "green";
+			}else{
+				textField.textContent = '**not valid phone number';
+				textField.style.color = "red";
+			}
+	}else{
+		textField.textContent = 'your input is empty';
+		textField.style.color = "red";
+	}
+	}
+	
+	
+	// function cityValidation(inputTxt){
+	
+	// var regx = /^[a-zA-Z]+$/;
+	// var textField = document.getElementById("city");
+	
+	// if(inputTxt.value != '' ){
+	
+	//     if(inputTxt.value.length >= 1){
+	
+	//         if(inputTxt.value.match(regx)){
+	//             textField.textContent = '';
+	//             textField.style.color = "green";
+	
+	//         }else{
+	//             textField.textContent = 'only characters allowded';
+	//             textField.style.color = "red";
+	//         }
+	//     }else{
+	//         textField.textContent = 'your input mut me more than two chracters';
+	//         textField.style.color = "red";
+	//     }
+	// }else{
+	//     textField.textContent = 'your input is empty';
+	//     textField.style.color = "red";
+	// }
+	// }
+	
+	// function stateValidation(inputTxt){
+	
+	// var regx = /^[a-zA-Z]+$/;
+	// var textField = document.getElementById("state");
+	
+	// if(inputTxt.value != '' ){
+	
+	//     if(inputTxt.value.length >= 1){
+	
+	//         if(inputTxt.value.match(regx)){
+	//             textField.textContent = '';
+	//             textField.style.color = "green";
+	
+	//         }else{
+	//             textField.textContent = 'only characters allowded';
+	//             textField.style.color = "red";
+	//         }
+	//     }else{
+	//         textField.textContent = 'your input mut me more than two chracters';
+	//         textField.style.color = "red";
+	//     }
+	// }else{
+	//     textField.textContent = 'your input is empty';
+	//     textField.style.color = "red";
+	// }
+	// }
+	
+	// function pincodeValidation(inputTxt){
+	
+	// var regx = /^[6][0-9]{5}$/;
+	// var textField = document.getElementById("pincode");
+	
+	// if(inputTxt.value != '' ){
+	//         if(inputTxt.value.match(regx)){
+	//             textField.textContent = '';
+	//             textField.style.color = "green";
+	
+	//         }else{
+	//             textField.textContent = 'only valid pincode';
+	//             textField.style.color = "red";
+	//         }
+	// }else{
+	//     textField.textContent = 'your input is empty';
+	//     textField.style.color = "red";
+	// }
+	// }
+	
+	
+	function passwordValidation(inputTxt){
+	
+	var regx = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}/;
+	var textField = document.getElementById("pa1");
+	
+	if(inputTxt.value != '' ){
+			if(inputTxt.value.match(regx)){
+				textField.textContent = '';
+				textField.style.color = "green";
+	
+			}else{
+				textField.textContent = 'Must contain at least one number and one uppercase and lowercase letter and aleast 5 characters';
+				textField.style.color = "red";
+			}
+	}else{
+		textField.textContent = 'your input is empty';
+		textField.style.color = "red";
+	}
+	}
+	
+	
+	function cpasswordValidation(inputTxt){
+	
+	var regx =  document.getElementById("password").value;
+	var regy =  document.getElementById("cpassword").value;
+	var textField = document.getElementById("pa1");
+	var textField1 = document.getElementById("pa2");
+	
+	if(inputTxt.value != '' ){
+			if(regx == regy){
+				textField.textContent = '';
+				textField.style.color = "green";
+	
+			}else{
+				textField.textContent = 'not match';
+				textField.style.color = "red";
+			}
+		}else{
+			textField.textContent = '';
+			textField.style.color = "red";
+		}
+	}
+	
+	
+	
+	
+			   
+	function validation(){
+			var fname=document.getElementById('firstname').value;
+			var regx = /^[A-Za-z]+$/;
+	
+			  if(fname==""){
+				 document.getElementById('name').innerHTML="**Please enter your firstname";
+				 return false;
+			  }
+			  else{
+				 document.getElementById('name').innerHTML="";
+			  }
+	
+			  if((fname.length<=2)||(fname.length>20)){
+				 document.getElementById('name').innerHTML="**your firstname must include more characters";
+				 return false;
+			  }
+			  else{
+				 document.getElementById('name').innerHTML="";
+			  }
+	
+			   
+			  if(!fname.match(/^[A-Za-z]+$/)){
+	
+				 document.getElementById('name').innerHTML="**Only characters are allowed";
+				 return false;
+	
+			  }
+			  else{
+				 document.getElementById('name').innerHTML="";
+			  }
+	
+	
+			  var lname=document.getElementById('lastname').value;
+			  if(lname==""){
+				 document.getElementById('names').innerHTML="**Please enter your lastname";
+				 return false;
+			  }
+			  else{
+				 document.getElementById('names').innerHTML="";
+			  }
+	
+			  if((lname.length<=1)||(lname.length>20)){
+				 document.getElementById('names').innerHTML="**your firstname must include more characters";
+				 return false;
+			  }
+			  else{
+				 document.getElementById('names').innerHTML="";
+			  }
+	
+	
+			  if(!lname.match(/^[A-Za-z\s, ]+$/)){
+	
+				document.getElementById('names').innerHTML="**Only characters are allowed";
+				return false;
+	
+				}
+				else{
+				document.getElementById('names').innerHTML="";
+				}
+			
+			// var detail=document.getElementById('details').value;
+	
+			// if(detail==""){
+			// document.getElementById('addr').innerHTML="**Please enter your address";
+			// return false;
+			// }
+			// else{
+			// document.getElementById('addr').innerHTML="";
+			// }
+			// if((detail.length<=4)||(detail.length>60)){
+	
+			// document.getElementById('addr').innerHTML="**User length must include more characters";
+			// return false;
+	
+			// }
+			// else{
+			// document.getElementById('addr').innerHTML="";
+			// }
+	
+			// if (!detail.match(/^[a-zA-Z\s,()'-]*$/)) 
+			// {
+			//     document.getElementById('email').innerHTML="**enter a Valid Email";
+			//     return false;
+			// }
+			// else{
+			//     document.getElementById('email').value = "";
+			// }
+		
+			var val = document.getElementById('email').value;
+			if(val==""){
+			document.getElementById('mail').innerHTML="**Please enter your address";
+			return false;
+			}
+			else{
+			document.getElementById('mail').innerHTML="";
+			}
+	
+			if (!val.match(/([A-z0-9_\-\.]){1,}\@([A-z0-9_\-\.]){1,}\.([A-Za-z]){2,4}$/)) 
+			{
+				document.getElementById('mail').innerHTML="**enter a Valid Email";
+				return false;
+			}
+			else{
+				document.getElementById('mail').value = "";
+			}
+	
+	
+			var phon=document.getElementById('mobile').value;
+			if(phon==""){
+	
+				document.getElementById('pho').innerHTML="**Please enter your phone number";
+				return false;
+			}
+			else{
+				document.getElementById('pho').innerHTML="";
+			}
+			if(!phon.match(/^[6-9][0-9]{9}$/)){
+	
+				document.getElementById('pho').innerHTML="**Please enter a valid phone number";
+				return false;
+			}
+			else{
+				document.getElementById('pho').innerHTML="";
+			}
+			if(phon.length!=10){
+	
+				document.getElementById('pho').innerHTML="**Phone number must be 10 digits only";
+				return false;
+			}
+			else{
+				document.getElementById('pho').innerHTML="";
+			}
+	
+	
+			// var cities=document.getElementById('city').value;
+			// if(cities==""){
+			// document.getElementById('cit').innerHTML="**Please enter your city";
+			// return false;
+			// }
+			// else{
+			//     document.getElementById('cit').innerHTML="";
+			// }
+			// if(!cities.match(/^[a-zA-Z\s, ]+$/)){
+			// document.getElementById('cit').innerHTML="**enter a valid city";
+			// return false;
+			// }
+			// else{
+			// document.getElementById('cit').innerHTML="";
+			// }
+			// if((cities.length<=4)||(detail.length>60)){
+	
+			// document.getElementById('cit').innerHTML="**User length must include more characters";
+			// return false;
+	
+			// }
+			// else{
+			// document.getElementById('cit').innerHTML="";
+			// }
+	
+			// var cities=document.getElementById('district').value;
+			// if(cities==""){
+			// document.getElementById('states').innerHTML="**Please enter your district";
+			// return false;
+			// }
+			// else{
+			//     document.getElementById('states').innerHTML="";
+			// }
+			// if(!cities.match(/^[a-zA-Z\s, ]+$/)){
+			// document.getElementById('states').innerHTML="**enter a valid district";
+			// return false;
+			// }
+			// else{
+			// document.getElementById('states').innerHTML="";
+			// }
+			// if((cities.length<=3)||(detail.length>60)){
+	
+			// document.getElementById('states').innerHTML="**User length must include more characters";
+			// return false;
+	
+			// }
+			// else{
+			// document.getElementById('states').innerHTML="";
+			// }
+	
+			// var code=document.getElementById('pincode').value;  
+			// if (code=="")   
+			// {  
+			//     document.getElementById('pin').innerHTML="**Please enter the pincode";
+			//     return false;
+			// }   
+			// else   
+			// {  
+			//     document.getElementById('pin').innerHTML=""; 
+			// } 
+		   
+			// if(!code.match(/^[6][0-9]{5}$/)){
+	
+			// document.getElementById('pin').innerHTML="**enter a valid pincode";
+			// return false;
+	
+			// }
+			// else{
+			// document.getElementById('pin').innerHTML="";
+			// }
+			// if(code.length!=6){
+	
+			// document.getElementById('pin').innerHTML="**enter a valid pincode";
+			// return false;
+			// }
+			// else{
+			// document.getElementById('pin').innerHTML="";
+			// }
+	
+			// // var fe=document.getElementById('f').Checked;
+			// // var ma=document.getElementById('m').checked;
+			// // if(ma == true) {   
+			// //         document.getElementById("dis").innerHTML ="You have selected male any";   
+			// //         return false;
+			// //     }   
+			// //     else if(fe == true){   
+			// //         document.getElementById("dis").innerHTML = "You have selected female any";  
+			// //         return false; 
+			// //     }  
+			// //     else{
+			// //         document.getElementById("dis").innerHTML = "You have not selected  any";
+			// //     }
+	
+			var val = document.getElementById('password').value;
+			if(val=="")
+			{
+				document.getElementById('pa1').innerHTML="**Password can't be null!!";
+				return false;
+			}
+			else{
+				document.getElementById('pa1').value = "";
+			}
+			if (!val.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}/)) 
+			{
+				document.getElementById('pa1').innerHTML="**Must contain at least one number and one uppercase and lowercase letter and aleast 5 characters'";
+				return false;
+			}
+			else{
+				document.getElementById('pa1').value = "";
+			}
+			 
+			// var val = document.getElementById('pwd').value;
+			// var pattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}/;
+			// if (val != pattern) 
+			// {
+			//     document.getElementById('pass1').innerHTML="**Must contain at least one number and one uppercase and lowercase letter and aleast 5 characters";
+			//     return false;
+			// }
+			// else{
+			//     document.getElementById('pass1').value = "";
+			// }
+	
+			var ps2=document.getElementById('cpassword').value;
+			if(ps2==""){
+			document.getElementById('pa2').innerHTML="**confrim password can't be null!!";
+			return false;
+			}
+			else{
+			document.getElementById('pa2').innerHTML="";
+			}
+			if(ps2!= document.getElementById('pwd').value){
+			document.getElementById('pa2').innerHTML="**passwords should be matching";
+			return false;
+			}
+			else{
+			document.getElementById('pa2').innerHTML="";
+			}
+	
+			// if(val!=ps2){
+			// document.getElementById('pass2').innerHTML="**passwords should be matching";
+			// return false;
+			// }
+			// else{
+			// document.getElementById('pass2').innerHTML="";
+			// }
+	}
+	
+	</script>
+	
+    
+      
+      
+     
+    
+    {% endblock %}
+    
+    	
+  </body>
+</html>
