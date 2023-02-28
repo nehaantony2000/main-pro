@@ -66,7 +66,7 @@ def register (request):
 
     
 def login(request):
-    print('ousside')
+
     if request.method=='POST':
     
         print('post')

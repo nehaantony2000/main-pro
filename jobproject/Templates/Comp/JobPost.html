@@ -10,7 +10,7 @@
     <div class="single">  
 	   <div class="form-container">
         <h2>Post Job </h2>
-        <form method="POST"   action="{% url 'jobdetails' %}" id="postjob">
+        <form method="POST" action="{% url 'jobdetails' %}" id="postjob" enctype="multipart/form-data">
             {% csrf_token %}
             {% include 'Message.html' %}
 

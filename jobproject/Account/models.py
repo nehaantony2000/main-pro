@@ -150,7 +150,7 @@ class JobDetails(models.Model):
     salarypackage=models.CharField(max_length=40,default='')
     experience=models.CharField(max_length=40,default='')
     tagline=models.CharField(max_length=40,default='')
-    logo=models.ImageField(upload_to="logos",default='')
+    logo=models.ImageField(upload_to="logos",null=True)
 
 
 class Applylist(models.Model):
@@ -161,14 +161,14 @@ class Applylist(models.Model):
    maxsalary=models.CharField(max_length=20,default='')
    resume=models.FileField(upload_to="resume")
 
-class Cv(models.Model):
-    user = models.OneToOneField(Account, on_delete=models.CASCADE)
+# class Cv(models.Model):
+#     user = models.OneToOneField(Account, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.user.username
+#     def __str__(self):
+#         return self.user.username
     
 class Skill(models.Model):
-    cv = models.ForeignKey(Cv, on_delete=models.CASCADE)
+    cv = models.ForeignKey(Account, on_delete=models.CASCADE)
     s_name = models.CharField(max_length=500,default='')
     s_level = models.CharField(max_length=500,default='')
 
@@ -179,7 +179,7 @@ class Skill(models.Model):
 
 
 class Experince(models.Model):
-    cv=models.ForeignKey(Cv,on_delete=models.CASCADE)
+    cv=models.ForeignKey(Account,on_delete=models.CASCADE)
     e_office = models.CharField(max_length=500,default='')
     e_position = models.CharField(max_length=500,default='')
     e_duration = models.CharField(max_length=500,default='')
@@ -189,7 +189,7 @@ class Experince(models.Model):
 
 
 class Academic(models.Model):
-    cv=models.ForeignKey(Cv,on_delete=models.CASCADE)
+    cv=models.ForeignKey(Account,on_delete=models.CASCADE)
     a_institution = models.CharField(max_length=500,default='')
     a_year = models.CharField(max_length=500,default='')
     a_award = models.CharField(max_length=500,default='')
@@ -200,7 +200,7 @@ class Academic(models.Model):
 
 
 class Referee(models.Model):
-    cv=models.ForeignKey(Cv,on_delete=models.CASCADE)
+    cv=models.ForeignKey(Account,on_delete=models.CASCADE)
     r_name = models.CharField(max_length=500,default='')
     r_email = models.CharField(max_length=500,default='')
     r_phone = models.CharField(max_length=500,default='')
@@ -209,7 +209,7 @@ class Referee(models.Model):
         return self.r_name
 
 class Profile(models.Model):
-    cv=models.ForeignKey(Cv,on_delete=models.CASCADE)
+    cv=models.ForeignKey(Account,on_delete=models.CASCADE)
     fname = models.CharField(max_length=500,default='')
     lname = models.CharField(max_length=500,default='')
     mname = models.CharField(max_length=500,default='')

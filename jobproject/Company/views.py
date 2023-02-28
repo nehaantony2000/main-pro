@@ -29,7 +29,7 @@ def JobdetailSubmit(request):
        experience=request.POST['exp']
        salarypackage=request.POST['salary']
        companywebsite=request.POST['web']
-       logo=request.POST['logo']
+       logo=request.FILES['logo']
        companycontact=request.POST['mobile']
        companyemail=request.POST['email']
        newjob=JobDetails.objects.create(jobname=jobname,companyname=companyname,companyaddress=companyaddress,qualification=qualification,jobdescription=jobdescription,responsibility=responsibility,location=location,experience= experience,companyemail=companyemail,companycontact=companycontact,companywebsite=companywebsite,salarypackage=salarypackage,logo=logo )

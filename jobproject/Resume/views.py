@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse, response
 from django.shortcuts import render, redirect,reverse
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
-from Account.models import Skill,Academic,Referee,Profile,Account,Skill,Cv
+from Account.models import Skill,Academic,Referee,Profile,Account,Skill
 
 import pdfkit
 
@@ -13,40 +13,69 @@ import pdfkit
 def resume(request):
     user_id = request.user.id
 
-    try:
-        cv_id = Cv.objects.filter(user_id=user_id).values_list('id', flat=True)
-        cv_id = list(cv_id)
-        cv_id = cv_id[0]
-        print('Cv ID is',cv_id)
-        print('Data type',type(cv_id))
-        if isinstance(cv_id, int):
-            context = {'status':'there_is_cv'}
-            return render(request, 'Resume/resume.html', context)
-    except Exception as e:
-        context = {'status':'no_cv'}
-        return render(request, 'Resume/resume.html', context)    
+    # try:
+    #     cv_id = Cv.objects.filter(user_id=user_id).values_list('id', flat=True)
+    #     cv_id = list(cv_id)
+    #     cv_id = cv_id[0]
+    #     print('Cv ID is',cv_id)
+    #     print('Data type',type(cv_id))
+    #     if isinstance(cv_id, int):
+    #         context = {'status':'there_is_cv'}
+    #         return render(request, 'Resume/resume.html', context)
+    # except Exception as e:
+    context = {'status':'no_cv'}
+    return render(request, 'Resume/resume.html', context)    
 
 
 
 def createCv(request):
     user_id = request.user.id
     if request.method=='POST':
-        print(request.POST.get('fname'))
-    try:
-        cv_id = Cv.objects.filter(user_id=user_id).values_list('id', flat=True)
-        cv_id = list(cv_id)
-        cv_id = cv_id[0]
+        fname=request.POST.get('fname')
+        mname=request.POST.get('mname')
+        lname=request.POST.get('lname')
+        gender=request.POST.get('gender')
+        dob=request.POST.get('dob')
+        occupation=request.POST.get('occupation')
+        email=request.POST.get('email')
+        phone=request.POST.get('phone')
+        country=request.POST.get('country')
+        region=request.POST.get('region')
+        bio=request.POST.get('bio')
+        file=request.POST.get('file')
 
-        profile_id = Profile.objects.filter(cv_id=cv_id).values_list('id', flat=True)
-        profile_id = list(profile_id)
-        profile_id = profile_id[0]
+        print(fname,mname,lname,gender,dob,occupation,email,phone,country,region,bio,file)
+    print(request.user.id)
+    # data=Profile()
+    # data.fname
+    # data.cv=usr
+    # data.mname=mname
+    # data.lname=lname
+    # data.gender=gender
+    # data.dob=dob
+    # data.occupation=occupation
+    # data.email=email
+    # data.phone=phone
+    # data.country=country
+    # data.region=region
+    # data.bio=bio
+    # data.avator=file
+    # data.save()
+    # try:
+    #     cv_id = Cv.objects.filter(user_id=user_id).values_list('id', flat=True)
+    #     cv_id = list(cv_id)
+    #     cv_id = cv_id[0]
 
-        if isinstance(profile_id, int):
-            context = {'status':'there_is_profile'}
-            return render(request, 'Resume/create_cv.html', context)
-    except Exception as e:
-        context = {'status':'no_profile'}
-        return render(request, 'Resume/create_cv.html', context)
+    #     profile_id = Profile.objects.filter(cv_id=cv_id).values_list('id', flat=True)
+    #     profile_id = list(profile_id)
+    #     profile_id = profile_id[0]
+
+    #     if isinstance(profile_id, int):
+    #         context = {'status':'there_is_profile'}
+    #         return render(request, 'Resume/create_cv.html', context)
+    # except Exception as e:
+    context = {'status':'no_profile'}
+    return render(request, 'Resume/create_cv.html', context)
 
 
 

@@ -12,7 +12,7 @@ def cat(request):
     return render(request,'Employee/category.html')
 
         
-@login_required
+@login_required(login_url='login')
 def joblist(request):
     Job=JobDetails.objects.all()
     for i in Job:
