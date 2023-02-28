@@ -21,10 +21,10 @@ urlpatterns = [
     path('Account/login/admin/', admin.site.urls),
     path('', include('Mainapp.urls')),
     path('Account/',include('Account.urls')),
-     path('Resume/',include('Resume.urls')),
-     path('Employee/', include('Employee.urls')),
-     path('Company/', include('Company.urls')),
-   
+    path('Resume/',include('Resume.urls')),
+    path('Employee/', include('Employee.urls')),
+    path('Company/', include('Company.urls')),
+    path('Course/', include('Course.urls')),
 ]
 
 if settings.DEBUG:
