@@ -36,6 +36,7 @@ def register (request):
         else:
             is_company=True
             print('2')
+            
         if Account.objects.filter(email=email).exists():
                 messages.info(request,'email already taken')
                 return render(request,'Account/register.html')
@@ -74,7 +75,7 @@ def login(request):
         email = request.POST.get('email')
         password = request.POST['password']
         print(email,password)
-        user=auth.authenticate(email=email,password=password)
+        user=auth.authenticate(email=email, password=password)
         print(user)
         if user and user.is_active:
             auth.login(request,user)

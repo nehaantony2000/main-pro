@@ -24,7 +24,7 @@ urlpatterns = [
     path('Resume/',include('Resume.urls')),
     path('Employee/', include('Employee.urls')),
     path('Company/', include('Company.urls')),
-    path('Course/', include('Course.urls')),
+    # path('Course/', include('Course.urls')),
 ]
 
 if settings.DEBUG:

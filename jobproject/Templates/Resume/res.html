@@ -1,0 +1,182 @@
+{% extends 'Employee/userbase.html' %}
+{% load static %}
+<html>
+  {% block content %}
+    <head>
+<style>
+	.box-centerside {
+		margin-left: 2%;
+		text-align: justify;
+		margin-right:2%;
+	  }
+	  .boxx {
+		margin-left: 2%;
+		width:fit-content;
+		margin-right:2%;
+	  }
+	  .boxy {
+		height:fit-content;
+		width: fit-content;
+		margin-left:15px;
+	  }
+	  
+</style>
+</head>
+<body>
+<div id="wrapper">
+
+	<button id="download">Download Resume</button>
+
+
+<!-- Titlebar
+================================================== -->
+
+	{% for i in data1 %}
+<div id="main">
+     <div id="titlebar" class="resume">
+	<div class="container">
+		
+		
+		<div class="ten columns">
+			<div class="resume-titlebar">
+				<img src="{{user.profilepic.url}}" alt="">
+				<div class="resumes-list-content">
+					<h4>{{i.name}} <span>{{i.position}}</span></h4>
+					<span class="icons"><i class="fa fa-map-marker"></i>  {{i.address}}</span>
+					
+					<span class="icons"><a href="#"><i class="fa fa-link"></i>{{i.soci}}</a></span>
+					<span class="icons"><a href="mailto:john.doe@example.com"><i class="fa fa-envelope"></i>{{i.email}}</a></span>
+					<span class="icons"><a href=""><i class="fa fa-phone"></i>{{i.phone}}</a></span>
+					<div class="skills">
+						<span>{{i.skills}}</span>
+					
+					</div>
+					<div class="clearfix"></div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
+	</div>
+
+<!-- Content
+================================================== -->
+<div class="container">
+	<!-- Recent Jobs -->
+	<div class="four columns">
+	<div class="padding-right " >
+
+		<h4 class="margin-bottom-15">CAREER OBJECTIVE</h4>
+
+		<p class="margin-reset">
+			{{i.carobj}}
+			</p>
+
+		<br>
+		
+			<h4 class="margin-bottom-15">PERSONAL DETAILS</h4>
+		   <p style="text-align:left;">Gender : {{i.gender}}</p>
+		   <p style="text-align:left;">DOB : {{i.dob}}</p>
+		   <p style="text-align:left;">Country : {{i.coun}}</p>
+		   <p style="text-align:left;">Hobbies : {{i.hob}}</p>
+		   <br>
+			<h4 style="text-align:left;">LANGUAGE</h4>
+			<p style="text-align:left;">{{i.lang}}</p>
+			<br>
+			<h4 style="text-align:left;">STRENGTH</h4>
+			<p style="text-align:left;">{{i.strength}}</p>
+		 
+           <br>
+		   <h4 class="margin-bottom-20">CERTIFICATIONS</h4>
+		<p style="text-align:left;">{{i.certi}}</p>
+
+		<h4 class="margin-bottom-20">ACHIEVEMENTS</h4>
+		<p style="text-align:left;">{{i.achi}}</p>
+		
+	</div>
+	</div>
+	<!-- Widgets -->
+	<div class="eight columns">
+
+		<h4 class="margin-bottom-20">Education</h4>
+
+		<!-- Resume Table -->
+		<dl class="resume-table">
+			<dt>
+				<small class="date">2012 - 2015</small>
+				<strong>Bsc Computing at College of West Anglia</strong>
+			</dt>
+			<dd>
+				<p>{{i.college}}</p>
+			</dd>
+
+		
+			<dt>
+				<small class="date">2006 - 2010</small>
+				<strong>GCSE something at King Edward 7th</strong>
+			</dt>
+			<dd>
+				<p>{{i.plus}}</p>
+			</dd>
+
+
+			<dt>
+				<small class="date">2004 - 2006</small>
+				<strong>Test 2 at Test</strong>
+			</dt>
+			<dd>
+				<p>{{i.ten}}</p>
+			</dd>
+
+		</dl>
+		<br>
+
+		<h4 class="margin-bottom-20">PROJECTS</h4>
+		<p style="text-align:left;">{{i.projects}}</p>
+
+		
+
+		<h4 class="margin-bottom-20">INTERNSHIPS</h4>
+		<p style="text-align:left;">{{i.interns}}</p>
+
+		<h4 class="margin-bottom-20">REFERENCES</h4>
+		<div style="text-align:start;width:70%">{{i.refe}}</div>
+	</div>
+</div>
+</div>
+{% endfor %}
+
+
+<!-- Back To Top Button -->
+<div id="backtotop"><a href="#"></a></div>
+
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+           window.onload = function () {
+           document.getElementById("download")
+           .addEventListener("click", () => {
+              const invoice = this.document.getElementById("main");
+              console.log(invoice);
+              console.log(window);
+              var opt = {
+                  margin: 1,
+                  filename: 'MyResume.pdf',
+                  image: { type: 'jpeg', quality: 0.99 },
+                  html2canvas: { scale: 2 },
+                  jsPDF: { unit: 'in', format: 'a3', orientation: 'l' }
+              };
+              html2pdf().from(invoice).set(opt).save();
+            })
+            }
+    </script>
+<!-- Wrapper / End -->
+
+
+
+</body>
+{% endblock %}
+</html>

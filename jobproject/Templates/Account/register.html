@@ -48,8 +48,9 @@
 				{% include 'Message.html' %}
 				<div class="form-group first">
 					<label for="role">Register As:</label>
-					<select path="role" id="role"  name="role" class="form-control input-sm">
-						<option value="" disabled>select</option>
+					<select path="role" id="role"  required name="role" class="form-control input-sm">
+						<option value="" selected disabled>select</option>
+						
 						<option value="is_employee">Employee</option>
 						<option value="is_company">Recruiter</option>
 					</select>

@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
 
     path ('userhome/', views.userhome, name="userhome"),
+    path('saved_job_list/', views.saved_jobs, name='saved-jobs'),
     path ('category/', views.cat, name="category"),
     path ('Eprofile/', views.profile, name="Eprofile"),
     path ('Update_profile/', views.Update_profile, name="Update_profile"),
@@ -13,4 +14,5 @@ urlpatterns = [
     path ('Searchbar/', views.searchbar, name="searchbar"),
     path ('singlejob/<int:id>', views.singlejob, name="singlejob"),
      path('Apply/<int:pk>',views.Apply, name="Apply"),
+     path ('Applied_Job/', views.appliedlist, name="Applied_Job"),
 ]

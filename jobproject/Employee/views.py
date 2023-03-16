@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from Account.models import Account,JobDetails,Applylist
+from Account.models import Account,JobDetails,Applylist,SavedJobs
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib import messages, auth
@@ -22,6 +22,15 @@ def joblist(request):
     }
     return render(request,'Employee/joblist.html',context)
 
+def appliedlist(request):
+    Apply=Applylist.objects.all()
+    for i in Apply:
+      
+     context={
+        'job_list': Apply
+    }
+    return render(request,'Employee/Appliedjob.html',context)
+
 @login_required(login_url='login')
 def singlejob(request, id):
     Job=JobDetails.objects.filter(id=id)
@@ -42,10 +51,10 @@ def Update_profile(request):
         address = request.POST.get('address')
         country = request.POST.get('country')
         state = request.POST.get('state')
-        dob = request.POST.get('dob')
+        
         district=request.POST.get('District')
         gender = request.POST.get('gender')
-        profilepic=request.FILES.get('pic')
+        profilepic =request.FILES.get('pic')
         # skills=request.POST.get('skills')
         # languages=request.POST.get('languages')
         # education = request.POST.get('education')
@@ -55,7 +64,7 @@ def Update_profile(request):
         user.first_name = first_name
         user.last_name = last_name
         user.email = email
-        user.dob=dob
+        
         user.profilepic=profilepic
         user.gender=gender
         user.contact = contact
@@ -123,9 +132,16 @@ def ApplyJob(request,id):
     minsalary=request.POST.get('min')
     maxsalary=request.POST.get('max')
     resume=request.FILES.get('resume')
+    
     newapply=Applylist.objects.create(cand=user,job=job,education=education,minsalary=minsalary,maxsalary=maxsalary,resume=resume)
     newapply.save()
    
     messages.success(request,'Applied Successfully ')
     return render(request,"Employee/Applyjob.html",{'user':user,'job':job})
+   
+
+@login_required
+def saved_jobs(request):
+    jobs = SavedJobs.objects.filter(user=request.user).order_by('-date_posted')
+    return render(request, 'Employee/saved_jobs.html', {'jobs': jobs})
 

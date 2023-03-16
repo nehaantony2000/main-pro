@@ -3,9 +3,9 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import Account,JobDetails,Applylist
 from django.contrib.auth.models import Group
-# from django.contrib.admin.models import LogEntry
+from django.contrib.admin.models import LogEntry
 
-# LogEntry.objects.all().delete()
+LogEntry.objects.all().delete()
 
 admin.site.unregister(Group)
 # Register your models here.

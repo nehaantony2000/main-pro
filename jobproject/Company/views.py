@@ -32,7 +32,11 @@ def JobdetailSubmit(request):
        logo=request.FILES['logo']
        companycontact=request.POST['mobile']
        companyemail=request.POST['email']
-       newjob=JobDetails.objects.create(jobname=jobname,companyname=companyname,companyaddress=companyaddress,qualification=qualification,jobdescription=jobdescription,responsibility=responsibility,location=location,experience= experience,companyemail=companyemail,companycontact=companycontact,companywebsite=companywebsite,salarypackage=salarypackage,logo=logo )
+       startdate=request.POST['startdate']
+       enddate=request.POST['enddate']
+       tagline=request.POST['tagline']
+       category=request.POST['category']
+       newjob=JobDetails.objects.create(jobname=jobname,companyname=companyname,companyaddress=companyaddress,qualification=qualification,jobdescription=jobdescription,responsibility=responsibility,location=location,experience= experience,companyemail=companyemail,companycontact=companycontact,companywebsite=companywebsite,salarypackage=salarypackage,logo=logo,startdate=startdate,enddate=enddate,category=category,tagline=tagline )
        messages.success(request,'Job Posted ')
        return render(request,"Comp/jobPost.html")
         
@@ -49,7 +53,7 @@ def Update_profile(request):
         dob = request.POST.get('dob')
         district=request.POST.get('District')
         gender = request.POST.get('gender')
-        profilepic =request.POST.get('pic')
+        profilepic =request.FILES['pic']
         jobtype=request.POST.get('jobtype')
         # skills=request.POST.get('skills')
         # languages=request.POST.get('languages')

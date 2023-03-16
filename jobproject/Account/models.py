@@ -1,5 +1,6 @@
 
-
+from django.utils import timezone
+from datetime import datetime
 from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,PermissionsMixin
@@ -85,10 +86,9 @@ class Account(AbstractBaseUser,PermissionsMixin):
     email           = models.EmailField(max_length=100, unique=True)
     contact         = models.BigIntegerField(default=0)
     address =        models.CharField(max_length=150,default='')
-    country          = CountryField(max_length=50,blank_label='(select country)')
+    country         = CountryField(max_length=50,blank_label='(select country)')
     gender          = models.CharField(max_length=50, default='None')
-    # dob             =models.DateField(default=datetime.date.today())
-    dob             =models.DateField(blank=True, null=True)
+    dob             = models.DateField(blank=True, null=True)
     language=models.CharField(max_length=50,choices=language_choices,default='')
     skills=models.CharField(max_length=50,choices=skill_choices,default='')
     state           = models.CharField(max_length=50,choices=state_choices,default='')
@@ -146,10 +146,11 @@ class JobDetails(models.Model):
     location=models.CharField(max_length=250,default='')
     companywebsite=models.CharField(default='',max_length=20)
     companycontact=models.BigIntegerField(default=0)
-    companyemail=models.EmailField(max_length=50,default='')
     salarypackage=models.CharField(max_length=40,default='')
     experience=models.CharField(max_length=40,default='')
     tagline=models.CharField(max_length=40,default='')
+    startdate=models.DateField(blank=True, null=True)
+    enddate=models.DateField(blank=True, null=True)
     logo=models.ImageField(upload_to="logos",null=True)
 
 
@@ -160,80 +161,54 @@ class Applylist(models.Model):
    minsalary=models.CharField(max_length=20,default='')
    maxsalary=models.CharField(max_length=20,default='')
    resume=models.FileField(upload_to="resume")
+   applieddate=models.DateTimeField(auto_now_add=True)
 
-# class Cv(models.Model):
-#     user = models.OneToOneField(Account, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return self.user.username
-    
-class Skill(models.Model):
-    cv = models.ForeignKey(Account, on_delete=models.CASCADE)
-    s_name = models.CharField(max_length=500,default='')
-    s_level = models.CharField(max_length=500,default='')
-
-
-    def __str__(self):
-        return self.s_name
-
-
-
-class Experince(models.Model):
-    cv=models.ForeignKey(Account,on_delete=models.CASCADE)
-    e_office = models.CharField(max_length=500,default='')
-    e_position = models.CharField(max_length=500,default='')
-    e_duration = models.CharField(max_length=500,default='')
-
-    def __str__(self):
-        return self.s_name
-
-
-class Academic(models.Model):
-    cv=models.ForeignKey(Account,on_delete=models.CASCADE)
-    a_institution = models.CharField(max_length=500,default='')
-    a_year = models.CharField(max_length=500,default='')
-    a_award = models.CharField(max_length=500,default='')
-
-    def __str__(self):
-        return self.a_institution
+class resume(models.Model):
+    res_id = models.AutoField(primary_key=True)
+    name=models.CharField(max_length=100,blank=True)
+    position=models.CharField(max_length=100,blank=True)
+    email=models.EmailField(blank=True, null=True)
+    carobj=models.TextField(blank=True)
+    college=models.CharField(max_length=100,blank=True)
+    plus=models.CharField(max_length=100,blank=True)
+    ten=models.CharField(max_length=100,blank=True)
+    projects=models.TextField(blank=True)
+    certi=models.TextField(blank=True)
+    achi=models.TextField(blank=True)
+    interns=models.TextField(blank=True)
+    refe=models.TextField(blank=True)
+    phone=models.IntegerField(blank=True, null=True,default=0)
+    address=models.TextField(blank=True)
+    strength=models.TextField(null=True,blank=True)
+    skills=models.TextField(null=True,blank=True)
+    lang=models.TextField(null=True,blank=True)
+    hob=models.TextField(null=True,blank=True)
+    soci=models.CharField(max_length=100,blank=True)
+    coun=models.CharField(max_length=100,blank=True)
+    status=models.BooleanField('status', default=0) 
+    dob=models.DateField()
+    gender=models.CharField(max_length=100,null=True)
+    user_id=models.IntegerField(blank=True, null=True)
 
 
-
-class Referee(models.Model):
-    cv=models.ForeignKey(Account,on_delete=models.CASCADE)
-    r_name = models.CharField(max_length=500,default='')
-    r_email = models.CharField(max_length=500,default='')
-    r_phone = models.CharField(max_length=500,default='')
+class SavedJobs(models.Model):
+    id            = models.AutoField(primary_key=True)
+    job = models.ForeignKey(JobDetails, related_name='saved_job', on_delete=models.CASCADE)
+    user = models.ForeignKey(Account, related_name='saved', on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.r_name
+        return self.job.title
 
-class Profile(models.Model):
-    cv=models.ForeignKey(Account,on_delete=models.CASCADE)
-    fname = models.CharField(max_length=500,default='')
-    lname = models.CharField(max_length=500,default='')
-    mname = models.CharField(max_length=500,default='')
-    gender = models.CharField(max_length=500,default='')
-    country = models.CharField(max_length=500,default='')
-    region = models.CharField(max_length=500,default='')
-    email = models.EmailField(max_length=500,default='')
-    phone = models.CharField(max_length=500,default='')
-    occupation = models.CharField(max_length=500)
-    dob = models.DateField(blank=True, null=True)
-    bio = models.TextField(max_length=500,default='')
-    avator = models.ImageField(upload_to='profile/', default='profile/avator.png', null=True)
 
+class AppliedJobs(models.Model):
+    id            = models.AutoField(primary_key=True)
+    job = models.ForeignKey(JobDetails, related_name='applied_job', on_delete=models.CASCADE)
+    user = models.ForeignKey(Account, related_name='applied_user', on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.fname
-
-    def delete(self, *args, **kwargs):
-        self.avator.delete()
-        super().delete(*args, **kwargs)
-
-
-
-
+        return self.job.title
 
 
 

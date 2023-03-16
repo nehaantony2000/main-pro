@@ -1,73 +1,126 @@
-
 {% extends 'Comp/base1.html' %}
 {% load static %}
+<html>
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'new/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'new/css/colors/blue.css' %}" id="colors">
+
+<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+<div id="wrapper">
+
+
+<!-- Header
+================================================== -->
+
+<!-- Titlebar
+================================================== -->
+<div id="titlebar" class="single">
+	<div class="container">
+
+		<div class="sixteen columns">
+			<h2>Manage Jobs</h2>
+			<nav id="breadcrumbs">
+				<ul>
+					<li>You are here:</li>
+					<li><a href="#">Home</a></li>
+					<li>Job Dashboard</li>
+				</ul>
+			</nav>
+		</div>
+
+	</div>
+</div>
+
+
+<!-- Content
+================================================== -->
+<div class="container">
+	
+	<!-- Table -->
+	<div class="sixteen columns">
+
+		
+
+		<table class="manage-table responsive-table">
+
+			<tr>
+				<th><i class="fa fa-file-text"></i> Title</th>
+				
+				<th><i class="fa fa-calendar"></i> Date Posted</th>
+				<th><i class="fa fa-calendar"></i> Date Expires</th>
+				
+                <th><i class="fa fa-check-square-o"></i> Manage</th>
+				
+			</tr>
+			{% if p %}
+			
+				{% for i in p %}	
+			<!-- Item #1 -->
+			
+				
+				<td class="title"><a href="#">{{i.jobname}} - {{i.companyname}} </a></td>
+				<td>{{i.startdate}}</td>
+				<td>{{i.enddate}}</td>
+			
+					<td class="action">
+						<a href="#"><i class="fa fa-pencil"></i> Edit</a>
+						<a href="#"><i class="fa  fa-check "></i> Mark Filled</a>
+						<a href="#" class="delete"><i class="fa fa-remove"></i> Delete</a>
+					</td>
+				
+			</tr>
+			{% endfor %}
+		
+		{% endif %}
+				
+
+			
+
+		</table>
+
+		<br>
+		<a href="/Company/postjob/" class="button">Add Job</a>
+
+	</div>
+
+</div>
 
 
 
+	
 
-<body class="sb-nav-fixed">
-    {% block content %}
-           <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid px-4">
-                    <h1 class="mt-4">View Posted Job</h1>
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="/Company/Companyhome/">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Posted Job list</li>
-                    </ol>
-                   
-                    </div>
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                         Posted Job list
-                        </div>
-                        <div class="card-body">
-                            <table id="datatablesSimple">
-                                <thead>
-                                    <tr>
-                                        <th>Job Name</th>
-                                        <th>Company Name</th>
-                                        <th>Location</th>
-                                      
-                                        <th>Experience needed</th>
-                                        <th>Email</th>
-                                        <th>Salary Package</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Job Name</th>
-                                        <th>Company Name</th>
-                                        <th>Location</th>
-                                
-                                        <th>Experience needed</th>
-                                        <th>Email</th>
-                                        <th>Salary Package</th>  
-                                    </tr>
-                                </tfoot>
-                                {% if p %}
-                                <tbody>
-                                    {% for i in p %}
-                                    <tr>
-                                        <td>{{i.jobname}}</td>
-                                        <td>{{i.companyname}}</td>
-                                        <td>{{i.location}}</td>
-                                        <td>{{i.experience}}</td>
-                                        <td>{{i.companyemail}}</td>
-                                        <td>{{i.salarypackage}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                                {% endif %}
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </main>
-            
-        </div>
-    </div>
-   {% endblock %}
+
+<!-- Back To Top Button -->
+<div id="backtotop"><a href="#"></a></div>
+
+</div>
+<!-- Wrapper / End -->
+
+
+<script src="{% static 'new/scripts/jquery-2.1.3.min.js' %}"></script>
+<script src="{% static 'new/scripts/custom.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.superfish.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.themepunch.tools.min.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.themepunch.revolution.min.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.themepunch.showbizpro.min.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.flexslider-min.js' %}"></script>
+<script src="{% static 'new/scripts/chosen.jquery.min.js' %}"></script>
+<script src="{scripts/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'new/scripts/waypoints.min.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.jpanelmenu.js' %}"></script>
+<script src="{% static 'new/scripts/stacktable.js' %}"></script>
+
 </body>
+
+{% endblock %}
+
 </html>

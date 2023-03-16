@@ -1,5 +1,5 @@
 ﻿/*
-* Based on Skeleton by Dave Gamache (www.getskeleton.com)
+* Based on Skeleton by Dave Gamache (www.getskeleton..container .eight.columnscom)
 * Modified by Vasterad
 */
 
@@ -35,7 +35,7 @@
     .container .five.columns                    { width: 355px; }
     .container .six.columns                     { width: 430px; }
     .container .seven.columns                   { width: 505px; }
-    .container .eight.columns                   { width: 580px; }
+    .container .eight.columns                   { width: 287px; } 
     .container .nine.columns                    { width: 655px; }
     .container .ten.columns                     { width: 730px; }
     .container .eleven.columns                  { width: 805px; }
@@ -54,7 +54,7 @@
         body.boxed { width: 100%; }
     }
     
-
+   
 /* #Dekstop (960 Grid)
 ================================================== */
 

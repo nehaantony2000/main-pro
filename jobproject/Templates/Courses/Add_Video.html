@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+      <meta charset="utf-8" />
+
+    <link href="{% static 'vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+
+
+
+
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        <script src="{% static 'js/sample_validations.js' %}"></script>
+
+    <title>YOGASTUDIO</title>
+	<!-- BOOTSTRAP STYLES-->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+     <!-- FONTAWESOME STYLES-->
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet" />
+        <!-- CUSTOM STYLES-->
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet" />
+     <!-- GOOGLE FONTS-->
+   <link href="{% static 'http://fonts.googleapis.com/css?family=Open+Sans' %}" rel='stylesheet' type='text/css' />
+<style type="text/css">
+            table{
+
+            width: 90%;
+            padding: 12px;
+            border-radius: 4px;
+            resize: vertical;
+            color: black;
+            font-style: bold;
+            font-family:Calibri;
+
+            font-size: 20px;
+        }
+        th{
+            width: 20%;
+            padding: 12px;
+            border-radius: 4px;
+            resize: vertical;
+            color: black;
+            font-style: bold;
+            font-family:Calibri;
+            font-size: 20px;
+        }
+        tr{
+          width: 90%;
+            padding: 12px;
+            border-radius: 4px;
+            resize: vertical;
+            color: black;
+            font-style: bold;
+            font-family:Calibri;
+            font-size: 20px;
+        }
+        td{
+          width: 90%;
+            padding: 12px;
+            border-radius: 4px;
+            resize: vertical;
+            color: black;
+            font-style: bold;
+            font-family:Calibri;
+            font-size: 20px;
+
+        }
+        textarea{
+            width: 40%;
+            padding: 12px;
+            border-radius: 4px;
+            resize: vertical;
+            color: black;
+            font-style: bold;
+            font-family:Calibri;
+            font-size: 20px;
+
+        }
+        input[type=text]{
+            width: 40%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+       select{
+            width: 40%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        input[type=password]{
+            width:40%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+
+        }
+        input[type=email]{
+            width: 40%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+
+        }
+
+        input[type=submit]
+        {
+            width: 20%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+
+    </style>
+
+
+</head>
+<body>
+
+
+
+    <div id="wrapper">
+         <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="adjust-nav">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" style="color: green; font-size: 30px;"></i>&nbsp;YOGASTUDIO</a>
+
+
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li>
+
+                            <a style="color: green;">Welcome {{ins.first_name}}</a>
+                        </li>
+                        <li><a href="{% url 'yogaapp:logout' %}"  style="color: green;">Logout</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <!-- /. NAV TOP  -->
+
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu" >
+
+                    <li>
+                        <a style="color: green;" href="index.html"><i class="fa fa-desktop "></i>Instructor Dashboard<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+
+<li>
+                                <a href= "{% url 'yogaapp:instructorviewprofile' %}" style="color: green;">Profile</a>
+                                <a href= "{% url 'yogaapp:instructorchangepassword' %}" style="color: green;">Change Password</a>
+                            </li></ul>
+                    </li>
+
+
+<!--                    <li>-->
+<!--                        <a href="#" style="color: green;"><i class="fa fa-edit "></i>Schedule</a>-->
+
+<!--                    </li>-->
+
+                    <li>
+                        <a href="#" style="color: green;"><i class="fa fa-sitemap "></i>Courses<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+<!--                            <li>-->
+<!--                                <a href="#" style="color: green;">Daily Asanas</a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="#" style="color: green;">Asana Library</a>-->
+<!--                            </li>-->
+<!--                             <li>-->
+<!--                                 <a href="#" style="color: green;">Live Classes</a></li>-->
+
+<!--                    </li>-->
+
+                             <li>
+                                <a href= "{% url 'yogaapp:instructorallotedstudents' %}" style="color: green;">Allotted Course</a>
+                            </li>
+<!--                             <li>-->
+<!--                                <a href="#" style="color: green;">Enrolled Students</a>-->
+<!--                            </li>-->
+
+                        </ul>
+                    </li>
+<!--                    <li>-->
+<!--                        <a href="#" style="color: green;"><i class="fa fa-bar-chart-o"></i>Certificates</a>-->
+<!--                    </li>-->
+
+                    <li>
+                        <a href="{% url 'yogaapp:instructorviewfeedback' %}" style="color: green;"><i class="fa fa-edit "></i>Feedbacks </a>
+                    </li>
+
+                      <li>
+                        <a href="{% url 'yogaapp:addvideo' %}" style="color: green;">Add Videos </a>
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+        </nav>
+
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper" >
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+{% block content %}
+
+       <h2>Add Video</h2>
+       <form method="post" enctype="multipart/form-data" action="">
+       {% csrf_token %}
+<!--       <label>Title</label><input type="text" placeholder="Enter video title" name="title">-->
+<!--       <br><br>-->
+<!--       <label>Course</label>-->
+<!--       <select>-->
+<!--           {% for c in courses %}-->
+<!--           <option value="">{{c.course}}</option>-->
+<!--           {% endfor %}-->
+<!--       </select>-->
+
+<!--       <label>Video</label><input type="file" name="video">-->
+<!--       <br><br>-->
+           {{form.as_p}}
+       <input type="submit" value="Add video">
+       </form>
+
+
+
+{% endblock %}
+                    </div>
+                </div>
+                  <hr />
+
+                 <!-- /. ROW  -->
+    </div>
+             <!-- /. PAGE INNER  -->
+            </div>
+         <!-- /. PAGE WRAPPER  -->
+        </div>
+
+     <!-- /. WRAPPER  -->
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
+      <!-- BOOTSTRAP SCRIPTS -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="{% static 'js/jquery.metisMenu.js' %}"></script>
+      <!-- CUSTOM SCRIPTS -->
+    <script src="{% static 'js/custom.js' %}"></script>
+
+
+</body>
+</html>

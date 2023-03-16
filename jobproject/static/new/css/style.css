@@ -2626,7 +2626,10 @@ img.mfp-img {
 /* ------------------------------------------------------------------- */
 /* Job List Styles
 ---------------------------------------------------------------------- */
-.padding-right { padding-right: 20px; }
+.padding-right { 
+	width:100pz;
+	padding-right: 20px;
+ }
 
 .resumes-list,
 .job-list {

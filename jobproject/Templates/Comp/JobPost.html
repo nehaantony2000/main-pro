@@ -1,6 +1,8 @@
 <!DOCTYPE HTML>
 {% extends 'Comp/base1.html' %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'new/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'new/css/colors/blue.css' %}" id="colors">
 <body>
 	{% block content %}
 
@@ -35,7 +37,7 @@
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="Description">Address</label>
+                <label class="col-md-3 control-lable" for="Description"> Company Address</label>
                 <div class="col-md-9">
                     <textarea path="desp" name="add" id="add"  value=""  class="form-control input-sm"/>
                 </textarea>
@@ -145,6 +147,42 @@
          </div>
          <div class="row">
             <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="CName">Job Category</label>
+                <div class="col-md-9">
+                    <input type="text" path="category" name="category" id="category"  value=""  class="form-control input-sm"/>
+                    <span id="category" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="CName">Tagline</label>
+                <div class="col-md-9">
+                    <input type="text" path="tagline" name="tagline" id="tagline"  value=""  class="form-control input-sm"/>
+                    <span id="tagline" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+         <div class="row">
+
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="startdate">Date Posted</label>
+                <div class="col-md-9">
+                    <input type="date" path="startdate" name="startdate" id="startdate"    required class="form-control input-sm"/>
+                    <span id="startdate" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
+                </div>
+            </div>
+         </div>
+         <div class="form-group col-md-12">
+            <label class="col-md-3 control-lable" for="startdate"> Date Expires</label>
+            <div class="col-md-9">
+                <input type="date" path="enddate" name="enddate" id="enddate"    required class="form-control input-sm"/>
+                <span id="enddate" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
+            </div>
+        </div>
+     </div>
+         <div class="row">
+            <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="logo">Logo</label>
                 <div class="col-md-9">
     <input type="file" name="logo" id="logo" class="file-uploader pull-left">
@@ -152,6 +190,8 @@
 </div> 
 </div>
          </div>
+         <br>
+         
         <div class="row">
             <div class="form-actions floatRight">
                 <input type="submit" value="Post Job" class="btn btn-primary btn-sm">
