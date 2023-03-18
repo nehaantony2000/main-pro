@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 import sweetify
-from Account.models import Account,JobDetails,Applylist
+from Account.models import Account
+from Employee.models import Applylist
+from Company.models import JobDetails
 from django.contrib import messages, auth
 
 def Companyhome(request):
@@ -31,12 +33,10 @@ def JobdetailSubmit(request):
        companywebsite=request.POST['web']
        logo=request.FILES['logo']
        companycontact=request.POST['mobile']
-       companyemail=request.POST['email']
-       startdate=request.POST['startdate']
        enddate=request.POST['enddate']
        tagline=request.POST['tagline']
        category=request.POST['category']
-       newjob=JobDetails.objects.create(jobname=jobname,companyname=companyname,companyaddress=companyaddress,qualification=qualification,jobdescription=jobdescription,responsibility=responsibility,location=location,experience= experience,companyemail=companyemail,companycontact=companycontact,companywebsite=companywebsite,salarypackage=salarypackage,logo=logo,startdate=startdate,enddate=enddate,category=category,tagline=tagline )
+       newjob=JobDetails.objects.create(jobname=jobname,companyname=companyname,companyaddress=companyaddress,qualification=qualification,jobdescription=jobdescription,responsibility=responsibility,location=location,experience=experience,companycontact=companycontact,companywebsite=companywebsite,salarypackage=salarypackage,logo=logo,enddate=enddate,category=category,tagline=tagline)
        messages.success(request,'Job Posted ')
        return render(request,"Comp/jobPost.html")
         

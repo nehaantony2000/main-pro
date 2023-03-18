@@ -33,6 +33,7 @@ window.onload = function () {
 		<div class="container">
 			{% for i in Job %}
 			<div class="ten columns">
+				                               
 				<span><a href="">{{i.jobname}}</a></span>
 				<h2>{{i.jobname}} - {{i.companyname}}-{{i.jobtype}}</h2>
 			</div>
@@ -53,11 +54,13 @@ window.onload = function () {
 			
 			<!-- Company Info -->
 			{% for i in Job %}
+			
 			<div class="company-info">
 				<img src="{{i.logo.url}}" alt="">
 				<div class="content">
 					<h4>{{i.jobname}}</h4>
 					<span><a href="#"><i class="fa fa-link"></i>{{i.companywebsite}} </a></span>
+					<span><i class="fa fa-calendar"></i>{{i.date_posted}}</span>
 		
 				</div>
 				<div class="clearfix"></div>
@@ -91,7 +94,9 @@ window.onload = function () {
 	
 		<!-- Widgets -->
 		<div class="five columns">
-	
+			<div class="float-right">
+				<span><i class="fa fa-heart" style="font-size:30px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i> </span>
+			</div>
 			<!-- Sort by -->
 			<div class="widget">
 				<h4>Overview</h4>
@@ -130,11 +135,12 @@ window.onload = function () {
 						<li>
 					        <i class="fa fa-black-tie"></i>
 							<div>
-								<strong>Job id:</strong>
-								<span>{{i.id}}</span>
+								<strong>Tagline:</strong>
+								<span>{{i.tagline}}</span>
 							</div>
 							
 						</li>
+						<p>  Last date to Apply :{{i.enddate}}</p> 
 					</ul>
 				
 	

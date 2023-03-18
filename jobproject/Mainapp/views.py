@@ -1,6 +1,8 @@
 
 from django.shortcuts import render
-from Account.models import Account,JobDetails,Applylist
+from Account.models import Account
+from Company.models import JobDetails
+from Employee.models import Applylist
 
 
 

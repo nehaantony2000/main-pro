@@ -4,7 +4,8 @@ from django.http import HttpResponse, JsonResponse, response
 from django.shortcuts import render, redirect,reverse
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
-from Account.models import Account,resume
+from Account.models import Account
+from Employee.models import resume
 
 
 def res(request):

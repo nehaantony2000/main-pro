@@ -1,9 +1,11 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from Account.models import Account,JobDetails,Applylist,SavedJobs
+from Account.models import Account
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib import messages, auth
+from Employee.models import Applylist,SavedJobs,AppliedJobs
+from Company.models import JobDetails
 
 def profile(request):
     return render(request, 'Employee/Employee_profile.html')
@@ -22,14 +24,6 @@ def joblist(request):
     }
     return render(request,'Employee/joblist.html',context)
 
-def appliedlist(request):
-    Apply=Applylist.objects.all()
-    for i in Apply:
-      
-     context={
-        'job_list': Apply
-    }
-    return render(request,'Employee/Appliedjob.html',context)
 
 @login_required(login_url='login')
 def singlejob(request, id):
@@ -139,9 +133,3 @@ def ApplyJob(request,id):
     messages.success(request,'Applied Successfully ')
     return render(request,"Employee/Applyjob.html",{'user':user,'job':job})
    
-
-@login_required
-def saved_jobs(request):
-    jobs = SavedJobs.objects.filter(user=request.user).order_by('-date_posted')
-    return render(request, 'Employee/saved_jobs.html', {'jobs': jobs})
-
