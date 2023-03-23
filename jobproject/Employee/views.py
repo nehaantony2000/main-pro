@@ -1,12 +1,18 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
 from Account.models import Account
+from django.http import HttpResponse
+from django.utils.text import slugify
+from hashlib import sha256
+
+
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib import messages, auth
-from Employee.models import Applylist,SavedJobs,AppliedJobs
+from Employee.models import Applylist,SavedJobs,AppliedJobs,Courses,Videos,Course_purchase
 from Company.models import JobDetails
-
+from django.core.paginator import Paginator, EmptyPage,InvalidPage
 def profile(request):
     return render(request, 'Employee/Employee_profile.html')
  
@@ -16,7 +22,7 @@ def cat(request):
         
 @login_required(login_url='login')
 def joblist(request):
-    Job=JobDetails.objects.all()
+    Job=JobDetails.objects.all().order_by('-date_posted')
     for i in Job:
       
      context={
@@ -84,8 +90,9 @@ def Update_profile(request):
 
 
 
-def userhome(request):
-    Job=JobDetails.objects.all()
+def userhome(request,c_slug=None,v_slug=None):
+    Job=JobDetails.objects.all().order_by('-date_posted')
+    std=Account.objects.get(email=request.session.get('email'))
     context={
         'job_list':Job
     }
@@ -93,6 +100,40 @@ def userhome(request):
        
         if request.user.is_employee:
             email = request.session.get('email')
+            c_videos = None
+            video_key=None
+            if c_slug!=None:
+              course=get_object_or_404(Courses,slug=c_slug)
+              print(course.pk)
+              videos=Videos.objects.filter(course_id=course.pk)
+              paginator=Paginator(videos,2)     # 10 videos per page
+              try:
+                  page=int(request.GET.get('page','1'))
+              except:
+                  page=1
+              try:
+                 videos=paginator.page(page)
+              except (EmptyPage,InvalidPage):
+                  videos=paginator.page(paginator.num_pages)
+              if v_slug and c_slug!=None:
+                 video = get_object_or_404(Videos, slug=v_slug)
+                 print(video.course_id)
+                 context={
+                     'job_list':Job,
+                      "c_videos":videos,
+                      "std":std
+                   }
+                 return render(request, 'Employee/userhome.html',{"c_videos":videos,"video_key": video,"std":std})
+
+              return render(request, 'Employee/userhome.html')
+
+            else:
+                id=request.user.id
+                courses=Courses.objects.all()
+                std=Account.objects.get(email=request.session.get('email'))
+                return render(request,'Employee/userhome.html',{'std':std,'courses':courses})
+
+
     
  
     return render(request, 'Employee/userhome.html',context)
@@ -133,3 +174,18 @@ def ApplyJob(request,id):
     messages.success(request,'Applied Successfully ')
     return render(request,"Employee/Applyjob.html",{'user':user,'job':job})
    
+@login_required
+def saved_jobs(request):
+    jobs = SavedJobs.objects.filter(
+        user=request.user).order_by('-date_posted')
+    return render(request, 'Employee/saved_jobs.html', {'jobs': jobs})
+
+
+@login_required
+def save_job(request):
+   user=Account.objects.get(email=request.session.get('email'))
+   if request.user.is_employee:
+     job=JobDetails.objects.all()
+     saved, created = SavedJobs.objects.create(job=job,user=user)
+   return render(request, 'Employee/singlejob.html', {'job': job})
+

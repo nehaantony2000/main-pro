@@ -43,10 +43,12 @@
 						<span><i class="fa fa-briefcase"></i> {{i.jobname}}</span>
 						<span><i class="fa fa-map-marker"></i> {{i.location}}</span>
 						<span><i class="fa fa-money"></i>{{i.salarypackage}}</span>
-						<span><i class="fa fa-calendar"></i>{{i.date_posted}}</span>
+						<span><i class="fa fa-calendar"></i>Posted on :{{i.date_posted|date:"F d, Y"}}</span>
 					</div>
-					<p> {{i.companyaddress}}</p>
-                    <p>  Last date to Apply :{{i.enddate}}</p>               
+					<p>{{i.jobdescription|truncatewords:30}}
+					<a href="{%  url 'singlejob' i.id %}">Read More</a></p>
+					
+                        
 
 				</div>
 				</a>

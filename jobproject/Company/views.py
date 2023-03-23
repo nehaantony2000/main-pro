@@ -1,10 +1,12 @@
 from django.shortcuts import render,redirect
 import sweetify
 from Account.models import Account
-from Employee.models import Applylist
+from Employee.models import Applylist,Courses,Course_purchase,Videos
 from Company.models import JobDetails
 from django.contrib import messages, auth
-
+from django.utils.text import slugify
+from hashlib import sha256
+from Course.forms import VideoForm
 def Companyhome(request):
     p=JobDetails.objects.all()
     return render(request,'Comp/index.html',{'p':p})
@@ -78,3 +80,36 @@ def Update_profile(request):
 def JobApplylist(request):
     Apply=Applylist.objects.all()
     return render(request,"Comp/Applylist.html",{'Apply':Apply})      
+
+def enrolledcandidate(request):
+        user_id = request.user.id
+        user = Account.objects.get(id=user_id)
+        print(user)
+        if request.user.is_company:
+         print(request.user.id)
+         c = Courses.objects.get(userid_id=user)
+         print(request.user.id)
+        purchase_stds=Course_purchase.objects.filter(course_id=c.id).values_list('userid',flat=True)
+        std=Account.objects.filter(id__in=purchase_stds)
+        print(list(std))
+        return render(request, 'Courses/EnrolledCandidates.html',{'course':c,'std':std})
+
+# def instructorviewfeedback(request):
+#         ins = Account.objects.filter(user_id=request.user.id)
+#         course=Courses.objects.get(user_id=request.user.id)
+#         feed = Feedback.objects.filter(course_id=course.id)
+#         std_ids=feed.values_list("user_id",flat=True)
+#         std=RegisteredStudent.objects.filter(user_id__in=std_ids)
+#         std_feed=zip(feed,std)
+#         return render(request, 'instructorviewfeedback.html', {'ins': ins, 'std_feed': std_feed})
+def AddVideo(request):
+    form=VideoForm()
+    if request.method=='POST':
+        form=VideoForm(request.POST,request.FILES)
+        if form.is_valid():
+            title=form.cleaned_data['title']
+            course=form.cleaned_data['course']
+            video=form.cleaned_data['video']
+            Videos.objects.create(title=title,slug=slugify(title),course=course,video=video).save()
+            return redirect("Companyhome")
+    return render(request,"Courses/Add_Video.html",{"form":form})

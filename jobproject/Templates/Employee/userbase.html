@@ -15,7 +15,7 @@
 <!-- CSS
 ================================================== -->
 <link rel="stylesheet" href="{% static 'new/css/style.css' %}">
-<link rel="stylesheet" href="{% static 'new/css/colors/green.css' %}" id="colors">
+<link rel="stylesheet" href="{% static 'new/css/colors/pink.css' %}" id="colors">
 
 <!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -81,12 +81,24 @@
 					
 				
 
-				<li><a href="/Course/course-all/">Course</a>
+				<li><a href="">Course</a>
+
+					<ul>
+							
+						<li><a href="/Course/availablecourses/"> Available Course</a></li>
+							<li><a href="/Course/coursesenrolled/"> Enrolled Course</a>
+							</li>
+						
+					</ul>
+					</li>
 				<li><a href="{% url 'contact'  %}">Contact</a>
 			</ul>
 
             <ul class="float-right">
-                <li><a href="#">{{user.first_name}} {{user.last_name}}</a>
+				
+			<li><a href="/Employee/saved_job_list/"><i class="fa fa-heart" style="font-size:30px;color:black;text-shadow:2px 2px 4px #000000;"></i> </span>
+			</a>	</li>
+                <li><a href="{% url 'change_password' %}">{{user.first_name}} {{user.last_name}}</a>
 					<ul>
 						<li><a href="/Employee/Eprofile/">Update Profile</a></li>
 							<li><a href="{% url 'change_password' %}">Change Password</a></li>
@@ -159,7 +171,7 @@
 	<script src="{% static 'new/scripts/jquery.themepunch.showbizpro.min.js' %}"></script>
 	<script src="{% static 'new/scripts/jquery.flexslider-min.js' %}"></script>
 	<script src="{% static 'new/scripts/chosen.jquery.min.js' %}"></script>
-	<script src="scripts/jquery.magnific-popup.min.js' %}"></script>
+	<script src="{% static 'new/scripts/jquery.magnific-popup.min.js' %}"></script>
 	<script src="{% static 'new/scripts/waypoints.min.js' %}"></script>
 	<script src="{% static 'new/scripts/jquery.counterup.min.js' %}"></script>
 	<script src="{% static 'new/scripts/jquery.jpanelmenu.js' %}"></script>

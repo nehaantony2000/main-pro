@@ -8,6 +8,11 @@
 {% block content %}
 <!-- Banner
 ================================================== -->
+{% if video_key %}
+<video style="width:30%;height:20%;" controls>
+	<source src="{{video_key.video.url}}">
+</video>
+{% else %}
 <div id="banner" style="background:url(https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80)">
 	<div class="container">
 		<div class="sixteen columns">
@@ -31,8 +36,27 @@
 		</div>
 	</div>
 </div>
+{% endif %}
 
 
+{% if c_videos %}
+   {% for v in c_videos.object_list %}
+    <a href="{{v.get_course_video_url}}">{{v.title}}</a>
+    <br><br>
+   {% endfor %}
+   <div class="mx-auto">
+	{% if c_videos.paginator.num_pages > 1 %}
+
+	<hr>
+	<div class="text-center">
+		{% for pg in c_videos.paginator.page_range %}
+		   <a href="?page={{pg}}" class="btn btn-light btn-sm {% if c_video.number == pg %} active {% endif %}">{{pg}}</a>
+		{% endfor %}
+	</div>
+	{% endif %}
+</div>
+<br>
+{% endif %}
 <!-- Content
 ================================================== -->
 

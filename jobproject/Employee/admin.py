@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from Employee.models import Applylist
+from Employee.models import Applylist,Courses
 from django.contrib.auth.models import Group
 from django.contrib.admin.models import LogEntry
 
@@ -25,3 +25,11 @@ class UserAdmin(admin.ModelAdmin):
         })
         return super().render_change_form(request, context, add, change, form_url, obj)
 admin.site.register(Applylist,UserAdmin)
+
+
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('course','duration','amount','slug','desc')
+    list_per_page = 10
+    list_editable = ('duration','amount')
+    prepopulated_fields = {'slug':('course',)}
+admin.site.register(Courses,CourseAdmin)

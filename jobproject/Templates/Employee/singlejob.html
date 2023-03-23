@@ -60,7 +60,7 @@ window.onload = function () {
 				<div class="content">
 					<h4>{{i.jobname}}</h4>
 					<span><a href="#"><i class="fa fa-link"></i>{{i.companywebsite}} </a></span>
-					<span><i class="fa fa-calendar"></i>{{i.date_posted}}</span>
+					<span><i class="fa fa-calendar"></i>{{i.date_posted|date:"F d, Y"}}</span>
 		
 				</div>
 				<div class="clearfix"></div>
@@ -95,8 +95,10 @@ window.onload = function () {
 		<!-- Widgets -->
 		<div class="five columns">
 			<div class="float-right">
-				<span><i class="fa fa-heart" style="font-size:30px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i> </span>
-			</div>
+				<a
+            href="{% url 'save-job' %}">
+            <span><i class="fa fa-heart" style="font-size:30px;color:palevioletred;text-shadow:2px 2px 4px #000000;"></i> </span>
+		</a></div>
 			<!-- Sort by -->
 			<div class="widget">
 				<h4>Overview</h4>

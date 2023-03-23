@@ -10,7 +10,7 @@
 <body>
 <div id="wrapper">
 
-
++
 <!-- Titlebar
 ================================================== -->
 <div id="titlebar" class="single">
@@ -168,7 +168,7 @@
 					{% if Apply %}
 	
 			{% for i in Apply %}
-					<li><i class="fa fa-calendar"></i>{{i.applieddate}} </li>
+					<li><i class="fa fa-calendar"></i>{{i.applieddate|date:"F d, Y"}} </li>
 					{% endfor %}
 	
 					{% endif %}
