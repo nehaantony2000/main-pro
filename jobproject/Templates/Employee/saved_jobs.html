@@ -49,7 +49,7 @@
 					<a href="{%  url 'singlejob' i.id %}">Read More</a></p>
 					<br>
                     <p>  Last date to Apply :{{i.job.enddate}}</p>               
-
+					<a class="button" href="{% url 'course_cancel' i.id %}">Cancel</a>
 				</div>
 				</a>
 				<div class="clearfix"></div>

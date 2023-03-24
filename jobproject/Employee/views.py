@@ -156,8 +156,8 @@ def save_job(request,id):
 
 
 @login_required
-def saved_job_canceled(request,id):
+def savedjob_delete(request,id):
     id = request.user.id
     job = SavedJobs.objects.get(id=id)
     job.delete()
-    return redirect("Course/coursesenrolled")
+    return redirect("Employee/saved_job_list")
