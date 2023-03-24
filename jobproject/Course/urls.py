@@ -13,6 +13,9 @@ urlpatterns = [
     # path('feedback/', views.feedback, name='feedback'),
     # path('addvideo/', views.AddVideo, name='addvideo'),
     path('course_cancel/<int:course_id>/', views.Course_cancel, name='course_cancel'),
+    path('playcourse/', views.playcourse, name='playcourse'),
+    path('playcourse/<slug:c_slug>', views.playcourse, name='playcourse'),
+    path('playcourse/<slug:c_slug>/<slug:v_slug>', views.playcourse, name='playcourse'),
 
 
     

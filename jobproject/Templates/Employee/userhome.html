@@ -8,11 +8,7 @@
 {% block content %}
 <!-- Banner
 ================================================== -->
-{% if video_key %}
-<video style="width:30%;height:20%;" controls>
-	<source src="{{video_key.video.url}}">
-</video>
-{% else %}
+
 <div id="banner" style="background:url(https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80)">
 	<div class="container">
 		<div class="sixteen columns">
@@ -36,27 +32,8 @@
 		</div>
 	</div>
 </div>
-{% endif %}
 
 
-{% if c_videos %}
-   {% for v in c_videos.object_list %}
-    <a href="{{v.get_course_video_url}}">{{v.title}}</a>
-    <br><br>
-   {% endfor %}
-   <div class="mx-auto">
-	{% if c_videos.paginator.num_pages > 1 %}
-
-	<hr>
-	<div class="text-center">
-		{% for pg in c_videos.paginator.page_range %}
-		   <a href="?page={{pg}}" class="btn btn-light btn-sm {% if c_video.number == pg %} active {% endif %}">{{pg}}</a>
-		{% endfor %}
-	</div>
-	{% endif %}
-</div>
-<br>
-{% endif %}
 <!-- Content
 ================================================== -->
 
@@ -204,63 +181,48 @@
 	</div>
 </div>
 
-
-<!-- Recent Posts -->
-<div class="container">
-	<div class="sixteen columns">
-		<h3 class="margin-bottom-25">Recent Posts</h3>
-	</div>
-
-
-	<div class="one-third column">
-
-		<!-- Post #1 -->
-		<div class="recent-post">
-			<div class="recent-post-img"><a href="blog-single-post.html"><img src="{% static 'new/images/recent-post-01.jpg' %}" alt=""></a><div class="hover-icon"></div></div>
-			<a href="blog-single-post.html"><h4>Hey Job Seeker, It’s Time To Get Up And Get Hired</h4></a>
-			<div class="meta-tags">
-				<span>October 10, 2015</span>
-				<span><a href="#">0 Comments</a></span>
-			</div>
-			<p>The world of job seeking can be all consuming. From secretly stalking the open reqs page of your dream company to sending endless applications.</p>
-			<a href="blog-single-post.html" class="button">Read More</a>
+	<!-- Container / Start -->
+	<div class="container">
+		<div class="sixteen columns">
+			<h3 class="margin-bottom-20">Available Courses</h3>
 		</div>
-
-	</div>
-
-
-	<div class="one-third column">
-
-		<!-- Post #2 -->
-		<div class="recent-post">
-			<div class="recent-post-img"><a href="blog-single-post.html"><img src="{% static 'new/images/recent-post-02.jpg' %}" alt=""></a><div class="hover-icon"></div></div>
-			<a href="blog-single-post.html"><h4>How to "Woo" a Recruiter and Land Your Dream Job</h4></a>
-			<div class="meta-tags">
-				<span>September 12, 2015</span>
-				<span><a href="#">0 Comments</a></span>
+		
+		
+		{% for i in c %}
+		<div class="plan color-2 one-third column">
+			<div class="plan-price">
+				<h3>{{i.course}}</h3>
+				<span class="plan-money">Rs</span>
+				<span class="value">{{i.amount}}</span>
+				
 			</div>
-			<p>Struggling to find your significant other the perfect Valentine’s Day gift? If I may make a suggestion: woo a recruiter. </p>
-			<a href="blog-single-post.html" class="button">Read More</a>
-		</div>
-
-	</div>
-
-	<div class="one-third column">
-
-		<!-- Post #3 -->
-		<div class="recent-post">
-			<div class="recent-post-img"><a href="blog-single-post.html"><img src="{% static 'new/images/recent-post-03.jpg' %}" alt=""></a><div class="hover-icon"></div></div>
-			<a href="blog-single-post.html"><h4>11 Tips to Help You Get New Clients Through Cold Calling</h4></a>
-			<div class="meta-tags">
-				<span>August 27, 2015</span>
-				<span><a href="#">0 Comments</a></span>
+			<div class="plan-features">
+				<ul>
+					<li>One Time Fee</li>
+					<li>Start Date:{{i.start_date}}</li>
+					<li>End Date:{{i.end_date}}</li>
+					<li>Posted For 30 Days</li>
+				</ul>
+				{% if i.endroll_check %}
+				<a class="button" href= "{% url 'endroll' i.slug %}">Enroll Now</a>
+			{% else %}
+				 <a class="button"  href="{{i.get_course_url}}">View course</a>
+		 {% endif %}
+		
+				
 			</div>
-			<p>If your dream employer appears on this list, you’re certainly in good company. But it also means you’re up for some intense competition.</p>
-			<a href="blog-single-post.html" class="button">Read More</a>
 		</div>
+		{% endfor %}
+	
+	
 	</div>
-
-</div>
+	<!-- Container / End -->
+	
+	<br>
+	<br>
+		
+	
+	
 {% endblock %}
 
 </body></html>

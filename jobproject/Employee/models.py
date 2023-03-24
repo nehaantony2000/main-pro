@@ -58,7 +58,7 @@ class resume(models.Model):
     achi=models.TextField(max_length=100,blank=True)
     interns=models.TextField(max_length=100,blank=True)
     refe=models.TextField(max_length=100,blank=True)
-    phone=models.IntegerField(max_length=100,blank=True, null=True,default=0)
+    phone=models.TextField(max_length=100,blank=True, null=True)
     address=models.TextField(max_length=100,blank=True)
     strength=models.TextField(max_length=100,null=True,blank=True)
     skills=models.TextField(max_length=100,null=True,blank=True)
@@ -91,10 +91,10 @@ class Courses(models.Model):
         return self.course
 
     def get_course_url(self):
-        return reverse('userhome',kwargs={"c_slug":self.slug})
+        return reverse('playcourse',kwargs={"c_slug":self.slug})
 
     def get_course_video_url(self):
-        return reverse('userhome',kwargs={"c_slug":self.slug})
+        return reverse('playcourse',kwargs={"c_slug":self.slug})
 
     def endroll_check(self):
        if Course_purchase.objects.filter(course_id=self.id).exists():
@@ -105,6 +105,7 @@ class Courses(models.Model):
 
 class Videos(models.Model):
     title=models.CharField(max_length=30,unique=True)
+ 
     slug=models.SlugField()
     course=models.ForeignKey(Courses,on_delete=models.CASCADE)
     video=models.FileField(upload_to='videos')
@@ -117,7 +118,7 @@ class Videos(models.Model):
 
     def get_course_video_url(self):
         course_slug=Courses.objects.get(course=self.course).slug
-        return reverse('userhome',args=[course_slug,self.slug])
+        return reverse('playcourse',args=[course_slug,self.slug])
 
 
 class Feedback(models.Model):

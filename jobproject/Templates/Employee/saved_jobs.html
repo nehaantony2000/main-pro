@@ -29,26 +29,26 @@
 
 
 		<ul class="job-list full">
-			{% for i in job_list %}
+			{% for i in jobs %}
 			<li>
 				
 				
-				<div class="thumb"><img src="{{i.logo.url}}" class="img-responsive" alt=""/></a></div>
+				<div class="thumb"><img src="{{i.job.logo.url}}" class="img-responsive" alt=""/></a></div>
 				
 				<div class="job-list-content">
 					<a href="{%  url 'singlejob' i.id %} ">
-					<h4>  	{{i.companyname}}/{{i.jobname}} <span class="full-time">{{i.jobtype}}</span></h4>
+					<h4>  	{{i.job.companyname}}/{{i.job.jobname}} <span class="full-time">{{i.job.jobtype}}</span></h4>
 					<div class="job-icons">
 					
-						<span><i class="fa fa-briefcase"></i> {{i.jobname}}</span>
-						<span><i class="fa fa-map-marker"></i> {{i.location}}</span>
-						<span><i class="fa fa-money"></i>{{i.salarypackage}}</span>
+						<span><i class="fa fa-briefcase"></i> {{i.job.jobname}}</span>
+						<span><i class="fa fa-map-marker"></i> {{i.job.location}}</span>
+						<span><i class="fa fa-money"></i>{{i.job.salarypackage}}</span>
 						<span><i class="fa fa-calendar"></i>{{i.date_posted|date:"F d, Y"}}</span>
 					</div>
-					<p>{{i.jobdescription|truncatewords:30}}
+					<p>{{i.job.jobdescription|truncatewords:30}}
 					<a href="{%  url 'singlejob' i.id %}">Read More</a></p>
 					<br>
-                    <p>  Last date to Apply :{{i.enddate}}</p>               
+                    <p>  Last date to Apply :{{i.job.enddate}}</p>               
 
 				</div>
 				</a>

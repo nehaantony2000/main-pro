@@ -19,8 +19,8 @@ from django.template.loader import render_to_string
 
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 from Account.models import Account
-from Employee.models import  Courses, Course_purchase
-
+from Employee.models import  Courses, Course_purchase,Videos
+@login_required
 def coursesenrolled(request):
     c = Course_purchase.objects.filter(userid=request.user.id).values_list('course_id',flat=True)
     # print(c)
@@ -29,7 +29,7 @@ def coursesenrolled(request):
 
 
 
-
+@login_required
 def availablecourses(request):
    user=Account.objects.get(email=request.session.get('email'))
    if request.user.is_employee:
@@ -39,7 +39,7 @@ def availablecourses(request):
 
 
 
-
+@login_required
 def Course_endroll(request,c_slug):
    user=Account.objects.get(email=request.session.get('email'))
    if request.user.is_employee:
@@ -73,11 +73,51 @@ def Course_endroll(request,c_slug):
 #             Videos(title=title,slug=slugify(title),course=course,video=video).save()
 #             return redirect("Cinstructordashboard")
 #     return render(request,"Course/Add_Video.html",{"form":form})
-
+@login_required
 def Course_cancel(request,course_id):
     id = request.user.id
     course=get_object_or_404(Course_purchase,course_id=course_id,id=id)
     course.delete()
     return redirect("Course/coursesenrolled")
+
+
+
+@login_required
+def playcourse(request,c_slug=None,v_slug=None):
+   std=Account.objects.get(email=request.session.get('email'))
+   if request.user.is_authenticated:
+        if request.user.is_employee:
+            email = request.session.get('email')
+            c_videos = None
+            video_key=None
+            if c_slug!=None:
+              course=get_object_or_404(Courses,slug=c_slug)
+              print(course.pk)
+              videos=Videos.objects.filter(course_id=course.pk)
+              paginator=Paginator(videos,2)     # 10 videos per page
+              try:
+                  page=int(request.GET.get('page','1'))
+              except:
+                  page=1
+              try:
+                 videos=paginator.page(page)
+              except (EmptyPage,InvalidPage):
+                  videos=paginator.page(paginator.num_pages)
+              if v_slug and c_slug!=None:
+                 video = get_object_or_404(Videos, slug=v_slug)
+                 print(video.course_id)
+                
+                 return render(request, 'Courses/playcourse.html',{"c_videos":videos,"video_key": video,"std":std})
+
+              return render(request, 'Courses/playcourse.html',{"c_videos":videos,"std":std})
+
+            else:
+                id=request.user.id
+                courses=Courses.objects.all()
+                std=Account.objects.get(email=request.session.get('email'))
+                return render(request,'Courses/playcourse.html',{'std':std,'courses':courses})
+
+   
+
 
 

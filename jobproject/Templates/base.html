@@ -51,31 +51,41 @@
 					
 					</li>
 	
-					
-
 					<li><a href="#">Job</a>
 						<ul>
 							<li><a href="/Employee/joblist/">Job</a></li>
-						</ul>
-					</li>
-					<li><a href="#">Resume</a>
-						<ul>
-							<li><a href="/Resume/r/"> Resume</a>
+							
+						
 						</ul>
 					</li>
 	
-					
-					
+						<li><a href="#">Resume</a>
+							<ul>
+								
+								<li><a href="{% url 'res' %}"> View Resume</a></li>
+									<li><a href="{% url 'resdetails' %}"> Create Resume</a>
+									</li>
+								
+							</ul>
 					</li>
-					
-					</li>
-					<li><a href="{%  url 'category'  %}"> All Categories</a></li>
-					<li><a href="/Course/course-all/">Course</a>
-						<ul>
-							<li><a href="browse-jobs.html"></a></li>
-						</ul>
-					<li><a href="{% url 'contact'  %}">Contact</a>
+					<!-- <li><a href="blog.html">Blog</a></li> -->
 				
+					<li><a href="{%  url 'category'  %}"> All Categories</a></li>
+	
+						
+					
+	
+					<li><a href="">Course</a>
+	
+						<ul>
+								
+							<li><a href="/Course/availablecourses/"> Available Course</a></li>
+								<li><a href="/Course/coursesenrolled/"> Enrolled Course</a>
+								</li>
+							
+						</ul>
+						</li>
+					<li><a href="{% url 'contact'  %}">Contact</a>
 				</ul>
 	
 	

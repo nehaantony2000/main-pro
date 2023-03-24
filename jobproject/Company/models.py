@@ -29,5 +29,6 @@ class JobDetails(models.Model):
     logo=models.ImageField(upload_to="logos",null=True)
     date_posted = models.DateTimeField(default=timezone.now)
 
+   
 
 

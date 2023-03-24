@@ -4,8 +4,7 @@ from . import views
 
 urlpatterns = [
     path('userhome/', views.userhome, name='userhome'),
-    path('userhome/<slug:c_slug>', views.userhome, name='userhome'),
-    path('userhome/<slug:c_slug>/<slug:v_slug>', views.userhome, name='userhome'),
+   
     path ('category/', views.cat, name="category"),
     path ('Eprofile/', views.profile, name="Eprofile"),
     path ('Update_profile/', views.Update_profile, name="Update_profile"),
@@ -15,7 +14,7 @@ urlpatterns = [
     path ('singlejob/<int:id>', views.singlejob, name="singlejob"),
     path('Apply/<int:pk>',views.Apply, name="Apply"),
     path('saved_job_list/', views.saved_jobs, name='saved-jobs'),
-    path('save/', views.save_job, name='save-job'),
+    path('save/<int:id>', views.save_job, name='save-job'),
   
   
  
