@@ -19,12 +19,32 @@
 	<!-- CSS
 	================================================== -->
 	<link rel="stylesheet" href="{% static 'new/css/style.css' %}">
-	<link rel="stylesheet" href="{% static 'new/css/colors/pink.css' %}" id="colors">
+	<link rel="stylesheet" href="{% static 'new/css/colors/green.css' %}" id="colors">
 	
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-	
+	<link rel="shortcut icon" type="image/png" href="{% static 'new\images\l3.png' %}">
+	</title>
+	<script src="http://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+	<!-- Define a function to load the Google Translate element -->
+	<script>
+		function loadGoogleTranslate() {
+			new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+		}
+	</script>
+	<!-- Add some CSS styles for the Google Translate element -->
+	<style>
+		#google_translate_element {
+			
+  padding: 5px;
+  margin: 5px;
+  width: 200px;
+  height: 5px;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+		}
+	</style>
 	</head>
 	
 	<body>
@@ -34,13 +54,14 @@
 	<!-- Header
 	================================================== -->
 	<header>
+		<div id="google_translate_element"></div>
 	<div class="container">
 		<div class="sixteen columns">
 		
 			<!-- Logo -->
 			<div id="logo">
-				<h1><a href="/"><img src="" </a></h1>
-				<h1><a href="/"> Seeking</a></h1>
+				<h1><img src="{% static 'new\images\l3.png' %}" >
+				</h1>
 			</div>
 	
 			<!-- Menu -->
@@ -114,7 +135,7 @@
 <div id="footer">
 	<!-- Main -->
 	
-
+	<script>loadGoogleTranslate();</script>
 	<!-- Bottom -->
 	<div class="container">
 		<div class="footer-bottom">

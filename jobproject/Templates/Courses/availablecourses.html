@@ -6,8 +6,6 @@
 {% block content %}
 <head>
 
-    <link rel="stylesheet" href="{% static 'new/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'new/css/colors/pink.css' %}" id="colors">
     </head> 
 <body>
 <div id="wrapper">
@@ -68,7 +66,10 @@
 		</div>
 	</div>
 	{% empty %}
-	<p>No courses available.</p>
+					
+	<p colspan="4">Their is no Available courses.</p>
+	<img src="https://i.pinimg.com/564x/65/20/5f/65205f3ee1b5dd65b91d3fa279990927.jpg" style="height:500px;width:350px;align-self:center;">
+
     {% endfor %}
 
 

@@ -60,6 +60,13 @@
 			<a class="button" href="{% url 'course_cancel' i.id %}">Cancel</a>
 		</div>
 	</div>
+
+
+	{% empty %}
+					
+	<p colspan="4">You have no Enrolled Courses.</p>
+	<img src="https://i.pinimg.com/564x/65/20/5f/65205f3ee1b5dd65b91d3fa279990927.jpg" style="height:500px;width:350px;align-self:center;">
+
 	{% endfor %}
 			
 	

@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 import sweetify
+from django.contrib.auth.decorators import login_required
 from Account.models import Account
 from Employee.models import Applylist,Courses,Course_purchase,Videos
 from Company.models import JobDetails
@@ -7,19 +8,25 @@ from django.contrib import messages, auth
 from django.utils.text import slugify
 from hashlib import sha256
 from Course.forms import VideoForm
+
 def Companyhome(request):
     p=JobDetails.objects.all()
     return render(request,'Comp/index.html',{'p':p})
 
+@login_required
 def postjob(request):
     return render(request,'Comp/JobPost.html')
 
+@login_required
 def postedjob(request):
      p=JobDetails.objects.all()
      return render(request, 'Comp/Postedjoblist.html',{'p':p})
+
+@login_required
 def profile(request):
     return render(request, 'Comp/Company_profile.html')
  
+@login_required
 def JobdetailSubmit(request):
     user=Account.objects.get(email=request.session.get('email'))
     if request.user.is_company:
@@ -42,7 +49,7 @@ def JobdetailSubmit(request):
        messages.success(request,'Job Posted ')
        return render(request,"Comp/jobPost.html")
         
-
+@login_required
 def Update_profile(request):
    if request.method == "POST":
         first_name = request.POST.get('first_name')
@@ -76,11 +83,14 @@ def Update_profile(request):
         user.save()
         sweetify.success(request,'Profile Are Successfully Updated. ')
         return redirect('profile')
-
+   
+@login_required
 def JobApplylist(request):
     Apply=Applylist.objects.all()
-    return render(request,"Comp/Applylist.html",{'Apply':Apply})      
+    return render(request,"Comp/Applylist.html",{'Apply':Apply}) 
 
+
+@login_required
 def enrolledcandidate(request):
         user_id = request.user.id
         user = Account.objects.get(id=user_id)
@@ -102,6 +112,8 @@ def enrolledcandidate(request):
 #         std=RegisteredStudent.objects.filter(user_id__in=std_ids)
 #         std_feed=zip(feed,std)
 #         return render(request, 'instructorviewfeedback.html', {'ins': ins, 'std_feed': std_feed})
+
+@login_required
 def AddVideo(request):
     form=VideoForm()
     if request.method=='POST':
@@ -114,12 +126,14 @@ def AddVideo(request):
             return redirect("Companyhome")
     return render(request,"Courses/Add_Video.html",{"form":form})
 
-
+@login_required
 def jobdelete(request, id):
     job = JobDetails.objects.get(id=id)
     job.delete()
     return redirect("postedjob")
 
+
+@login_required
 def deleteApplication(request, id):
     job = Applylist.objects.get(id=id)
     job.delete()

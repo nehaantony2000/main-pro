@@ -9,7 +9,6 @@ from hashlib import sha256
 from django.utils import timezone
 from django.db.models import Q
 from django.contrib import messages
-from django.contrib import messages, auth
 from Employee.models import Applylist,SavedJobs,Courses,Videos,Course_purchase
 from Company.models import JobDetails
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
@@ -73,7 +72,9 @@ def singlejob(request, id):
        
     }
     return render(request,'Employee/singlejob.html',context)  
-            
+
+
+@login_required(login_url='login')         
 def Update_profile(request):
    if request.method == "POST":
         first_name = request.POST.get('first_name')
@@ -105,7 +106,7 @@ def Update_profile(request):
         user.country=country
         user.state=state
         user.save()
-        messages.success(request,'Profile Are Successfully Updated. ')
+        messages.success(request,'Profile  Updated Successfully ')
         return redirect('Eprofile')
 
           
@@ -134,6 +135,8 @@ def userhome(request):
            'user': user,
           }
    return render(request,'Employee/userhome.html',context)
+
+@login_required(login_url='login')
 def searchbar(request):
     if request.method == 'GET':
         query = request.GET.get('query')
@@ -194,6 +197,7 @@ def save_job(request,id):
             saved_job.save()
       except SavedJobs.DoesNotExist:
          SavedJobs.objects.create(job_id=job.id, user=user, is_saved=True)
+         messages.success(request,'Job Saved For Later ')
     return redirect(request.META.get('HTTP_REFERER'))
 
 
@@ -201,9 +205,13 @@ def save_job(request,id):
 @login_required
 def savedjob_delete(request, id):
     job = SavedJobs.objects.get(id=id)
+    messages.warning(request,'Are you Sure U want to Delete ? ')
     job.delete()
+    messages.success(request,'Deleted Successfully!! ')
     return redirect("saved-jobs")
 
+
+@login_required(login_url='login')
 def search(request):
     if request.method == 'GET':
         query = request.GET.get('query')
@@ -217,10 +225,15 @@ def search(request):
     return redirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required(login_url='login')
 def appliedjobs(request):
-       user = Account.objects.get(email=request.session.get('email'))
-       if request.user.is_employee:
+    user = Account.objects.get(email=request.session.get('email'))
+    if request.user.is_employee:
         applied_jobs = Applylist.objects.filter(cand_id=user)
+        paginator = Paginator(applied_jobs, 10)  # Show 10 items per page
+        page = request.GET.get('page')
+        applied_jobs = paginator.get_page(page)
         context = {'applied_jobs': applied_jobs}
         return render(request, 'Employee/applied_jobs.html', context)
+
   

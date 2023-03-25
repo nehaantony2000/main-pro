@@ -86,12 +86,16 @@ def login(request):
             request.session['email'] = email
          
             if user.is_employee:
+                
                 request.session['email'] = email
+                
                 return redirect('userhome')
             if user.is_company:
                 request.session['email'] = email
+                
                 return redirect('Companyhome')
             else:
+                
                 return redirect('admin/')
         else:
             messages.error(request, 'Invalid Credentials')

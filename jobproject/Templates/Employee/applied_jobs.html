@@ -1,111 +1,82 @@
 
-
 {% extends 'Employee/userbase.html' %}
 {% load static %}
 
-<!DOCTYPE HTML>
-<html>
 {% block content %}
-<body>
 	<div id="titlebar">
 		<div class="container">
 			<div class="ten columns">
-				
-				<h2>Hi {{user.username}}, Jobs that you Applied</h1>
-        </h2>
+				<h2>Hi {{ user.username }}, Jobs that you Applied</h2>
 			</div>
-	
-		
-	
 		</div>
 	</div>
-	
-<div class="container">
-	<!-- Recent Jobs -->
- <div class="eleven columns">
-	<div class="padding-right">
-		
-		
 
+	<div class="container">
+		<!-- Recent Jobs -->
+		<div class="eleven columns">
+			<div class="padding-right">
+				<ul class="job-list full">
+					{% for applied_job in applied_jobs %}
+						<li>
+							<div class="thumb"><img src="{{ applied_job.job.logo.url }}" class="img-responsive" alt=""/></div>
 
-		<ul class="job-list full">
-			{% for applied_job in applied_jobs %}
-			<li>
-				<div class="thumb"><img src="{{applied_job.job.logo.url}}" class="img-responsive" alt=""/></a></div>
-				
-				<div class="job-list-content">
+							<div class="job-list-content">
+								<h4>{{ applied_job.job.companyname }}/{{ applied_job.job.jobname }} <span class="full-time">{{ applied_job.job.jobtype }}</span></h4>
+								<div class="job-icons">
+									<span><i class="fa fa-briefcase"></i> {{ applied_job.job.jobname }} </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<span><i class="fa fa-map-marker"></i> {{ applied_job.job.location }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<span><i class="fa fa-money"></i>{{ applied_job.job.salarypackage }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								</div>
+								<p>{{ applied_job.job.companyaddress }}</p>
+								{% if applied_job.status %}
+									<button>Applied</button>
+								{% elif applied_job.accept %}
+									<button>Accepted</button>
+								{% elif applied_job.reject %}
+									<button>Rejected</button>
+								{% endif %}
+							</div>
+              {% empty %}
 					
-					<h4>  	{{ applied_job.job.companyname }}/{{ applied_job.job.jobname }} <span class="full-time">{{i.jobtype}}</span></h4>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	<div class="job-icons">
-						<span><i class="fa fa-briefcase"></i> {{ applied_job.job.jobname }} </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<span><i class="fa fa-map-marker"></i> {{applied_job.job.location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<span><i class="fa fa-money"></i>{{applied_job.job.salarypackage}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						
-					</div>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<p> {{applied_job.job.companyaddress}}</p>
-          {% if applied_job.status %}
-						<button >Applied</button>
-					  {% elif applied_job.accept %}
-						<button >Accepted</button>
-					  {% elif applied_job.reject %}
-					  <button >Rejected</button>
-					  {% endif %}
-					{% empty %}
+					<p colspan="4">You have no Saved Jobs.</p>
 					<img src="https://i.pinimg.com/564x/65/20/5f/65205f3ee1b5dd65b91d3fa279990927.jpg" style="height:500px;width:350px;align-self:center;">
 
-					  <p colspan="4">You haven't applied to any jobs yet.</p>
-
-				</div>
-				
+							<div class="clearfix"></div>
+						</li>
+					{% endfor %}
+				</ul>
 				<div class="clearfix"></div>
-			</li>
 
-			{% endfor %}
-		</ul>
-		<div class="clearfix"></div>
+				<div class="pagination-container">
+					<center>
+						<nav class="pagination">
+							<ul>
+								{% for page_num in applied_jobs.paginator.page_range %}
+									{% if applied_jobs.number == page_num %}
+										<li><a href="#" class="current-page">{{ page_num }}</a></li>
+									{% else %}
+										<li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+									{% endif %}
+								{% endfor %}
+							</ul>
+						</nav>
+					</center>
 
-		<div class="pagination-container">
-			  <center>    <nav class="pagination">
-				<ul>
-					   <li><a href="#" class="current-page">1</a></li>
-					    <li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li class="blank">...</li>
-					<li><a href="#">22</a></li>
-				</ul>
-			      </nav></center>
-           
-			<nav class="pagination-next-prev">
-				<ul>
-					<li><a href="#" class="prev">Previous</a></li>
-					<li><a href="#" class="next">Next</a></li>
-				</ul>
-			</nav>
+					<nav class="pagination-next-prev">
+						<ul>
+							{% if applied_jobs.has_previous %}
+								<li><a href="?page={{ applied_jobs.previous_page_number }}" class="prev">Previous</a></li>
+							{% endif %}
+							{% if applied_jobs.has_next %}
+								<li><a href="?page={{ applied_jobs.next_page_number }}" class="next">Next</a></li>
+							{% endif %}
+						</ul>
+					</nav>
+				</div>
+			</div>
 		</div>
-
-	</div>
 	</div>
 
-
-
-</div>
-<!-- Back To Top Button -->
-<div id="backtotop"><a href="#"></a></div>
-</body>
-	
-{% endblock %}		
-
-
-
-
-
-
-	
-		
-
-
-
-
-
-</html>	
+	<!-- Back To Top Button -->
+	<div id="backtotop"><a href="#"></a></div>
+{% endblock %}
