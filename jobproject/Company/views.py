@@ -113,3 +113,14 @@ def AddVideo(request):
             Videos.objects.create(title=title,slug=slugify(title),course=course,video=video).save()
             return redirect("Companyhome")
     return render(request,"Courses/Add_Video.html",{"form":form})
+
+
+def jobdelete(request, id):
+    job = JobDetails.objects.get(id=id)
+    job.delete()
+    return redirect("postedjob")
+
+def deleteApplication(request, id):
+    job = Applylist.objects.get(id=id)
+    job.delete()
+    return redirect("Applylist")

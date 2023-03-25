@@ -14,5 +14,7 @@ urlpatterns = [
     path ('update_profile/', views.Update_profile, name="update_profile"),
     path('addvideo/', views.AddVideo, name='addvideo'),
     path('enrolledcandidate/', views.enrolledcandidate, name='enrolledcandidate'),
+    path('job_delete/<int:id>', views.jobdelete, name='job_delete'),
+    path('deleteApplication/<int:id>', views.deleteApplication, name='deleteApplication'),
     
 ]

@@ -73,10 +73,15 @@
 					<td class="action">
 						<a href="#"><i class="fa fa-pencil"></i> Edit</a>
 						<a href="#"><i class="fa  fa-check "></i> Mark Filled</a>
-						<a href="#" class="delete"><i class="fa fa-remove"></i> Delete</a>
+						<a href="{% url 'job_delete' i.id %}" class="delete"><i class="fa fa-remove"></i> Delete</a>
 					</td>
-				
+					
 			</tr>
+			{% empty %}
+					
+					
+					<img src="https://i.pinimg.com/564x/65/20/5f/65205f3ee1b5dd65b91d3fa279990927.jpg" style="height:500px;width:350px;align-self:center;">
+
 			{% endfor %}
 		
 		{% endif %}
