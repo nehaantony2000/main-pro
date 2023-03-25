@@ -13,6 +13,21 @@ from django.contrib import messages, auth
 from Employee.models import Applylist,SavedJobs,AppliedJobs,Courses,Videos,Course_purchase
 from Company.models import JobDetails
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
+
+def joblist(request, template='Employee/joblist.html', extra_context=None):
+    job_list = JobDetails.objects.all().order_by('-date_posted')
+    paginator = Paginator(job_list, 5)  # set number of items to display per page
+    page = request.GET.get('page')
+    job_list = paginator.get_page(page)
+
+    context = {
+        'job_list': job_list,
+        'template': template,
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+    return render(request, template, context)
+
 def profile(request):
     return render(request, 'Employee/Employee_profile.html')
  
@@ -20,15 +35,6 @@ def cat(request):
     return render(request,'Employee/category.html')
 
         
-@login_required(login_url='login')
-def joblist(request):
-    Job=JobDetails.objects.all().order_by('-date_posted')
-    for i in Job:
-      
-     context={
-        'job_list':Job
-    }
-    return render(request,'Employee/joblist.html',context)
 
 
 @login_required(login_url='login')
