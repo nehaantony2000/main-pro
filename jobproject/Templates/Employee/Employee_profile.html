@@ -1,256 +1,292 @@
-<!DOCTYPE HTML>
-{% extends 'Employee/userbase.html' %}
+<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+	{% extends 'Employee/userbase.html' %}
 {% load static %}
 <html>
-    {% block content %}
-<head>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    
+	{% block content %}
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-   
-<!----font-Awesome----->
-</head>
-<body>
-<div class="container">
-    <div class="single">  
-	   <div class="form-container">
-        <h2> My Profile</h2>
-        <form method="POST"   action="{% url 'Update_profile' %}" id="profile" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% include 'Message.html' %}
-            <div class="row">
+  <head>
+    <style>
+       
+        </style>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
-              
-                <img src="{{user.profilepic.url}}" class="img-rounded img-responsive" >
+    
+
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'Account/css/bootstrap.min.css' %}">
+    
+    
+
+  </head>
+  <body>
+  
+
+  
+  <div class="content">
+    <div class="container">
+      <div class="row">
+		<br>
+		<br>
+        <div class="col-md-6 order-md-1">
+          <img src="https://i.pinimg.com/564x/bb/93/fd/bb93fdb56d6470ddf7f15a206d26d3bf.jpg" alt="Image" style="height: 1500px;" class="img-fluid">
+        </div>
+        <div class="col-md-6 contents">
+          <div class="row justify-content-center">
+            <div class="col-md-12">
+              <div class="mb-4">
+              <h3>Sign In  </h3>
+              </div>
+              <form method="POST"   action="{% url 'Update_profile' %}" id="profile" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% include 'Message.html' %}
+                <div class="row">
+    
+                    {% if user.profilepic %}
+                    <img src="{{user.profilepic.url}}" style="width:150px;border-radius: 90%;" class="img-rounded img-responsive" >
+                    {% endif %}
+                    <br>
+                    <br></div>
+                    <div class="row">
+                        <div class="form-group col-md-12">    
+                            <label class="upload-btn">
+                                <input type="file" name="pic" value="{{user.profilepic}}"  id="pic" multiple />
+                                <i class="fa fa-upload"></i> Browse
+                            </label>
+               
+                 <br>
+                    <button class="btn btn-primary btn-sm" style="color: white;background-color: purple;height: 50px;width: 210px;" type="submit" >Update Image</button>
                 
-                        <br>
-                        
-                        <label class="upload-btn">
-                            <input type="file" name="pic" value="{{user.profilepic}}"  id="pic" multiple />
-                            <i class="fa fa-upload"></i> Browse
-                        </label>
-           
-             
-                <button type="submit" >Update Image</button>
-            
+                </div></div>
+                <div class="row">
+                
+                <div class="form-group col-md-12">
+                    <label class="col-md-3 control-lable" for="firstName">First Name</label>
+                    <div class="col-md-9">
+                        <input type="text" path="firstName" name="first_name" id="firstname"  value="{{user.first_name}}" required class="form-control input-sm"/>
+                        <span id="name" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
+                    </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3 control-lable" for="lastName">Last Name</label>
+                    <div class="col-md-9">
+                        <input type="text" path="lastName" name="last_name" id="lastname"  value="{{user.last_name}}"  class="form-control input-sm"   />
+                        <span id="names" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
+    
             <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3 control-lable"  for="mobile">Mobile Number</label>
+                    <div class="col-md-9">
+                        <input type="text" path="Mobile" id="mobile"   value="{{user.contact}}"  required name="mobile" class="form-control input-sm"/>
+                        <span id="pho" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
+                    </div>
+                </div>
+            </div>
             
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="firstName">First Name</label>
-                <div class="col-md-9">
-                    <input type="text" path="firstName" name="first_name" id="firstname"   value="{{user.first_name}}" required class="form-control input-sm"/>
-                    <span id="name" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
+    
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3 control-lable" for="email">Email</label>
+                    <div class="col-md-9">
+                        <input type="email" name="email" path="email"  id="email"   value="{{user.email}}" required  class="form-control input-sm"/>
+                        <span id="mail" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
+                    </div>
                 </div>
             </div>
-         </div>
-         <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="lastName">Last Name</label>
-                <div class="col-md-9">
-                    <input type="text" path="lastName" name="last_name" id="lastname"  value="{{user.last_name}}"  class="form-control input-sm"   />
-                    <span id="names" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable"  for="mobile">Mobile Number</label>
-                <div class="col-md-9">
-                    <input type="text" path="Mobile" id="mobile"   value="{{user.contact}}"   required name="mobile" class="form-control input-sm"/>
-                    <span id="pho" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
-                </div>
-            </div>
-        </div>
-        
-
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="email">Email</label>
-                <div class="col-md-9">
-                    <input type="email" name="email" path="email"  id="email"   value="{{user.email}}" required  class="form-control input-sm"/>
-                    <span id="mail" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
-                </div>
-            </div>
-        </div>
- <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="Gender">Gender</label>
-                <div class="col-md-9">
-                    <select path="gender" id="gender" name="gender" class="form-control input-sm">
-                        <option value="{{user.gender}}">{{user.gender}}</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    
-                </div>
-            </div>
-        </div> 
-         
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="address">Address</label>
-                <div class="col-md-9">
-                    <input type="text" path="address"  id="address" name="address" value="{{user.address}}"  required class="form-control input-sm">
-                    <span id="name" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
-                </div>
-            </div>
-         </div>
-        
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Country</label>
-                <div class="col-md-9">
-                    <select path="country" id="country" value="{{user.country}}"   name="country"  class="form-control input-sm">
-                        <option value="{{user.country}}">{{user.country}}</option>
-                        <option value="Afghanistan">Afghanistan</option>
-                        <option value="Albania">Albania</option>
-                        <option value="Algeria">Algeria</option>
-                        <option value="American Samoa">American Samoa</option>
-                        <option value="Andorra">Andorra</option>
-                        <option value="Angola">Angola</option>
-                        <option value="Anguilla">Anguilla</option>
-                        <option value="Antartica">Antarctica</option>
-                        <option value="Antigua and Barbuda">Antigua and Barbuda</option>
-                        <option value="Argentina">Argentina</option>
-                        <option value="Armenia">Armenia</option>
-                        <option value="Aruba">Aruba</option>
-                        <option value="Australia">Australia</option>
-                       
-                        <option value="Gambia">Gambia</option>
-                        <option value="Georgia">Georgia</option>
-                        <option value="Germany">Germany</option>
-                        <option value="Ghana">Ghana</option>
-                        <option value="Gibraltar">Gibraltar</option>
-                        <option value="Greece">Greece</option>
-                        <option value="Greenland">Greenland</option>
-                        <option value="Grenada">Grenada</option>
-                        <option value="Guadeloupe">Guadeloupe</option>
-                        <option value="Guam">Guam</option>
-                        <option value="Guatemala">Guatemala</option>
-                        <option value="Guinea">Guinea</option>
-                        <option value="Guinea-Bissau">Guinea-Bissau</option>
-                        <option value="Guyana">Guyana</option>
-                        <option value="Haiti">Haiti</option>
-                        <option value="Heard and McDonald Islands">Heard and Mc Donald Islands</option>
-                        <option value="Holy See">Holy See (Vatican City State)</option>
-                        <option value="Honduras">Honduras</option>
-                        <option value="Hong Kong">Hong Kong</option>
-                        <option value="Hungary">Hungary</option>
-                        <option value="Iceland">Iceland</option>
-                        <option value="India">India</option>
-                        <option value="Indonesia">Indonesia</option>
-                        <option value="Iran">Iran (Islamic Republic of)</option>
-                        <option value="Iraq">Iraq</option>
-                        <option value="Ireland">Ireland</option>
-                        <option value="Israel">Israel</option>
-                        <option value="Italy">Italy</option>
-                        <option value="Jamaica">Jamaica</option>
-                        <option value="Japan">Japan</option>
-                        <option value="Jordan">Jordan</option>
-                        <option value="Kazakhstan">Kazakhstan</option>
-                        <option value="Kenya">Kenya</option>
-                        <option value="Kiribati">Kiribati</option>
-                       
-                        <option value="Turkey">Turkey</option>
-                        <option value="Turkmenistan">Turkmenistan</option>
-                        <option value="Turks and Caicos">Turks and Caicos Islands</option>
-                       
+     <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3 control-lable" for="Gender">Gender</label>
+                    <div class="col-md-9">
+                        <select path="gender" id="gender"  name="gender" class="form-control input-sm">
+                            <option value="{{user.gender}}">{{user.gender}}</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
                         </select>
                         
-                    
+                    </div>
                 </div>
-            </div>
-        </div>
-        
-        
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="State">State</label>
-                <div class="col-md-9">
-                    <select path="state" id="inputState"   name="state"  class="form-control input-sm">
-                        <option value="{{user.state}}">{{user.state}}</option>
-                        <option value="Andra Pradesh">Andra Pradesh</option>
-                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                        <option value="Assam">Assam</option>
-                        <option value="Bihar">Bihar</option>
-                        <option value="Chhattisgarh">Chhattisgarh</option>
-                        <option value="Goa">Goa</option>
-                        <option value="Gujarat">Gujarat</option>
-                        <option value="Haryana">Haryana</option>
-                        <option value="Himachal Pradesh">Himachal Pradesh</option>
-                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                        <option value="Jharkhand">Jharkhand</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Kerala">Kerala</option>
-                        <option value="Madya Pradesh">Madya Pradesh</option>
-                        <option value="Maharashtra">Maharashtra</option>
-                        <option value="Manipur">Manipur</option>
-                        <option value="Meghalaya">Meghalaya</option>
-                        <option value="Mizoram">Mizoram</option>
-                        <option value="Nagaland">Nagaland</option>
-                        <option value="Orissa">Orissa</option>
-                        <option value="Punjab">Punjab</option>
-                        <option value="Rajasthan">Rajasthan</option>
-                        <option value="Sikkim">Sikkim</option>
-                        <option value="Tamil Nadu">Tamil Nadu</option>
-                        <option value="Telangana">Telangana</option>
-                        <option value="Tripura">Tripura</option>
-                        <option value="Uttaranchal">Uttaranchal</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                        <option value="West Bengal">West Bengal</option>
-                        <option disabled style="background-color:#aaa; color:#fff">UNION Territories</option>
-                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                        <option value="Chandigarh">Chandigarh</option>
-                        <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
-                        <option value="Daman and Diu">Daman and Diu</option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Lakshadeep">Lakshadeep</option>
-                        <option value="Pondicherry">Pondicherry</option>
-                      </select>
+            </div> 
+             
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3 control-lable" for="address">Address</label>
+                    <div class="col-md-9">
+                        <textarea  path="address"  id="address" name="address"  required class="form-control input-sm">{{user.address}}</textarea>
+                        <span id="name" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
+                    </div>
+                </div>
+             </div>
+            
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3 control-lable" for="country">Country</label>
+                    <div class="col-md-9">
+                        <select path="country" id="country" value="{{user.country}}"  style="height:40px;width:350px"  name="country"  >
+                            <option value="{{user.country}}">{{user.country}}</option>
+                            <option value="Afghanistan">Afghanistan</option>
+                            <option value="Albania">Albania</option>
+                            <option value="Algeria">Algeria</option>
+                            <option value="American Samoa">American Samoa</option>
+                            <option value="Andorra">Andorra</option>
+                            <option value="Angola">Angola</option>
+                            <option value="Anguilla">Anguilla</option>
+                            <option value="Antartica">Antarctica</option>
+                            <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Armenia">Armenia</option>
+                            <option value="Aruba">Aruba</option>
+                            <option value="Australia">Australia</option>
+                           
+                            <option value="Gambia">Gambia</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Ghana">Ghana</option>
+                            <option value="Gibraltar">Gibraltar</option>
+                            <option value="Greece">Greece</option>
+                            <option value="Greenland">Greenland</option>
+                            <option value="Grenada">Grenada</option>
+                            <option value="Guadeloupe">Guadeloupe</option>
+                            <option value="Guam">Guam</option>
+                            <option value="Guatemala">Guatemala</option>
+                            <option value="Guinea">Guinea</option>
+                            <option value="Guinea-Bissau">Guinea-Bissau</option>
+                            <option value="Guyana">Guyana</option>
+                            <option value="Haiti">Haiti</option>
+                            <option value="Heard and McDonald Islands">Heard and Mc Donald Islands</option>
+                            <option value="Holy See">Holy See (Vatican City State)</option>
+                            <option value="Honduras">Honduras</option>
+                            <option value="Hong Kong">Hong Kong</option>
+                            <option value="Hungary">Hungary</option>
+                            <option value="Iceland">Iceland</option>
+                            <option value="India">India</option>
+                            <option value="Indonesia">Indonesia</option>
+                            <option value="Iran">Iran (Islamic Republic of)</option>
+                            <option value="Iraq">Iraq</option>
+                            <option value="Ireland">Ireland</option>
+                            <option value="Israel">Israel</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Jamaica">Jamaica</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Jordan">Jordan</option>
+                            <option value="Kazakhstan">Kazakhstan</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="Kiribati">Kiribati</option>
+                           
+                            <option value="Turkey">Turkey</option>
+                            <option value="Turkmenistan">Turkmenistan</option>
+                            <option value="Turks and Caicos">Turks and Caicos Islands</option>
+                           
+                            </select>
+                            
                         
-                    
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="District">District</label>
-                <div class="col-md-9">
-                    <select path="District" id="inputDistrict"  value="{{user.district}}"  name="District"  class="form-control input-sm">
-                        <option value="{{user.district}}">{{user.district}}</option>
-            </select>
-          </div>
-          </div>
-        </div>
-          <div class="row">
-          <div class="form-group col-md-12">
-            <label class="col-md-3 control-lable" for="resume">Resume</label>
-            <div class="col-md-9">
-          <input type="file" name="resume" id="resume">
-          </div>
-          </div>
-          </div>
-        <div class="row">
-            <div class="form-actions floatRight">
-                <input type="submit" value="Update Profile" class="btn btn-primary btn-sm">
+            
+            
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3 control-lable" for="State">State</label>
+                    <div class="col-md-9">
+                        <select path="state" id="inputState"   name="state"  class="form-control input-sm">
+                            <option value="{{user.state}}">{{user.state}}</option>
+                            <option value="Andra Pradesh">Andra Pradesh</option>
+                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                            <option value="Assam">Assam</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="Chhattisgarh">Chhattisgarh</option>
+                            <option value="Goa">Goa</option>
+                            <option value="Gujarat">Gujarat</option>
+                            <option value="Haryana">Haryana</option>
+                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                            <option value="Jharkhand">Jharkhand</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Kerala">Kerala</option>
+                            <option value="Madya Pradesh">Madya Pradesh</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Manipur">Manipur</option>
+                            <option value="Meghalaya">Meghalaya</option>
+                            <option value="Mizoram">Mizoram</option>
+                            <option value="Nagaland">Nagaland</option>
+                            <option value="Orissa">Orissa</option>
+                            <option value="Punjab">Punjab</option>
+                            <option value="Rajasthan">Rajasthan</option>
+                            <option value="Sikkim">Sikkim</option>
+                            <option value="Tamil Nadu">Tamil Nadu</option>
+                            <option value="Telangana">Telangana</option>
+                            <option value="Tripura">Tripura</option>
+                            <option value="Uttaranchal">Uttaranchal</option>
+                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="West Bengal">West Bengal</option>
+                            <option disabled style="background-color:#aaa; color:#fff">UNION Territories</option>
+                            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                            <option value="Chandigarh">Chandigarh</option>
+                            <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                            <option value="Daman and Diu">Daman and Diu</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Lakshadeep">Lakshadeep</option>
+                            <option value="Pondicherry">Pondicherry</option>
+                          </select>
+                            
+                        
+                    </div>
+                </div>
             </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3 control-lable" for="District">District</label>
+                    <div class="col-md-9">
+                        <select path="District" id="inputDistrict" style="height:40px;width:250px"  value="{{user.district}}"  name="District"  class="form-control input-sm">
+                            <option value="{{user.district}}">{{user.district}}</option>
+                </select>
+              </div>
+              </div>
+            </div>
+              <div class="row">
+              <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="resume">Resume</label>
+                <div class="col-md-9">
+              <input type="file" name="resume" id="resume">
+              </div>
+              </div>
+              </div>
+            <div class="row">
+                <div class="form-actions floatRight">
+                    <input type="submit" value="Update Profile" class="btn btn-primary btn-sm">
+                </div>
+            </div>
+            <br>
+        
+        </form>
+            </div>
+          </div>
+          
         </div>
-        <br>
-    
-    </form>
-    
-</div>
-</div>
-</div>
+        
+      </div>
+    </div>
+  </div>
 
-
+  
+    <script src="{% static 'Account/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'Account/js/popper.min.js' %}"></script>
+    <script src="{% static 'Account/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'Account/js/main.js' %}"></script>
+ 
 
 <script>
     var AndraPradesh = ["Anantapur","Chittoor","East Godavari","Guntur","Kadapa","Krishna","Kurnool","Prakasam","Nellore","Srikakulam","Visakhapatnam","Vizianagaram","West Godavari"];

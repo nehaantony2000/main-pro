@@ -10,7 +10,7 @@
 <body>
 <div id="wrapper">
 
-+
+
 <!-- Titlebar
 ================================================== -->
 <div id="titlebar" class="single">
@@ -74,7 +74,10 @@
 			{% for i in Apply %}
 				<!-- Name / Avatar -->
 				<div class="info">
+					{% if i.cand.profilepic %}
 					<img src="{{i.cand.profilepic.url}}" alt="">
+                {% endif %}
+				
 					<span>{{i.cand.first_name}}
 						{{i.cand.last_name}}</span>
 					<ul>

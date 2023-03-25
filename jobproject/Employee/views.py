@@ -6,27 +6,53 @@ from django.http import HttpResponse
 from django.utils.text import slugify
 from hashlib import sha256
 
-
+from django.utils import timezone
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib import messages, auth
-from Employee.models import Applylist,SavedJobs,AppliedJobs,Courses,Videos,Course_purchase
+from Employee.models import Applylist,SavedJobs,Courses,Videos,Course_purchase
 from Company.models import JobDetails
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 
+from django.core.paginator import Paginator
+from django.shortcuts import render
+
 def joblist(request, template='Employee/joblist.html', extra_context=None):
-    job_list = JobDetails.objects.all().order_by('-date_posted')
-    paginator = Paginator(job_list, 5)  # set number of items to display per page
+    # Get the selected sorting option from the request
+    sorting = request.GET.get('sorting', 'recent')
+
+    # Define a mapping between option values and sorting criteria
+    sorting_map = {
+        'recent': 'date_posted',
+        'oldest': 'date_posted',
+        'expiry': 'enddate',
+      
+    }
+
+    # Get the corresponding sorting criterion from the mapping
+    sorting_criterion = sorting_map.get(sorting, 'date_posted')
+
+    # Retrieve the list of job details from the database and sort it
+    job_list = JobDetails.objects.all().order_by(sorting_criterion)
+
+    # Set the number of items to display per page and get the current page number
+    paginator = Paginator(job_list, 1)
     page = request.GET.get('page')
+
+    # Get the page object containing the list of job details to display
     job_list = paginator.get_page(page)
 
     context = {
         'job_list': job_list,
-        'template': template,
+        'selected_sorting': sorting,
     }
+
+    # Add any extra context provided to the function
     if extra_context is not None:
         context.update(extra_context)
+
     return render(request, template, context)
+
 
 def profile(request):
     return render(request, 'Employee/Employee_profile.html')
@@ -146,24 +172,55 @@ def ApplyJob(request,id):
    
 @login_required
 def saved_jobs(request):
-    jobs = SavedJobs.objects.filter(user=request.user).order_by('-date_posted')
+    job_list = SavedJobs.objects.filter(user=request.user).order_by('-date_posted')
+    paginator = Paginator(job_list, 1) # Show 5 jobs per page
+    page = request.GET.get('page')
+    jobs = paginator.get_page(page)
+
     return render(request, 'Employee/saved_jobs.html', {'jobs': jobs})
 
 @login_required
 def save_job(request,id):
-   user = Account.objects.get(email=request.session.get('email'))
-   if request.user.is_employee:
+    user = Account.objects.get(email=request.session.get('email'))
+    if request.user.is_employee:
       job = JobDetails.objects.get(id=id)
-      print(job.id)
-      saved_job, created = SavedJobs.objects.get_or_create(job_id=job.id, user=user)
-     
-   return redirect(request.META.get('HTTP_REFERER'))
+      try:
+         saved_job = SavedJobs.objects.get(job_id=job.id, user=user)
+         if saved_job.is_saved:
+            saved_job.is_saved = False
+            saved_job.save()
+         else:
+            saved_job.is_saved = True
+            saved_job.save()
+      except SavedJobs.DoesNotExist:
+         SavedJobs.objects.create(job_id=job.id, user=user, is_saved=True)
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 
 @login_required
-def savedjob_delete(request,id):
-    id = request.user.id
+def savedjob_delete(request, id):
     job = SavedJobs.objects.get(id=id)
     job.delete()
-    return redirect("Employee/saved_job_list")
+    return redirect("saved-jobs")
+
+def search(request):
+    if request.method == 'GET':
+        query = request.GET.get('query')
+        if query:
+            multiple_q = Q(Q(jobname__icontains=query) | Q(companyname__icontains=query))
+            J=JobDetails.objects.filter(multiple_q) 
+            return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.info(request, 'No search result!!!')
+            print("No information to show")
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def appliedjobs(request):
+       user = Account.objects.get(email=request.session.get('email'))
+       if request.user.is_employee:
+        applied_jobs = Applylist.objects.filter(cand_id=user)
+        context = {'applied_jobs': applied_jobs}
+        return render(request, 'Employee/applied_jobs.html', context)
+  

@@ -2,12 +2,17 @@
 {% extends 'Comp/base1.html' %}
 {% load static %}
 <html>
+    {% block content %}
 <head>
-
+    <style>
+        img {
+          border-radius: 80%;
+        }
+        </style>
 <!----font-Awesome----->
 </head>
 <body>
-	{% block content %}
+	
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
@@ -28,9 +33,16 @@
            
             <fieldset class="fieldset">
                 <div class="form-group avatar">
+                   
+					
+          
+				
                     <figure class="figure col-md-2 col-sm-3 col-xs-12">
-                        <img src="{{user.profilepic.url}}" class="img-rounded img-responsive" >
+                        {% if user.profilepic %}
+                        <img src="{{user.profilepic.url}}" style="width:150px" class="img-rounded img-responsive" >
+                        {% endif %}
                         </figure>
+                       
                  </div>
                  </fieldset>
             <div class="row">
@@ -93,7 +105,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="country">Country</label>
                 <div class="col-md-9">
-                    <select path="country" id="country" value="{{user.country}}"   name="country"  class="form-control input-sm">
+                    <select path="country" id="country" value="{{user.country}}"  style="height:30px;width:150px"  name="country"  class="form-control input-sm">
                         <option value="{{user.country}}">{{user.country}}</option>
                         <option value="Afghanistan">Afghanistan</option>
                         <option value="Albania">Albania</option>
@@ -160,7 +172,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="State">State</label>
                 <div class="col-md-9">
-                    <select path="state" id="inputState" value="{{user.state}}"   name="state"  class="form-control input-sm">
+                    <select path="state" id="inputState" value="{{user.state}}"  style="height:30px;width:150px"  name="state"  class="form-control input-sm">
                         <option value="{{user.state}}">{{user.state}}</option>
                         <option value="Andra Pradesh">Andra Pradesh</option>
                         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -209,7 +221,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="District">District</label>
                 <div class="col-md-9">
-                    <select path="District" id="inputDistrict"  value="{{user.district}}"  name="District"  class="form-control input-sm">
+                    <select path="District" id="inputDistrict"  value="{{user.district}}" style="height:30px;width:150px"  name="District"  class="form-control input-sm">
                         <option value="{{user.district}}">{{user.district}}</option>
             </select>
           </div>

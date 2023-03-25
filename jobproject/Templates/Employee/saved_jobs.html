@@ -12,7 +12,13 @@
 		<div class="container">
 			<div class="ten columns">
 				
-				<h2>Saved Jobs</h2>
+				<nav id="breadcrumbs">
+					<ul>
+						<li>You are here:</li>
+						<li><a href="/Employee/userhome/">Home</a></li>
+						<li>Saved Jobs</li>
+					</ul>
+				</nav>
 			</div>
 	
 		
@@ -36,54 +42,75 @@
 				<div class="thumb"><img src="{{i.job.logo.url}}" class="img-responsive" alt=""/></a></div>
 				
 				<div class="job-list-content">
-					<a href="{%  url 'singlejob' i.id %} ">
-					<h4>  	{{i.job.companyname}}/{{i.job.jobname}} <span class="full-time">{{i.job.jobtype}}</span></h4>
+				
+					<h4>  	{{i.job.companyname}}/{{i.job.jobname}} <span class="button">{{i.job.jobtype}}</span></h4>
 					<div class="job-icons">
 					
-						<span><i class="fa fa-briefcase"></i> {{i.job.jobname}}</span>
-						<span><i class="fa fa-map-marker"></i> {{i.job.location}}</span>
-						<span><i class="fa fa-money"></i>{{i.job.salarypackage}}</span>
-						<span><i class="fa fa-calendar"></i>{{i.date_posted|date:"F d, Y"}}</span>
+						<span><i class="fa fa-briefcase"></i> {{i.job.jobname}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span><i class="fa fa-map-marker"></i> {{i.job.location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span><i class="fa fa-money"></i>{{i.job.salarypackage}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span><i class="fa fa-calendar"></i>{{i.date_posted|date:"F d, Y"}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					</div>
-					<p>{{i.job.jobdescription|truncatewords:30}}
-					<a href="{%  url 'singlejob' i.id %}">Read More</a></p>
 					<br>
-                    <p>  Last date to Apply :{{i.job.enddate}}</p>               
-					<a class="button" href="{% url 'course_cancel' i.id %}">Cancel</a>
+					<p>{{i.job.jobdescription|truncatewords:30}}
+					<a href="{%  url 'singlejob' i.id %}"><B>Read More</B></a></p>
+					<br>
+                    <p>  Last date to Apply :{{i.job.enddate}}</p>   
+					
+					<br>
+
+					<a href="{% url 'savedjob_delete' i.id %}"><button>Delete</button></a>
+
+
+
+
+
+
 				</div>
-				</a>
+			
 				<div class="clearfix"></div>
 			</li>
 
 			{% endfor %}
 		</ul>
 		<div class="clearfix"></div>
-
 		<div class="pagination-container">
-			  <center>    <nav class="pagination">
-				<ul>
-					   <li><a href="#" class="current-page">1</a></li>
-					    <li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li class="blank">...</li>
-					<li><a href="#">22</a></li>
-				</ul>
-			      </nav></center>
-           
-			<nav class="pagination-next-prev">
-				<ul>
-					<li><a href="#" class="prev">Previous</a></li>
-					<li><a href="#" class="next">Next</a></li>
-				</ul>
-			</nav>
-		</div>
+			<center>
+				<nav class="pagination">
+					<ul>
+						{% if jobs.has_previous %}
+							<li><a href="?page=1">First</a></li>
+							<li><a href="?page={{ jobs.previous_page_number }}">Previous</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						{% endif %}
 
-	</div>
-	</div>
+						{% for num in jobs.paginator.page_range %}
+							{% if jobs.number == num %}
+								<li><a href="#" class="current-page">{{ num }}</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							{% elif num > jobs.number|add:'-3' and num < jobs.number|add:'3' %}
+								<li><a href="?page={{ num }}">{{ num }}</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							{% endif %}
+						{% endfor %}
+
+						{% if jobs.has_next %}
+							<li><a href="?page={{ jobs.next_page_number }}">Next</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<li><a href="?page={{ jobs.paginator.num_pages }}">Last</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						{% endif %}
+					</ul>
+				</nav>
+			</center>
+		</div>
+</div>
+</div>
+
+
+
+
 
 
 
 </div>
+
+
 <!-- Back To Top Button -->
 <div id="backtotop"><a href="#"></a></div>
 </body>

@@ -31,10 +31,15 @@ def coursesenrolled(request):
 
 @login_required
 def availablecourses(request):
-   user=Account.objects.get(email=request.session.get('email'))
-   if request.user.is_employee:
-    c = Courses.objects.all()
-    return render(request, 'Courses/availablecourses.html', {'c': c, 'user': user})
+    user = Account.objects.get(email=request.session.get('email'))
+    if request.user.is_employee:
+        all_courses = Courses.objects.all()
+        paginator = Paginator(all_courses, 5) # Show 5 courses per page
+        page_number = request.GET.get('page')
+        courses = paginator.get_page(page_number)
+
+        return render(request, 'Courses/availablecourses.html', {'courses': courses, 'user': user})
+
 
 
 

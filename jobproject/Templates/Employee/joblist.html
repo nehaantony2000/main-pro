@@ -19,6 +19,14 @@
 		<!-- Recent Jobs -->
 		<div class="eleven columns">
 			<div class="padding-right">
+			
+					<form action="{% url 'search' %}" method="GET" class="list-search">
+					<button><i class="fa fa-search"></i></button>
+					<input type="text" class="ico-01" placeholder="job title, keywords or company name" value="" name="query" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Keyword(s)';}"/>
+				
+					<div class="clearfix"></div>
+				</form>
+		
 				<ul class="job-list full">
 					{% for i in job_list %}
 						<li>
@@ -26,18 +34,20 @@
 								<img src="{{i.logo.url}}" class="img-responsive" alt=""/>
 							</div>
 							<div class="job-list-content">
-								<a href="{% url 'singlejob' i.id %}">
+							
 									<h4>{{i.companyname}}/{{i.jobname}} <span class="full-time">{{i.jobtype}}</span></h4>
+									<br>
 									<div class="job-icons">
-										<span><i class="fa fa-briefcase"></i> {{i.jobname}}</span>
-										<span><i class="fa fa-map-marker"></i> {{i.location}}</span>
-										<span><i class="fa fa-money"></i>{{i.salarypackage}}</span>
-										<span><i class="fa fa-calendar"></i>Posted on :{{i.date_posted|date:"F d, Y"}}</span>
+										<span><i class="fa fa-briefcase"></i> {{i.jobname}}</span> &nbsp;&nbsp;&nbsp;
+										<span><i class="fa fa-map-marker"></i> {{i.location}}</span>&nbsp;&nbsp;&nbsp;
+										<span><i class="fa fa-money"></i>{{i.salarypackage}}</span>&nbsp;&nbsp;&nbsp;
+										<span><i class="fa fa-calendar"></i>Posted on :{{i.date_posted|date:"F d, Y"}}</span>&nbsp;&nbsp;&nbsp;
 									</div>
+									<br>
 									<p>{{i.jobdescription|truncatewords:30}}
 										<a href="{% url 'singlejob' i.id %}">Read More</a>
 									</p>
-								</a>
+								
 								<div class="clearfix"></div>
 							</div>
 						</li>
@@ -49,21 +59,21 @@
 						<nav class="pagination">
 							<ul>
 								{% if job_list.has_previous %}
-									<li><a href="?page=1">First</a></li>
-									<li><a href="?page={{ job_list.previous_page_number }}">Previous</a></li>
+									<li><a href="?page=1">First</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<li><a href="?page={{ job_list.previous_page_number }}">Previous</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								{% endif %}
 
 								{% for num in job_list.paginator.page_range %}
 									{% if job_list.number == num %}
-										<li><a href="#" class="current-page">{{ num }}</a></li>
+										<li><a href="#" class="current-page">{{ num }}</a></li>&nbsp;&nbsp;&nbsp;
 									{% elif num > job_list.number|add:'-3' and num < job_list.number|add:'3' %}
-										<li><a href="?page={{ num }}">{{ num }}</a></li>
+										<li><a href="?page={{ num }}">{{ num }}</a></li>&nbsp;&nbsp;&nbsp;
 									{% endif %}
 								{% endfor %}
 
 								{% if job_list.has_next %}
-									<li><a href="?page={{ job_list.next_page_number }}">Next</a></li>
-									<li><a href="?page={{ job_list.paginator.num_pages }}">Last</a></li>
+									<li><a href="?page={{ job_list.next_page_number }}">Next</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<li><a href="?page={{ job_list.paginator.num_pages }}">Last</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								{% endif %}
 							</ul>
 						</nav>
@@ -71,6 +81,35 @@
 				</div>
 			</div>
 		</div>
+		
+	<!-- Widgets -->
+	<div class="five columns">
+
+		<!-- Sort by -->
+		<div class="widget">
+			<h4>Sort by</h4>
+		  
+			<!-- Select -->
+			<form method="get">
+			  <select name="sorting" data-placeholder="Choose Category" class="chosen-select-no-single" onchange="this.form.submit()">
+				<option {% if selected_sorting == 'recent' %}selected{% endif %} value="recent">Newest</option>
+				<option {% if selected_sorting == 'oldest' %}selected{% endif %} value="oldest">Oldest</option>
+				<option {% if selected_sorting == 'expiry' %}selected{% endif %} value="expiry">Expiring Soon</option>
+				
+			  </select>
+			</form>
+		  </div>
+		  
+		
+		</div>
+
+
+
+	</div>
+	<!-- Widgets / End -->
+
+
+
 	</div>
 	<!-- Back To Top Button -->
 	<div id="backtotop"><a href="#"></a></div>

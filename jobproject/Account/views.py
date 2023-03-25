@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from django.contrib.auth import login, authenticate
+from django.views.decorators.cache import never_cache
+from django.contrib.auth import login, authenticate,logout
 from django.shortcuts import redirect
 from django.http import HttpResponse 
 from .models import Account
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib import messages, auth
 from django.contrib.sites.shortcuts import get_current_site
@@ -97,11 +99,9 @@ def login(request):
     
     return render(request,'Account/login.html')
 
-    
+@never_cache  
 def logout(request):
     auth.logout(request)
-
-
     return redirect('login')
 
 

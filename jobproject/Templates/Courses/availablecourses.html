@@ -21,12 +21,11 @@
 	<div class="container">
 
 		<div class="sixteen columns">
-			<h2>Available Courses
-            </h2>
+			<h2>Available Courses</h2>
 			<nav id="breadcrumbs">
 				<ul>
 					<li>You are here:</li>
-					<li><a href="#">Home</a></li>
+					<li><a href="/Employee/userhome/">Home</a></li>
 					<li>Available Courses</li>
 				</ul>
 			</nav>
@@ -44,43 +43,64 @@
 <div class="container">
 
 	
-
-
-<!-- Container / Start -->
-<div class="container">
-
-	
-	
-	{% for i in c %}
+	{% for course in courses %}
 	<div class="plan color-2 one-third column">
 		<div class="plan-price">
-			<h3>{{i.course}}</h3>
+			<h3>{{ course.course }}</h3>
 			<span class="plan-money">Rs</span>
-			<span class="value">{{i.amount}}</span>
+			<span class="value">{{ course.amount }}</span>
 			
 		</div>
 		<div class="plan-features">
 			<ul>
 				<li>One Time Fee</li>
-				<li>Start Date:{{i.start_date}}</li>
-				<li>End Date:{{i.end_date}}</li>
+				<li>Start Date:{{ course.start_date }}</li>
+				<li>End Date:{{ course.end_date }}</li>
 				<li>Posted For 30 Days</li>
 			</ul>
-			{% if i.endroll_check %}
-			<a class="button" href= "{% url 'endroll' i.slug %}">Enroll Now</a>
+			{% if course.endroll_check %}
+			<a class="button" href= "{% url 'endroll' course.slug %}">Enroll Now</a>
 		{% else %}
-			 <a class="button"  href="{{i.get_course_url}}">View course</a>
+			 <a class="button"  href="{{ course.get_course_url }}">View course</a>
 	 {% endif %}
 	
 			
 		</div>
 	</div>
+	{% empty %}
+	<p>No courses available.</p>
     {% endfor %}
 
 
 </div>
 <!-- Container / End -->
 
+<br>
+<br>
+
+{% if courses.has_other_pages %}
+<div class="pagination">
+    <span class="step-links">
+        {% if courses.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ courses.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current-page">
+            Page {{ courses.number }} of {{ courses.paginator.num_pages }}.
+        </span>
+
+        {% if courses.has_next %}
+            <a href="?page={{ courses.next_page_number }}">next</a>
+            <a href="?page={{ courses.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+
+</div>
+<!-- Container / End -->
+<!--
 <br>
 <br>
 

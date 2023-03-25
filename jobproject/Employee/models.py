@@ -19,6 +19,13 @@ class Applylist(models.Model):
    maxsalary=models.CharField(max_length=20,default='')
    resume=models.FileField(upload_to="resume")
    applieddate=models.DateTimeField(auto_now_add=True)
+   status = models.BooleanField('status', default=True) 
+   accept = models.BooleanField('accept', default=True) 
+   reject = models.BooleanField('reject', default=True) 
+   applied = models.BooleanField('applied', default=True)
+
+   def __str__(self):
+        return self.job.jobname
 
 
 
@@ -28,19 +35,11 @@ class SavedJobs(models.Model):
     job = models.ForeignKey(JobDetails, related_name='saved_job', on_delete=models.CASCADE)
     user = models.ForeignKey(Account, related_name='saved', on_delete=models.CASCADE)
     date_posted = models.DateTimeField(default=timezone.now)
+    is_saved = models.BooleanField(default=False)
 
     def __str__(self):
         return self.job.jobname
 
-
-class AppliedJobs(models.Model):
-    id            = models.AutoField(primary_key=True)
-    job = models.ForeignKey( JobDetails, related_name='applied_job', on_delete=models.CASCADE)
-    user = models.ForeignKey( Account, related_name='applied_user', on_delete=models.CASCADE)
-    date_posted = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return self.job.title
 
 
 

@@ -95,10 +95,18 @@ window.onload = function () {
 		<!-- Widgets -->
 		<div class="five columns">
 			<div class="float-right">
-				{% for i in Job %}	<a
-            href="{%  url 'save-job' i.id %}">
-            <span><i class="fa fa-heart" style="font-size:30px;color:palevioletred;text-shadow:2px 2px 4px #000000;"></i> </span>
-		</a>{% endfor %}</div>
+				{% for i in Job %}	
+{% if saved_job %}
+        <button disabled>Saved</button>
+      {% else %}
+        <a href="{% url 'save-job' i.id %}">
+          <button>Save Job</button>
+        </a>
+      {% endif %}
+				
+     
+		
+		{% endfor %}</div>
 			<!-- Sort by -->
 			<div class="widget">
 				<h4>Overview</h4>
