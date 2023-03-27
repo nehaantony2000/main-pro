@@ -145,12 +145,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'jobportalajce@gmail.com'
-DEFAULT_FROM_EMAIL = 'jobportalajce@gmail.com'
-SERVER_EMAIL = 'jobportalajce@gmail.com'
-EMAIL_HOST_PASSWORD = 'xmsusnizxvfoudlu'
+EMAIL_HOST_USER = 'jobseekingajce@gmail.com'
+DEFAULT_FROM_EMAIL = 'jobseekingajce@gmail.com'
+SERVER_EMAIL = 'jobseekingajce@gmail.com'
+EMAIL_HOST_PASSWORD = 'olmpvffxnqpaljgz'
 
 EMAIL_USE_TLS = True
+
 
 RECAPTCHA_PUBLIC_KEY = '6LfDo94iAAAAABypusc-iWabt4MGiUWnuqXHupRM'
 RECAPTCHA_PRIVATE_KEY = '6LfDo94iAAAAAOfsE61i7GtFgvBorAvOBncesSrT'

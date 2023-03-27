@@ -57,7 +57,7 @@ def register (request):
         send_mail(
                 'Please activate your account',
                 message,
-                'jobportalajce@gmail.com',
+                'jobseekingajce@gmail.com',
                 [email],
                 fail_silently=False,
             )
@@ -149,7 +149,7 @@ def forgotPassword(request):
             send_mail(
                 'Please activate your account',
                 message,
-                'jobportalajce@gmail.com',
+                'jobseekingajce@gmail.com',
                 [email],
                 fail_silently=False,
             )
