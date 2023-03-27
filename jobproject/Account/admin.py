@@ -7,6 +7,7 @@ from django.contrib.auth.models import Group
 
 # LogEntry.objects.all().delete()
 
+
 admin.site.unregister(Group)
 # Register your models here.
 class UserAdmin(admin.ModelAdmin):
