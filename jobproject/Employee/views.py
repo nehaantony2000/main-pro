@@ -10,43 +10,28 @@ from django.utils import timezone
 from django.db.models import Q
 from django.contrib import messages
 from Employee.models import Applylist,SavedJobs,Courses,Videos,Course_purchase
-from Company.models import JobDetails
+from Company.models import JobDetails,Applicants,Selected
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
 def joblist(request, template='Employee/joblist.html', extra_context=None):
-    # Get the selected sorting option from the request
     sorting = request.GET.get('sorting', 'recent')
-
-    # Define a mapping between option values and sorting criteria
     sorting_map = {
         'recent': 'date_posted',
         'oldest': 'date_posted',
         'expiry': 'enddate',
-      
     }
-
-    # Get the corresponding sorting criterion from the mapping
-    sorting_criterion = sorting_map.get(sorting, 'date_posted')
-
-    # Retrieve the list of job details from the database and sort it
+    sorting_criterion = sorting_map.get(sorting, '-date_posted')
     job_list = JobDetails.objects.all().order_by(sorting_criterion)
-
-    # Set the number of items to display per page and get the current page number
-    paginator = Paginator(job_list, 1)
+    paginator = Paginator(job_list, 5)
     page = request.GET.get('page')
-
-    # Get the page object containing the list of job details to display
     job_list = paginator.get_page(page)
-
     context = {
         'job_list': job_list,
         'selected_sorting': sorting,
     }
-
-    # Add any extra context provided to the function
     if extra_context is not None:
         context.update(extra_context)
 
@@ -66,7 +51,6 @@ def cat(request):
 def singlejob(request, id):
     Job=JobDetails.objects.filter(id=id)
     Job11=JobDetails.objects.get(id=id)
-
     context={
         'Job':Job,
        
@@ -109,25 +93,12 @@ def Update_profile(request):
         messages.success(request,'Profile  Updated Successfully ')
         return redirect('Eprofile')
 
-          
-
-
         
-        
-        
-
-     
-# def joblist(request):
-#     J=Joblist.objects.all()
-#     return render(request,'Employee/joblist.html',{'key1':J})
-
-
-
 def userhome(request):
    user=Account.objects.get(email=request.session.get('email'))
    if request.user.is_authenticated:
         if request.user.is_employee:
-          Job=JobDetails.objects.all()
+          Job=JobDetails.objects.all().order_by('date_posted')[:3]
           c = Courses.objects.all()
           context={
            'job_list':Job,
@@ -169,14 +140,15 @@ def ApplyJob(request,id):
     
     newapply=Applylist.objects.create(cand=user,job=job,education=education,minsalary=minsalary,maxsalary=maxsalary,resume=resume)
     newapply.save()
-   
+    apply=Applicants.objects.create(applicant=user,job=job)
+    apply.save()
     messages.success(request,'Applied Successfully ')
     return render(request,"Employee/Applyjob.html",{'user':user,'job':job})
    
 @login_required
 def saved_jobs(request):
     job_list = SavedJobs.objects.filter(user=request.user).order_by('-date_posted')
-    paginator = Paginator(job_list, 1) # Show 5 jobs per page
+    paginator = Paginator(job_list, 5) # Show 5 jobs per page
     page = request.GET.get('page')
     jobs = paginator.get_page(page)
 
@@ -230,7 +202,7 @@ def appliedjobs(request):
     user = Account.objects.get(email=request.session.get('email'))
     if request.user.is_employee:
         applied_jobs = Applylist.objects.filter(cand_id=user)
-        paginator = Paginator(applied_jobs, 10)  # Show 10 items per page
+        paginator = Paginator(applied_jobs, 5)  # Show 10 items per page
         page = request.GET.get('page')
         applied_jobs = paginator.get_page(page)
         context = {'applied_jobs': applied_jobs}

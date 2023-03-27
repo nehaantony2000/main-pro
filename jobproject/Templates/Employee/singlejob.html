@@ -35,7 +35,14 @@ window.onload = function () {
 			<div class="ten columns">
 				                               
 				<span><a href="">{{i.jobname}}</a></span>
-				<h2>{{i.jobname}} - {{i.companyname}}-{{i.jobtype}}</h2>
+				<h2>{{i.jobname}} - {{i.companyname}}-  
+					{% if i.jobtype == 'Full-Time' %}
+                    <span class="full-time">Full-Time</span>
+                    {% elif i.jobtype == 'Part-Time' %}
+                    <span class="part-time">Part-Time</span>
+                    {% elif i.jobtype == 'Internship' %}
+                    <span class="internship">Internship</span>
+                    {% endif %}</h2>
 			</div>
 	   
 			{% endfor %}

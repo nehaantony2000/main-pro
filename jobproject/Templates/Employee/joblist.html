@@ -35,7 +35,15 @@
 							</div>
 							<div class="job-list-content">
 							
-									<h4>{{i.companyname}}/{{i.jobname}} <span class="full-time">{{i.jobtype}}</span></h4>
+									<h4>{{i.companyname}}/{{i.jobname}} 
+										{% if i.jobtype == 'Full-Time' %}
+										<span class="full-time">Full-Time</span>
+										{% elif i.jobtype == 'Part-Time' %}
+										<span class="part-time">Part-Time</span>
+										{% elif i.jobtype == 'Internship' %}
+										<span class="internship">Internship</span>
+										{% endif %}
+									</h4>
 									<br>
 									<div class="job-icons">
 										<span><i class="fa fa-briefcase"></i> {{i.jobname}}</span> &nbsp;&nbsp;&nbsp;

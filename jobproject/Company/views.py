@@ -3,27 +3,39 @@ import sweetify
 from django.contrib.auth.decorators import login_required
 from Account.models import Account
 from Employee.models import Applylist,Courses,Course_purchase,Videos
-from Company.models import JobDetails
+from Company.models import JobDetails,Applicants,Selected
 from django.contrib import messages, auth
 from django.utils.text import slugify
 from hashlib import sha256
 from Course.forms import VideoForm
 
 def Companyhome(request):
-    p=JobDetails.objects.all()
-    return render(request,'Comp/index.html',{'p':p})
+    user=Account.objects.get(email=request.session.get('email'))
+    if request.user.is_authenticated:
+        if request.user.is_company:
+         p=JobDetails.objects.filter(email_id=request.user)
+         context = {
+             'p': p,
+             'user' : user ,
+         }
+    return render(request,'Comp/index.html',context)
 
 @login_required
 def postjob(request):
+    user=Account.objects.get(email=request.session.get('email'))
     return render(request,'Comp/JobPost.html')
 
 @login_required
 def postedjob(request):
-     p=JobDetails.objects.all()
+     user=Account.objects.get(email=request.session.get('email'))
+     if request.user.is_authenticated:
+        if request.user.is_company:
+            p=JobDetails.objects.filter(email_id=request.user)
      return render(request, 'Comp/Postedjoblist.html',{'p':p})
 
 @login_required
 def profile(request):
+    user=Account.objects.get(email=request.session.get('email'))
     return render(request, 'Comp/Company_profile.html')
  
 @login_required
@@ -86,7 +98,10 @@ def Update_profile(request):
    
 @login_required
 def JobApplylist(request):
-    Apply=Applylist.objects.all()
+    user=Account.objects.get(email=request.session.get('email'))
+    if request.user.is_authenticated:
+        if request.user.is_company:
+            Apply=Applicants.objects.filter()
     return render(request,"Comp/Applylist.html",{'Apply':Apply}) 
 
 
@@ -128,13 +143,19 @@ def AddVideo(request):
 
 @login_required
 def jobdelete(request, id):
-    job = JobDetails.objects.get(id=id)
-    job.delete()
+    user=Account.objects.get(email=request.session.get('email'))
+    if request.user.is_authenticated:
+        if request.user.is_company:
+            job = JobDetails.objects.get(id=id)
+            job.delete()
     return redirect("postedjob")
 
 
 @login_required
 def deleteApplication(request, id):
-    job = Applylist.objects.get(id=id)
-    job.delete()
+    user=Account.objects.get(email=request.session.get('email'))
+    if request.user.is_authenticated:
+        if request.user.is_company:
+           job = Applylist.objects.get(id=id)
+           job.delete()
     return redirect("Applylist")

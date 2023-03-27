@@ -29,6 +29,27 @@ class JobDetails(models.Model):
     logo=models.ImageField(upload_to="logos",null=True)
     date_posted = models.DateTimeField(default=timezone.now)
 
+
+class Applicants(models.Model):
+    id            = models.AutoField(primary_key=True)
+    job = models.ForeignKey(
+    JobDetails, related_name='applicants', on_delete=models.CASCADE)
+    applicant = models.ForeignKey(Account, related_name='applied', on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.applicant
+    
+class Selected(models.Model):
+    id            = models.AutoField(primary_key=True)
+    job = models.ForeignKey(
+    JobDetails, related_name='select_job', on_delete=models.CASCADE)
+    applicant = models.ForeignKey(Account, related_name='select_applicant', on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.applicant
+
    
 
 

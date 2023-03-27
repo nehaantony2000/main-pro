@@ -78,35 +78,49 @@
 		<div class="padding-right">
 			<h3 class="margin-bottom-25">Recent Jobs</h3>
 			<ul class="job-list full">
-				{% for i in job_list %}
+				{% for i in job_list|order_by('-date_posted')|slice:":3" %}
 				<li>
-					
-					
-					<div class="thumb"><img src="{{i.logo.url}}" class="img-responsive" alt=""/></a></div>
-					
-					<div class="job-list-content">
-						<a href="{%  url 'singlejob' i.id %} ">
-						<h4>  	{{i.companyname}}/{{i.jobname}} <span class="full-time">{{i.jobtype}}</span></h4>
-						<div class="job-icons">
-						
-							<span><i class="fa fa-briefcase"></i> {{i.jobname}}</span>
-							<span><i class="fa fa-map-marker"></i> {{i.location}}</span>
-							<span><i class="fa fa-money"></i>{{i.salarypackage}}</span>
-							<span><i class="fa fa-calendar"></i>Posted on :{{i.date_posted|date:"F d, Y"}}</span>
-						</div>
-						<p>{{i.jobdescription|truncatewords:30}}
-						<a href="{%  url 'singlejob' i.id %}">Read More</a></p>
-						
-							
-	
+					<div class="thumb">
+						<img src="{{i.logo.url}}" class="img-responsive" alt=""/>
 					</div>
-					</a>
-					<div class="clearfix"></div>
+					<div class="job-list-content">
+					
+							<h4>{{i.companyname}}/{{i.jobname}} 
+								{% if i.jobtype == 'Full-Time' %}
+                    <span class="full-time">Full-Time</span>
+                    {% elif i.jobtype == 'Part-Time' %}
+                    <span class="part-time">Part-Time</span>
+                    {% elif i.jobtype == 'Internship' %}
+                    <span class="internship">Internship</span>
+                    {% endif %}
+							</h4>
+							<br>
+							<div class="job-icons">
+								<span><i class="fa fa-briefcase"></i> {{i.jobname}}</span> &nbsp;&nbsp;&nbsp;
+								<span><i class="fa fa-map-marker"></i> {{i.location}}</span>&nbsp;&nbsp;&nbsp;
+								<span><i class="fa fa-money"></i>{{i.salarypackage}}</span>&nbsp;&nbsp;&nbsp;
+								<span><i class="fa fa-calendar"></i>Posted on :{{i.date_posted|date:"F d, Y"}}</span>&nbsp;&nbsp;&nbsp;
+							</div>
+							<br>
+							<p>{{i.jobdescription|truncatewords:30}}
+								<a href="{% url 'singlejob' i.id %}">Read More</a>
+							</p>
+						
+						<div class="clearfix"></div>
+					</div>
 				</li>
+				{% empty %}
+			<img src="https://i.pinimg.com/564x/65/20/5f/65205f3ee1b5dd65b91d3fa279990927.jpg" style="height:500px;width:350px;align-self:center;">
+
+
+			{% endfor %}
+		</ul>
+		{% if job_list.count > 3 %}
+		<!-- Display the "Show More" button only if there are more than 3 jobs -->
+		<a href="/Employee/joblist/" class="button centered"><i class="fa fa-plus-circle"></i> Show More Jobs</a>
 	
-				{% endfor %}
-			</ul>
-			<a href="/Employee/joblist/" class="button centered"><i class="fa fa-plus-circle"></i> Show More Jobs</a>
+		</a>
+		{% endif %}
 			<div class="margin-bottom-55"></div>
 		</div>
 		</div>

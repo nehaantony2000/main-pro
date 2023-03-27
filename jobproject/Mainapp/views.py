@@ -8,7 +8,7 @@ from Employee.models import Applylist,Courses
 
 def index(request):
      
-     Job=JobDetails.objects.all()
+     Job=JobDetails.objects.all().order_by('date_posted')[:3]
      c = Courses.objects.all()
      context={
            'job_list':Job,
