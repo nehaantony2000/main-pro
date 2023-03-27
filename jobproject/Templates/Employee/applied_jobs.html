@@ -12,10 +12,12 @@
 	</div>
 
 	<div class="container">
-		<!-- Recent Jobs -->
+		<!-- Recent Jobs -->{% csrf_token %}
+            {% include 'Message.html' %}
 		<div class="eleven columns">
 			<div class="padding-right">
 				<ul class="job-list full">
+					
 					{% for applied_job in applied_jobs %}
 						<li>
 							<div class="thumb"><img src="{{ applied_job.job.logo.url }}" class="img-responsive" alt=""/></div>

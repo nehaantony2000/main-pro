@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'sweetify' 
+    'sweetify',
+    'Fakejob' 
     
 
 ]
@@ -163,3 +164,5 @@ SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'
 LOGIN_REDIRECT_URL = 'login'
 LOGOUT_REDIRECT_URL = "login"
 
+
+TEXTRAZOR_API_KEY = '3ce7b89fecec0fe6367e21b3b1ba8043e35329aab1ae5476564d4aa0'

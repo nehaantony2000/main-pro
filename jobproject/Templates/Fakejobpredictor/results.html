@@ -1,0 +1,16 @@
+<!-- results.html -->
+{% extends 'Employee/userbase.html' %}
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+{% block content %}
+<p>Job posting text: {{ text }}</p>
+{% if is_fake %}
+<p>This job posting is fake.</p>
+{% else %}
+<p>This job posting is not fake.</p>
+{% endif %}
+
+{%  endblock %}
+</html>
