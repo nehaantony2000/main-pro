@@ -19,7 +19,7 @@ from django.shortcuts import render
 def joblist(request, template='Employee/joblist.html', extra_context=None):
     sorting = request.GET.get('sorting', 'recent')
     sorting_map = {
-        'recent': 'date_posted',
+        'recent': '-date_posted',
         'oldest': 'date_posted',
         'expiry': 'enddate',
     }
@@ -98,7 +98,7 @@ def userhome(request):
    user=Account.objects.get(email=request.session.get('email'))
    if request.user.is_authenticated:
         if request.user.is_employee:
-          Job=JobDetails.objects.all().order_by('date_posted')[:3]
+          Job=JobDetails.objects.all().order_by('-date_posted')[:3]
           c = Courses.objects.all()
           context={
            'job_list':Job,

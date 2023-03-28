@@ -103,8 +103,8 @@ class Courses(models.Model):
        
 
 class Videos(models.Model):
-    title=models.CharField(max_length=30,unique=True)
- 
+    title=models.CharField(max_length=300,unique=True)
+    desp=models.TextField(max_length=3000,blank=True)
     slug=models.SlugField()
     course=models.ForeignKey(Courses,on_delete=models.CASCADE)
     video=models.FileField(upload_to='videos')
@@ -123,6 +123,7 @@ class Videos(models.Model):
 class Feedback(models.Model):
     userid=models.OneToOneField(Account,on_delete=models.CASCADE)
     course=models.ForeignKey(Courses,on_delete=models.CASCADE)
+    
     feedback = models.TextField()
     feedbackdate = models.DateField(auto_now_add=True)
 

@@ -135,9 +135,10 @@ def AddVideo(request):
         form=VideoForm(request.POST,request.FILES)
         if form.is_valid():
             title=form.cleaned_data['title']
+            desp=form.cleaned_data['desp']
             course=form.cleaned_data['course']
             video=form.cleaned_data['video']
-            Videos.objects.create(title=title,slug=slugify(title),course=course,video=video).save()
+            Videos.objects.create(title=title,slug=slugify(title),desp=desp,course=course,video=video).save()
             return redirect("Companyhome")
     return render(request,"Courses/Add_Video.html",{"form":form})
 

@@ -19,7 +19,8 @@ from django.template.loader import render_to_string
 
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 from Account.models import Account
-from Employee.models import  Courses, Course_purchase,Videos
+from Employee.models import  Courses, Course_purchase,Videos,Feedback
+
 @login_required
 def coursesenrolled(request):
     c = Course_purchase.objects.filter(userid=request.user.id).values_list('course_id',flat=True)
@@ -51,21 +52,20 @@ def Course_endroll(request,c_slug):
     c = Courses.objects.get(slug=c_slug)
     endroll=Course_purchase(course_id=c.id,userid=user,end_date=c.end_date)
     endroll.save()
-    return redirect("Course/coursesenrolled")
+    return redirect("coursesenrolled")
 
 
-# def feedback(request):
-
-#     c = Course_purchase.objects.filter(user_id=request.user.id).values_list('course_id',flat=True)
-#     print(list(c))
-#     courses=Courses.objects.filter(id__in=c)
-#     if request.method == "POST":
-#         feedback= request.POST['feedback']
-#         course = request.POST['course']
-#         selected_course=Courses.objects.get(id=course)
-#         f = Feedback(user_id=request.user.id,feedback=feedback,course=selected_course)
-#         f.save()
-#     return render(request, 'Course/feedback.html',{"c":courses})
+def feedback(request):
+    user = Account.objects.get(email=request.session.get('email'))
+    if request.user.is_employee:
+    #  a= Course_purchase.objects.filter(userid=request.user.id)
+    #  c=Courses.objects.filter(id__in=a)
+    #  courses=Videos.objects.get(course=c)
+     if request.method == "POST":
+        feedback= request.POST['feedback']
+        f = Feedback(userid=user,feedback=feedback)
+        f.save()
+    return render(request, 'Courses/playcourse.html',{"c":user})
 
 # def AddVideo(request):
 #     form=VideoForm()

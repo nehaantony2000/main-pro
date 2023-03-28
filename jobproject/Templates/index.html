@@ -78,7 +78,7 @@
 		<div class="padding-right">
 			<h3 class="margin-bottom-25">Recent Jobs</h3>
 			<ul class="job-list full">
-				{% for i in job_list|order_by('-date_posted')|slice:":3" %}
+				{% for i in job_list %}
 				<li>
 					<div class="thumb">
 						<img src="{{i.logo.url}}" class="img-responsive" alt=""/>
