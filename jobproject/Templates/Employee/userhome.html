@@ -168,44 +168,18 @@
 				<div class="clearfix"></div>
 			</div>
 		</div>
-
+       
 	</div>
 </div>
 
 
-<!-- Testimonials -->
-<div id="testimonials">
-	<!-- Slider -->
-	<div class="container">
-		<div class="sixteen columns">
-			<div class="testimonials-slider">
-				  <ul class="slides">
-				    <li>
-				      <p>I have already heard back about the internship I applied through Job Finder, that's the fastest job reply I've ever gotten and it's so much better than waiting weeks to hear back.
-				      <span>Collis Ta’eed, Envato</span></p>
-				    </li>
 
-				    <li>
-				      <p>Nam eu eleifend nulla. Duis consectetur sit amet risus sit amet venenatis. Pellentesque pulvinar ante a tincidunt placerat. Donec dapibus efficitur arcu, a rhoncus lectus egestas elementum.
-				      <span>John Doe</span></p>
-				    </li>
-				    
-				    <li>
-				      <p>Maecenas congue sed massa et porttitor. Duis placerat commodo ex, ut faucibus est facilisis ac. Donec eleifend arcu sed sem posuere aliquet. Etiam lorem metus, suscipit vel tortor vitae.
-				      <span>Tom Smith</span></p>
-				    </li>
-
-				  </ul>
-			</div>
-		</div>
-	</div>
-</div>
 
 
 <!-- Infobox -->
 <div class="infobox">
 	<div class="container">
-		<div class="sixteen columns">Start Building Your Own Job Board Now <a href="my-account.html">Get Started</a></div>
+		<div class="sixteen columns">Prepare yourself for your Dream Job!! <a href="/Course/availablecourses/">Get Started</a></div>
 	</div>
 </div>
 
@@ -242,7 +216,14 @@
 		</div>
 		{% endfor %}
 	
+		{% if c.count > 3 %}
+		<!-- Display the "Show More" button only if there are more than 3 jobs -->
+		<a href="/Course/availablecourses/" class="button centered"><i class="fa fa-plus-circle"></i> Show More Jobs</a>
 	
+		</a>
+		{% endif %}
+		
+		<div class="margin-bottom-55"></div>
 	</div>
 	<!-- Container / End -->
 	

@@ -1,5 +1,5 @@
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from Account.models import Account
 from Company.models import JobDetails
 from Employee.models import Applylist,Courses
@@ -17,9 +17,23 @@ def index(request):
           }
      return render(request,'index.html',context)
 
+
+
+
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
 def contact(request):
-    
-    return render(request,'contact.html')
+    if request.method == 'POST':
+        # Process the form data
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('comment')
 
+        # Do something with the form data (e.g. send an email)
 
+        # Render a success message
+        return redirect('/')
 
+    # If the request method is GET, render the contact form
+    return render(request, 'contact.html')

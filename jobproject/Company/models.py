@@ -7,7 +7,7 @@ from Account.models import Account
 # Create your models here.
 
 class JobDetails(models.Model):
-    job_choices = (('Part-Time','Part-Time'),('Full-Time','Full-Time'),('Internship','Internship'))
+    job_choices = (('Part-Time','Part-Time'),('Full-Time','Full-Time'),('Internship','Internship'),('Freelance','Freelance'))
     category_choices = (('Web Developers','Web Developers'),('Mobile Developers','Mobile Developers'),('Designers & Creatives','Designers & Creatives'),('Writers','Writers'),('Virtual Assistants','Virtual Assistants'), ('Accountants & Consultants','Accountants & Consultants'),('Sales & Marketing Experts','Sales & Marketing Experts'),('Customer Service Agents','Customer Service Agents'))
     id  = models.AutoField(primary_key=True)
     email= models.ForeignKey(Account,null=True,blank=True, on_delete=models.CASCADE)

@@ -1,0 +1,42 @@
+{% extends 'Employee/userbase.html' %}
+{% load static %}
+
+{% block content %}
+    <div>
+        <h1>Latest News</h1>
+        {% for article in page_obj %}
+            <h2>{{ article.title }}</h2>
+            <p>{{ article.description }}</p>
+            <a href="{{ article.url }}" target="_blank">Read More</a>
+        {% endfor %}
+        <div class="clearfix"></div>
+
+        {% if page_obj.has_other_pages %}
+            <div class="pagination-container">
+                <nav class="pagination">
+                    <ul>
+                        {% if page_obj.has_previous %}
+                            <li><a href="?page={{ page_obj.previous_page_number }}" class="prev">Previous</a></li>
+                        {% else %}
+                            <li><span class="disabled">Previous</span></li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li><a href="?page={{ num }}" class="current-page">{{ num }}</a></li>
+                            {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %}
+                                <li><a href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li><a href="?page={{ page_obj.next_page_number }}" class="next">Next</a></li>
+                        {% else %}
+                            <li><span class="disabled">Next</span></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

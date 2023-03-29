@@ -25,13 +25,22 @@ def joblist(request, template='Employee/joblist.html', extra_context=None):
         'expiry': 'enddate',
     }
     sorting_criterion = sorting_map.get(sorting, '-date_posted')
-    job_list = JobDetails.objects.all().order_by(sorting_criterion)
+
+    jobtype_filters = request.GET.getlist('jobtype[]')
+
+    if not jobtype_filters:
+        job_list = JobDetails.objects.all().order_by(sorting_criterion)
+    else:
+        job_list = JobDetails.objects.filter(jobtype__in=jobtype_filters).order_by(sorting_criterion)
+
     paginator = Paginator(job_list, 5)
     page = request.GET.get('page')
     job_list = paginator.get_page(page)
+
     context = {
         'job_list': job_list,
         'selected_sorting': sorting,
+        'jobtype_filters': jobtype_filters,
     }
     if extra_context is not None:
         context.update(extra_context)
@@ -185,17 +194,35 @@ def savedjob_delete(request, id):
 
 
 @login_required(login_url='login')
-def search(request):
-    if request.method == 'GET':
-        query = request.GET.get('query')
-        if query:
-            multiple_q = Q(Q(jobname__icontains=query) | Q(companyname__icontains=query))
-            J=JobDetails.objects.filter(multiple_q) 
-            return redirect(request.META.get('HTTP_REFERER'))
-        else:
-            messages.info(request, 'No search result!!!')
-            print("No information to show")
-    return redirect(request.META.get('HTTP_REFERER'))
+def search(request, template='Employee/joblist.html', extra_context=None):
+    query = request.GET.get('query')
+    sorting = request.GET.get('sorting', 'recent')
+    sorting_map = {
+        'recent': '-date_posted',
+        'oldest': 'date_posted',
+        'expiry': 'enddate',
+    }
+    sorting_criterion = sorting_map.get(sorting, '-date_posted')
+
+    if query:
+        job_list = JobDetails.objects.filter(
+            Q(jobname__icontains=query) | Q(companyname__icontains=query)
+        ).order_by(sorting_criterion)
+    else:
+        job_list = JobDetails.objects.all().order_by(sorting_criterion)
+
+    paginator = Paginator(job_list, 5)
+    page = request.GET.get('page')
+    job_list = paginator.get_page(page)
+
+    context = {
+        'job_list': job_list,
+        'selected_sorting': sorting,
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+
+    return render(request, template, context)
 
 
 @login_required(login_url='login')
@@ -213,11 +240,19 @@ def appliedjobs(request):
 
 
 
-
-
 def get_news(request):
     url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=e92090481bc24996a2a89b1f90299cdf'
     response = requests.get(url)
     articles = response.json()['articles']
-    return render(request, 'chat/news.html',{"page": "Newsplatform","articles": articles})
+
+    # create a paginator with 10 items per page
+    paginator = Paginator(articles, 5)
+    
+    # get the current page number from the request's GET parameters
+    page_number = request.GET.get('page')
+    
+    # get the Page object for the current page number
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'Employee/news.html', {"page": "Newsplatform", "page_obj": page_obj})
   

@@ -115,9 +115,20 @@
 		
 		</div>
 
-
+		<div class="widget">
+			<h4>Filter by Job Type</h4>
+			<form method="get">
+				<input type="checkbox" name="jobtype[]" value="" {% if not jobtype_filters %}checked{% endif %}> All<br>
+				<input type="checkbox" name="jobtype[]" value="Full-Time" {% if 'Full-Time' in jobtype_filters %}checked{% endif %}> Full-Time<br>
+				<input type="checkbox" name="jobtype[]" value="Part-Time" {% if 'Part-Time' in jobtype_filters %}checked{% endif %}> Part-Time<br>
+				<input type="checkbox" name="jobtype[]" value="Internship" {% if 'Internship' in jobtype_filters %}checked{% endif %}> Internship<br>
+				<button type="submit">Apply Filters</button>
+			</form>
+		</div>
+		
 
 	</div>
+	
 	<!-- Widgets / End -->
 
 
