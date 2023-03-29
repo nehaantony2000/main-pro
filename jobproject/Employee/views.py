@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
+import requests
 from Account.models import Account
 from django.http import HttpResponse
 from django.utils.text import slugify
@@ -208,4 +209,15 @@ def appliedjobs(request):
         context = {'applied_jobs': applied_jobs}
         return render(request, 'Employee/applied_jobs.html', context)
 
+
+
+
+
+
+
+def get_news(request):
+    url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=e92090481bc24996a2a89b1f90299cdf'
+    response = requests.get(url)
+    articles = response.json()['articles']
+    return render(request, 'chat/news.html',{"page": "Newsplatform","articles": articles})
   

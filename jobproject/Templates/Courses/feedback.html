@@ -1,314 +1,107 @@
-<!DOCTYPE html>
+{% extends 'Employee/userbase.html' %}
 {% load static %}
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-      <meta charset="utf-8" />
+{% load sweetify %}
+{% load static %}
 
-    <link href="{% static 'vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+<html>
+    
+	{% block content %}
 
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <!-- Sweetify CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.1/dist/sweetalert2.min.css">
 
+<!-- Sweetify JS -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.1/dist/sweetalert2.min.js"></script>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://teacherathon.org/images/registration-form-section-image.png" rel="stylesheet">
 
-  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
-  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'Account/fonts/icomoon/style.css' %}">
 
-    <title>YOGASTUDIO</title>
-	<!-- BOOTSTRAP STYLES-->
-    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
-     <!-- FONTAWESOME STYLES-->
-    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet" />
-        <!-- CUSTOM STYLES-->
-    <link href="{% static 'css/custom.css' %}" rel="stylesheet" />
-     <!-- GOOGLE FONTS-->
-   <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel='stylesheet' type='text/css' />
-    <style type="text/css">
-            table{
+    <link rel="stylesheet" href="{% static 'Account/css/owl.carousel.min.css' %}">
 
-            width: 90%;
-            padding: 12px;
-            border-radius: 4px;
-            resize: vertical;
-            color: black;
-            font-style: bold;
-            font-family:Calibri;
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'Account/css/bootstrap.min.css' %}">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="'{% static 'Account/css/style.css' %}">
 
-            font-size: 20px;
-        }
-        th{
-            width: 20%;
-            padding: 12px;
-            border-radius: 4px;
-            resize: vertical;
-            color: black;
-            font-style: bold;
-            font-family:Calibri;
-            font-size: 20px;
-        }
-        tr{
-          width: 90%;
-            padding: 12px;
-            border-radius: 4px;
-            resize: vertical;
-            color: black;
-            font-style: bold;
-            font-family:Calibri;
-            font-size: 20px;
-        }
-        td{
-          width: 90%;
-            padding: 12px;
-            border-radius: 4px;
-            resize: vertical;
-            color: black;
-            font-style: bold;
-            font-family:Calibri;
-            font-size: 20px;
+  
+  </head>
+  <body>
+  
 
-        }
-        textarea{
-            width: 40%;
-            padding: 12px;
-            border-radius: 4px;
-            resize: vertical;
-            color: black;
-            font-style: bold;
-            font-family:Calibri;
-            font-size: 20px;
+  
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 order-md-2">
+      </div>
+        <div class="col-md-6 contents">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="mb-4">
+             
+                <img src="data:image/png;base64,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" alt="Image" class="img-fluid">
+      
+              </div>
+              <form method="POST"  enctype="multipart/form-data">
+              {% include 'Message.html' %}
+              {% csrf_token %}
+            <fieldset>
 
-        }
-        input[type=text]{
-            width: 40%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-        }
-       select{
-            width: 40%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-        }
-        input[type=password]{
-            width:40%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-
-        }
-        input[type=email]{
-            width: 40%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-
-        }
-
-        input[type=submit]
-        {
-            width: 20%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-        }
-
-
-    </style>
-
-</head>
-<body>
-
-
-
-    <div id="wrapper">
-         <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="adjust-nav">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" style="color: green; font-size: 30px;"></i>&nbsp;YOGASTUDIO</a>
-
-
+                <div>
+                    <label>Name:</label>
+                    <input type="text" name="name" value="{{user.first_name}} {{user.last_name}}"/>
                 </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-
-                        <li>
-
-                            <a style="color: green;">Welcome...</a>
-                            </li>
-                        <li><a href="{% url 'yogaapp:logout' %}"  style="color: green;">Logout</a></li>
-                    </ul>
+                    
+                <div>
+                    <label>Email: <span>*</span></label>
+                    <input type="text" name="email" value="{{user.email}}"/>
                 </div>
+                <br>
+                <div>
+                    <label>Course: <span>*</span></label>
+    
+                <select name='course'>
+                    <option disabled selected>Select</option>
+                    {% for i in c %}
+                         <option value="{{i.id}}">{{i.course}}</option>
+                    {% endfor %}
 
-            </div>
-        </div>
-        <!-- /. NAV TOP  -->
+                </select>
+                </div>
+<br>
+                <div>
+                    <label>Comment: <span>*</span></label>
+                    <textarea id="feedback-textarea" name="feedback" required></textarea>
+                </div>
+<br>
+            </fieldset>
+            <input type="submit"  name="submit"   value="Add Comment" class="button">
+           
 
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu" >
-
-                    <li>
-                        <a style="color: green;" href= "studentdashboard"><i class="fa fa-desktop "></i>Student Dashboard<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-
-                            <li>
-                                <a href= "studentviewprofile" style="color: green;">Profile</a>
-                                <a href= "studentchangepassword" style="color: green;">Change Password</a>
-                            </li></ul>
-                    </li>
-
-
-<!--                    <li>-->
-<!--                        <a href="#" style="color: green;"><i class="fa fa-edit "></i>Schedule</a>-->
-
-<!--                    </li>-->
-
-                    <li>
-                        <a href="#" style="color: green;"><i class="fa fa-sitemap "></i>My Courses<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-<!--                            <li>-->
-<!--                                <a href="#" style="color: green;">Daily Asanas</a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a href="#" style="color: green;">Asana Library</a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a href="#" style="color: green;">Purchase History</a>-->
-<!--                            </li>-->
-                            <li>
-                                <a href= "coursesenrolled" style="color: green;">Enrolled Courses</a>
-                            </li>
-                             <li>
-                                <a href= "availablecourses"  style="color: green;">Available Courses</a>
-                            </li>
-
-                        </ul>
-                    </li>
-
-<!--                    <li>-->
-<!--                        <a href="#" style="color: green;"><i class="fa fa-bar-chart-o"></i>Certificates</a>-->
-<!--                    </li>-->
-
-                    <li>
-                        <a href= "feedback" style="color: green;"><i class="fa fa-edit "></i>Feedback </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'yogaapp:addvideo' %}" style="color: green;"><i class="fa fa-desktop "></i>Add Videos </a>
-                    </li>
-                </ul>
-
-            </div>
-
-        </nav>
-
-        <!-- /. NAV SIDE  -->
-        <div id="page-wrapper" >
-            <div id="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-
-<h2>Feedback</h2>
-<hr/>
-  <form id="addcus" method="post" action="" enctype="multipart/form-data">
-
-         {% csrf_token %}
-
-
-
-           <table align="center">
-
-            <tr class="tr">
-                <th>Select Course</th>
-                <td class="td">
-                    <select name='course'>
-                        <option disabled selected>Select</option>
-                        {% for i in c %}
-                             <option value="{{i.id}}">{{i.course}}</option>
-                        {% endfor %}
-
-                    </select>
-
-                </td>
-            </tr>
-
-
-
-                <tr class="tr">
-               <th>Feedback</th>
-               <td class="td">
-               <textarea id="feedback" style="border: 1px solid #ccc;height:150px" name="feedback" required></textarea>
-               </td>
-               </tr>
-
-
-            <tr class="tr">
-            <td colspan="2"  class="td">
-                  <input type="submit" style="margin-left:271px;" name="submit"   value="SEND FEEDBACK" class="btn btn-primary">
-
-            </td>
-            </tr>
-
-           </table>
-
-  </form> </div>
-
-
+</form>
+</div>
+</div>
 
 </div>
 
-<!--</div>-->
+</div>
+</div>
+</div>
 
 
 
 
 
-                    </div>
-                </div>
-                  <hr />
-
-                 <!-- /. ROW  -->
-    </div>
-             <!-- /. PAGE INNER  -->
-            </div>
-         <!-- /. PAGE WRAPPER  -->
-        </div>
-
-     <!-- /. WRAPPER  -->
-    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-    <!-- JQUERY SCRIPTS -->
-    <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
-      <!-- BOOTSTRAP SCRIPTS -->
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <!-- METISMENU SCRIPTS -->
-    <script src="{% static 'js/jquery.metisMenu.js' %}"></script>
-      <!-- CUSTOM SCRIPTS -->
-    <script src="{% static 'js/custom.js' %}"></script>
 
 
 </body>
+{% endblock %}
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

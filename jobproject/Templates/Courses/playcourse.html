@@ -101,41 +101,7 @@
 			<div class="margin-top-35"></div>
 
 
-			<!-- Add Comment -->
-			<h4 class="comment">Add Comment</h4>
-			<div class="margin-top-20"></div>
 			
-			<!-- Add Comment Form -->
-			<form  method="POST" action="{% url 'feedback' %}" enctype="multipart/form-data" class="add-comment"  id="add-comment">
-
-				{% csrf_token %}
-	   
-		
-				<fieldset>
-
-					<div>
-						<label>Name:</label>
-						<input type="text" name="name" value="{{user.first_name}} {{user.last_name}}"/>
-					</div>
-						
-					<div>
-						<label>Email: <span>*</span></label>
-						<input type="text" name="email" value="{{user.email}}"/>
-					</div>
-
-					<div>
-						<label>Comment: <span>*</span></label>
-						<textarea id="feedback"  name="feedback" required></textarea>
-					</div>
-
-				</fieldset>
-				<input type="submit"  name="submit"   value="Add Comment" class="button">
-				
-				<div class="clearfix"></div>
-				<div class="margin-bottom-20"></div>
-
-			</form>
-
 		</div>
 	</div>
 	<!-- Blog Posts / End -->

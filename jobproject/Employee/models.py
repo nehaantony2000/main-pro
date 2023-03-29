@@ -121,7 +121,7 @@ class Videos(models.Model):
 
 
 class Feedback(models.Model):
-    userid=models.OneToOneField(Account,on_delete=models.CASCADE)
+    userid=models.ForeignKey(Account,on_delete=models.CASCADE)
     course=models.ForeignKey(Courses,on_delete=models.CASCADE)
     
     feedback = models.TextField()

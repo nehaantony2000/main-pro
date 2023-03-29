@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 import sweetify
 from django.contrib.auth.decorators import login_required
 from Account.models import Account
-from Employee.models import Applylist,Courses,Course_purchase,Videos
+from Employee.models import Applylist,Courses,Course_purchase,Videos,Feedback
 from Company.models import JobDetails,Applicants,Selected
 from django.contrib import messages, auth
 from django.utils.text import slugify
@@ -160,3 +160,17 @@ def deleteApplication(request, id):
            job = Applylist.objects.get(id=id)
            job.delete()
     return redirect("Applylist")
+
+def viewfeedback(request):
+    user=Account.objects.get(email=request.session.get('email'))
+    if request.user.is_authenticated:
+        if request.user.is_company:
+         ins = Account.objects.filter(id=request.user.id)
+         course=Courses.objects.get(userid=request.user.id)
+         print(request.user.id)
+         feed = Feedback.objects.filter(course_id=course.id)
+         std_ids=feed.values_list("userid",flat=True)
+         std=Account.objects.filter(id__in=std_ids)
+         std_feed=zip(feed,std)
+        return render(request, 'Comp/viewfeedback.html', {'ins': ins, 'std_feed': std_feed})
+

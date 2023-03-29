@@ -8,6 +8,8 @@ from django.http import HttpResponse
 from django.utils.text import slugify
 from hashlib import sha256
 
+from django.http import HttpResponseRedirect
+
 
 from django.db.models import Q
 from django.contrib import messages
@@ -55,29 +57,23 @@ def Course_endroll(request,c_slug):
     return redirect("coursesenrolled")
 
 
-def feedback(request):
-    user = Account.objects.get(email=request.session.get('email'))
-    if request.user.is_employee:
-    #  a= Course_purchase.objects.filter(userid=request.user.id)
-    #  c=Courses.objects.filter(id__in=a)
-    #  courses=Videos.objects.get(course=c)
-     if request.method == "POST":
-        feedback= request.POST['feedback']
-        f = Feedback(userid=user,feedback=feedback)
-        f.save()
-    return render(request, 'Courses/playcourse.html',{"c":user})
 
-# def AddVideo(request):
-#     form=VideoForm()
-#     if request.method=='POST':
-#         form=VideoForm(request.POST,request.FILES)
-#         if form.is_valid():
-#             title=form.cleaned_data['title']
-#             course=form.cleaned_data['course']
-#             video=form.cleaned_data['video']
-#             Videos(title=title,slug=slugify(title),course=course,video=video).save()
-#             return redirect("Cinstructordashboard")
-#     return render(request,"Course/Add_Video.html",{"form":form})
+
+def feedback(request):
+   user=Account.objects.get(email=request.session.get('email'))
+   if request.user.is_employee:
+    c = Course_purchase.objects.filter(userid=user).values_list('course_id',flat=True)
+    print(list(c))
+    courses=Courses.objects.filter(id__in=c)
+    if request.method == "POST":
+        feedback= request.POST['feedback']
+        course = request.POST['course']
+        selected_course=Courses.objects.get(id=course)
+        f = Feedback(userid=user,feedback=feedback,course=selected_course)
+        f.save()
+        return redirect("coursesenrolled")
+    return render(request, 'Courses/feedback.html',{"c":courses})
+
 @login_required
 def Course_cancel(request,course_id):
     id = request.user.id
