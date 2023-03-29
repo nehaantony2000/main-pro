@@ -28,6 +28,7 @@
                                             <th >Email ID</th>
                                             <th >Feedbacks</th>
                                             <th>Date</th>
+                                            <th>Sentiment Score</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -36,15 +37,18 @@
                                             <th >Email ID</th>
                                             <th >Feedbacks</th>
                                             <th>Date</th>
+                                            <th>Sentiment Score</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        {% for i,std in std_feed %}
+                                        
+                                     {% for f, score, s in std_feed %}
                                         <tr>
-                                            <td >{{std.first_name}}&nbsp;{{std.last_name}}</td>
-                                            <td >{{std.email}}</td>
-                                            <td>{{i.feedback}}</td>
-                                            <td >{{i.feedbackdate}}</td>
+                                            <td >{{s.first_name}}&nbsp;{{std.last_name}}</td>
+                                            <td >{{s.email}}</td>
+                                            <td>{{f.feedback}}</td>
+                                            <td >{{f.feedbackdate}}</td>
+                                            <td>{{ score.compound }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

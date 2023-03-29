@@ -161,16 +161,30 @@ def deleteApplication(request, id):
            job.delete()
     return redirect("Applylist")
 
+from nltk.sentiment import SentimentIntensityAnalyzer
+
 def viewfeedback(request):
-    user=Account.objects.get(email=request.session.get('email'))
-    if request.user.is_authenticated:
-        if request.user.is_company:
-         ins = Account.objects.filter(id=request.user.id)
-         course=Courses.objects.get(userid=request.user.id)
-         print(request.user.id)
-         feed = Feedback.objects.filter(course_id=course.id)
-         std_ids=feed.values_list("userid",flat=True)
-         std=Account.objects.filter(id__in=std_ids)
-         std_feed=zip(feed,std)
+    user = Account.objects.get(email=request.session.get('email'))
+    if request.user.is_authenticated and request.user.is_company:
+        ins = Account.objects.filter(id=request.user.id)
+        course = Courses.objects.get(userid=request.user.id)
+        feed = Feedback.objects.filter(course_id=course.id)
+        std_ids = feed.values_list("userid", flat=True)
+        std = Account.objects.filter(id__in=std_ids)
+        
+        # Perform sentiment analysis on each feedback comment
+        sid = SentimentIntensityAnalyzer()
+        sentiment_scores = []
+        for f in feed:
+            score = sid.polarity_scores(f.feedback)
+            sentiment_scores.append(score)
+            # Add the sentiment score to the Feedback model
+            f.sentiment_score = score['compound']
+            f.save()
+        
+        # Combine feedback objects with their corresponding sentiment scores and student accounts
+        std_feed = zip(feed, sentiment_scores, std)
+        
         return render(request, 'Comp/viewfeedback.html', {'ins': ins, 'std_feed': std_feed})
+
 

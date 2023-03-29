@@ -49,7 +49,9 @@
 			<mark id="message"></mark>
 
 			<!-- Form -->
-			<form method="post" name="contactform" id="contactform">
+			<form method="post" action="{% url 'contact' %}">
+				{% csrf_token %}
+				{% include 'Message.html' %}
 
 				<fieldset>
 
@@ -98,7 +100,7 @@
 
 		<ul class="contact-informations second">
 			<li><i class="fa fa-phone"></i> <p>+9106238452932</p></li>
-			<li><i class="fa fa-envelope"></i> <p>ajcejobportal@gmail.com</p></li>
+			<li><i class="fa fa-envelope"></i> <p>jobseekingajce@gmail.com</p></li>
 			<li><i class="fa fa-globe"></i> <p>www.seeking.com</p></li>
 		</ul>
 
