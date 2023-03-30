@@ -101,7 +101,8 @@ def JobApplylist(request):
     user=Account.objects.get(email=request.session.get('email'))
     if request.user.is_authenticated:
         if request.user.is_company:
-            Apply=Applicants.objects.filter()
+            job=JobDetails.objects.filter(email=user)
+            Apply=Applicants.objects.filter(job=job,applicant=user)
     return render(request,"Comp/Applylist.html",{'Apply':Apply}) 
 
 
@@ -119,14 +120,7 @@ def enrolledcandidate(request):
         print(list(std))
         return render(request, 'Courses/EnrolledCandidates.html',{'course':c,'std':std})
 
-# def instructorviewfeedback(request):
-#         ins = Account.objects.filter(user_id=request.user.id)
-#         course=Courses.objects.get(user_id=request.user.id)
-#         feed = Feedback.objects.filter(course_id=course.id)
-#         std_ids=feed.values_list("user_id",flat=True)
-#         std=RegisteredStudent.objects.filter(user_id__in=std_ids)
-#         std_feed=zip(feed,std)
-#         return render(request, 'instructorviewfeedback.html', {'ins': ins, 'std_feed': std_feed})
+
 
 @login_required
 def AddVideo(request):

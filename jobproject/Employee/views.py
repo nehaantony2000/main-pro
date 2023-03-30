@@ -17,6 +17,8 @@ from django.core.paginator import Paginator, EmptyPage,InvalidPage
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
+from django.utils import timezone
+
 def joblist(request, template='Employee/joblist.html', extra_context=None):
     sorting = request.GET.get('sorting', 'recent')
     sorting_map = {
@@ -29,9 +31,9 @@ def joblist(request, template='Employee/joblist.html', extra_context=None):
     jobtype_filters = request.GET.getlist('jobtype[]')
 
     if not jobtype_filters:
-        job_list = JobDetails.objects.all().order_by(sorting_criterion)
+        job_list = JobDetails.objects.filter(enddate__gte=timezone.now()).order_by(sorting_criterion)
     else:
-        job_list = JobDetails.objects.filter(jobtype__in=jobtype_filters).order_by(sorting_criterion)
+        job_list = JobDetails.objects.filter(jobtype__in=jobtype_filters, enddate__gte=timezone.now()).order_by(sorting_criterion)
 
     paginator = Paginator(job_list, 5)
     page = request.GET.get('page')
@@ -46,7 +48,6 @@ def joblist(request, template='Employee/joblist.html', extra_context=None):
         context.update(extra_context)
 
     return render(request, template, context)
-
 
 def profile(request):
     return render(request, 'Employee/Employee_profile.html')
@@ -82,6 +83,7 @@ def Update_profile(request):
         district=request.POST.get('District')
         gender = request.POST.get('gender')
         profilepic =request.FILES.get('pic')
+        resume =request.FILES.get('resume')
         # skills=request.POST.get('skills')
         # languages=request.POST.get('languages')
         # education = request.POST.get('education')
@@ -91,7 +93,7 @@ def Update_profile(request):
         user.first_name = first_name
         user.last_name = last_name
         user.email = email
-        
+        user.Resume=resume
         user.profilepic=profilepic
         user.gender=gender
         user.contact = contact
@@ -138,22 +140,22 @@ def Apply(request,pk):
         job=JobDetails.objects.get(id=pk)
     return render(request, 'Employee/Applyjob.html',{'user':user,'job':job}) 
 
-    
 def ApplyJob(request,id):
    user=Account.objects.get(email=request.session.get('email'))
    if request.user.is_employee:
-    job=JobDetails.objects.get(id=id)
-    education=request.POST.get('edu')
-    minsalary=request.POST.get('min')
-    maxsalary=request.POST.get('max')
-    resume=request.FILES.get('resume')
-    
-    newapply=Applylist.objects.create(cand=user,job=job,education=education,minsalary=minsalary,maxsalary=maxsalary,resume=resume)
-    newapply.save()
-    apply=Applicants.objects.create(applicant=user,job=job)
-    apply.save()
-    messages.success(request,'Applied Successfully ')
-    return render(request,"Employee/Applyjob.html",{'user':user,'job':job})
+      job=JobDetails.objects.get(id=id)
+      education=request.POST.get('edu')
+      minsalary=request.POST.get('min')
+      maxsalary=request.POST.get('max')
+      resume = request.FILES.get('resume')
+      
+      newapply=Applylist.objects.create(cand=user,job=job,education=education,minsalary=minsalary,maxsalary=maxsalary,resumes=resume)
+      newapply.save()
+      apply=Applicants.objects.create(applicant=user,job=job)
+      apply.save()
+      messages.success(request,'Applied Successfully')
+      return render(request,"Employee/Applyjob.html",{'user':user,'job':job})
+
    
 @login_required
 def saved_jobs(request):
@@ -246,7 +248,7 @@ def get_news(request):
     articles = response.json()['articles']
 
     # create a paginator with 10 items per page
-    paginator = Paginator(articles, 5)
+    paginator = Paginator(articles, 10)
     
     # get the current page number from the request's GET parameters
     page_number = request.GET.get('page')

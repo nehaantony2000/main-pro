@@ -17,7 +17,7 @@ class Applylist(models.Model):
    education=models.CharField(max_length=200,default='')
    minsalary=models.CharField(max_length=20,default='')
    maxsalary=models.CharField(max_length=20,default='')
-   resume=models.FileField(upload_to="resume")
+   resumes= models.FileField(upload_to='AppliedResume',blank=True, null=True)
    applieddate=models.DateTimeField(auto_now_add=True)
    status = models.BooleanField('status', default=True) 
    accept = models.BooleanField('accept', default=True) 
@@ -68,7 +68,7 @@ class resume(models.Model):
     status=models.BooleanField('status', default=0) 
     dob=models.DateField()
     gender=models.CharField(max_length=100,null=True)
-    user_id=models.IntegerField(blank=True, null=True)
+    user_id=models.ForeignKey(Account, on_delete=models.CASCADE)
 
        
 class Courses(models.Model):

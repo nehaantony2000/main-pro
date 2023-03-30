@@ -1,4 +1,4 @@
-{% extends 'Comp/base1.html' %}
+
 {% load static %}
 <html>
 
@@ -38,8 +38,7 @@
 	<!-- Table -->
 	<div class="sixteen columns">
 
-		<p class="margin-bottom-25" style="float: left;">The job applications for <strong><a href="#">Power Systems User Experience Designer</a></strong> are listed below.</p>
-		<strong><a href="#" class="download-csv">Download CSV</a></strong>
+		
 
 	</div>
 
@@ -79,13 +78,17 @@
 				
 				<!-- Name / Avatar -->
 				<div class="info">
-					<img src="images/resumes-list-avatar-01.png" alt="">
+					<img src="{{i.cand.profilepic.url}}" alt="">
 					<span>{{i.cand.first_name}}
 						{{i.cand.last_name}}</span>
-					<ul>
-						<li><a href="#"><i class="fa fa-file-text"></i> Download CV</a></li>
-						
-					</ul>
+					
+						<ul>
+							<li><a href="{{i.cand.resume.url }}" download><i class="fa fa-file-text"></i> Download CV</a></li>
+
+							
+							<li><a href="#"><i class="fa fa-envelope"></i> Contact</a></li>
+						</ul>
+				
 				</div>
 				
 				<!-- Buttons -->

@@ -32,8 +32,7 @@ class JobDetails(models.Model):
 
 class Applicants(models.Model):
     id            = models.AutoField(primary_key=True)
-    job = models.ForeignKey(
-    JobDetails, related_name='applicants', on_delete=models.CASCADE)
+    job = models.ForeignKey(JobDetails, related_name='applicants', on_delete=models.CASCADE)
     applicant = models.ForeignKey(Account, related_name='applied', on_delete=models.CASCADE)
     date_posted = models.DateTimeField(default=timezone.now)
 

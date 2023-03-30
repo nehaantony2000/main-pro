@@ -81,7 +81,13 @@
 					<span>{{i.cand.first_name}}
 						{{i.cand.last_name}}</span>
 					<ul>
+						<ul>
+							<li><a href="{{i.cand.resume.url }}" download><i class="fa fa-file-text"></i> Download CV</a></li>
+
+							
 						
+						</ul>
+				
 						
 					</ul>
 				</div>
@@ -120,13 +126,13 @@
 					</div>
 			
 
-					<div class="select-grid">
-						<input type="number" min="1" max="5" placeholder="Rating (out of 5)">
-					</div>
+					
 
 					<div class="clearfix"></div>
 					<a href="#" class="button margin-top-15">Save</a>
+					
 					<a href="{% url 'deleteApplication' i.id %}" class="button gray margin-top-15 delete-application">Delete this application</a>
+					
 				</form>
 			    </div>
 				{% endfor %}

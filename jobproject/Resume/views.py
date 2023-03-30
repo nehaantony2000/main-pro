@@ -17,33 +17,66 @@ def res(request):
 def resdetails(request):
     return render(request,'Resume/del.html')
 
-def resubmit(request):
-    username= request.POST['username']
-    pos= request.POST['pos']
-    co= request.POST['co']
-    email= request.POST['email']
-    col= request.POST['col']
-    plus= request.POST['plus']
-    scho= request.POST['scho']
-    pro= request.POST['pro']
-    certi= request.POST['certi']
-    achi= request.POST['achi']
-    intern= request.POST['intern']
-    ref= request.POST['ref']
-    address= request.POST['address']
-    stre= request.POST['stre']
-    skills= request.POST['skills']
-    lang= request.POST['lang']
-    hob= request.POST['hob']
-    soli= request.POST['soli']
-    country= request.POST['country']
-    dob= request.POST['dob']
-    gen= request.POST['gen']
-    uid= request.POST['uid']
-    userr = resume.objects.create(name=username,position=pos,email=email,carobj=co,college=col,plus=plus,ten=scho,projects=pro,certi=certi,achi=achi,interns=intern,refe=ref,address=address,strength=stre,skills=skills,lang=lang,hob=hob,soci=soli,coun=country,dob=dob,gender=gen,user_id=uid)
-    userr.save()
-    return redirect('res')
 
+
+def resubmit(request):
+    # Get the current user's resume (if it exists)
+    try:
+        user = resume.objects.get(user_id=request.user.id)
+    except resume.DoesNotExist:
+        user = None
+
+    if user:
+        # Update the existing resume
+        user.username = request.POST['username']
+        user.pos = request.POST['pos']
+        user.co = request.POST['co']
+        user.email = request.POST['email']
+        user.col = request.POST['col']
+        user.plus = request.POST['plus']
+        user.scho = request.POST['scho']
+        user.pro = request.POST['pro']
+        user.certi = request.POST['certi']
+        user.achi = request.POST['achi']
+        user.intern = request.POST['intern']
+        user.ref = request.POST['ref']
+        user.address = request.POST['address']
+        user.stre = request.POST['stre']
+        user.skills = request.POST['skills']
+        user.lang = request.POST['lang']
+        user.hob = request.POST['hob']
+        user.soli = request.POST['soli']
+        user.country = request.POST['country']
+        user.dob = request.POST['dob']
+        user.gen = request.POST['gen']
+        user.save()
+    else:
+        # Create a new resume for the user
+        username = request.POST['username']
+        pos = request.POST['pos']
+        co = request.POST['co']
+        email = request.POST['email']
+        col = request.POST['col']
+        plus = request.POST['plus']
+        scho = request.POST['scho']
+        pro = request.POST['pro']
+        certi = request.POST['certi']
+        achi = request.POST['achi']
+        intern = request.POST['intern']
+        ref = request.POST['ref']
+        address = request.POST['address']
+        stre = request.POST['stre']
+        skills = request.POST['skills']
+        lang = request.POST['lang']
+        hob = request.POST['hob']
+        soli = request.POST['soli']
+        country = request.POST['country']
+        dob = request.POST['dob']
+        gen = request.POST['gen']
+        user_id = request.user
+        userr = resume.objects.create(name=username, position=pos, email=email, carobj=co, college=col, plus=plus, ten=scho, projects=pro, certi=certi, achi=achi, interns=intern, refe=ref, address=address, strength=stre, skills=skills, lang=lang, hob=hob, soci=soli, coun=country, dob=dob, gender=gen, user_id=user_id)
+        userr.save()
+    return redirect('res')
 
 
 

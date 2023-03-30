@@ -20,7 +20,7 @@
                         {% else %}
                             <li><span class="disabled">Previous</span></li>
                         {% endif %}
-
+                      
                         {% for num in page_obj.paginator.page_range %}
                             {% if page_obj.number == num %}
                                 <li><a href="?page={{ num }}" class="current-page">{{ num }}</a></li>

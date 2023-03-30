@@ -26,9 +26,10 @@
 				
 					<div class="clearfix"></div>
 				</form>
-		
+		                   
 				<ul class="job-list full">
 					{% for i in job_list %}
+				
 						<li>
 							<div class="thumb">
 								<img src="{{i.logo.url}}" class="img-responsive" alt=""/>
@@ -62,7 +63,7 @@
 						{% empty %}
 					<img src="https://i.pinimg.com/564x/65/20/5f/65205f3ee1b5dd65b91d3fa279990927.jpg" style="height:500px;width:350px;align-self:center;">
 
-
+                    
 					{% endfor %}
 				</ul>
 				<div class="clearfix"></div>
