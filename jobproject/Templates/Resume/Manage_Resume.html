@@ -1,0 +1,90 @@
+{% extends 'Employee/userbase.html' %}
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+{% block content %}
+<body>
+<div id="wrapper">
+
+
+<!-- Header
+================================================== -->
+
+<!-- Titlebar
+================================================== -->
+<div id="titlebar" class="single">
+	<div class="container">
+
+		<div class="sixteen columns">
+			<h2>Manage Resumes</h2>
+			<nav id="breadcrumbs">
+				<ul>
+					<li>You are here:</li>
+					<li><a href="/Employee/userhome/">Home</a></li>
+					<li>Manage Resumes</li>
+				</ul>
+			</nav>
+		</div>
+
+	</div>
+</div>
+
+
+<!-- Content
+================================================== -->
+<div class="container">
+	
+	<!-- Table -->
+	<div class="sixteen columns">
+
+		<p class="margin-bottom-25">Your resume can be viewed, edited or removed below.</p>
+
+		<table class="manage-table resumes responsive-table">
+
+			<tr>
+				<th><i class="fa fa-user"></i> Name</th>
+				<th><i class="fa fa-file-text"></i> Title</th>
+				<th><i class="fa fa-map-marker"></i> Location</th>
+				<th><i class="fa fa-calendar"></i> Created Date</th>
+				<th></th>
+			</tr>
+            {% for i in resumes %}
+			<!-- Item #1 -->
+			<tr>
+				<td class="title"><a href="#">{{i.name}}</a></td>
+				<td>{{i.position}}</td>
+				<td>{{i.coun}}</td>
+				<td>{{i.date_posted|date:"F d, Y"}}</td>
+				<td class="action">
+					
+					<a href="{% url 'resume_delete' i.res_id %}" class="delete"><i class="fa fa-remove"></i> Delete</a>
+				</td>
+			</tr>
+
+			{% endfor %}
+
+		</table>
+
+		<br>
+
+		<a href="{% url 'resdetails' %}" class="button">Add Resume</a>
+
+	</div>
+
+</div>
+
+
+
+
+<!-- Back To Top Button -->
+<div id="backtotop"><a href="#"></a></div>
+
+</div>
+<!-- Wrapper / End -->
+
+
+
+</body>
+{% endblock %}
+</html>

@@ -3,12 +3,12 @@ import sweetify
 from django.contrib.auth.decorators import login_required
 from Account.models import Account
 from Employee.models import Applylist,Courses,Course_purchase,Videos,Feedback
-from Company.models import JobDetails,Applicants,Selected
+from Company.models import JobDetails,Selected
 from django.contrib import messages, auth
 from django.utils.text import slugify
 from hashlib import sha256
 from Course.forms import VideoForm
-
+from django.core.paginator import Paginator, EmptyPage,InvalidPage
 def Companyhome(request):
     user=Account.objects.get(email=request.session.get('email'))
     if request.user.is_authenticated:
@@ -98,12 +98,23 @@ def Update_profile(request):
    
 @login_required
 def JobApplylist(request):
-    user=Account.objects.get(email=request.session.get('email'))
-    if request.user.is_authenticated:
-        if request.user.is_company:
-            job=JobDetails.objects.filter(email=user)
-            Apply=Applicants.objects.filter(job=job,applicant=user)
-    return render(request,"Comp/Applylist.html",{'Apply':Apply}) 
+    user = Account.objects.get(email=request.session.get('email'))
+    if user.is_authenticated and user.is_company:
+        jobs = JobDetails.objects.filter(email=user)
+        Apply = Applylist.objects.filter(job__in=jobs).order_by('-applieddate')
+        recruiter_notes=request.object.POST['recruiter_notes']
+        # Get the value of the select element
+        sort_by = request.GET.get('sort_by')
+        
+        # Sort the queryset based on the selected option
+        if sort_by == 'oldest':
+            Apply = Applylist.objects.filter(job__in=jobs).order_by('applieddate')
+        
+        paginator = Paginator(Apply, 10)
+        page = request.GET.get('page')
+        Applys = paginator.get_page(page)
+        context = {'Apply': Applys}
+    return render(request, "Comp/Applylist.html", context)
 
 
 @login_required

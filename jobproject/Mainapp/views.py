@@ -35,20 +35,20 @@ def contact(request):
         message = request.POST.get('comment')
 
         # Create a message object
-     #    msg = MIMEMultipart()
-     #    msg['From'] = email
-     #    msg['To'] = 'jobseekingajce@gmail.com'  # Replace with your own email address
-     #    msg['Subject'] = f"New message from {name}"
+        msg = MIMEMultipart()
+        msg['From'] = email
+        msg['To'] = 'jobseekingajce@gmail.com'  # Replace with your own email address
+        msg['Subject'] = f"New message from {name}"
 
-     #    # Add the message body
-     #    body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
-     #    msg.attach(MIMEText(body, 'plain'))
+        # Add the message body
+        body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+        msg.attach(MIMEText(body, 'plain'))
 
-     #    # Send the message
-     #    with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
-     #        smtp.starttls()
-     #        smtp.login('jobseekingajce@gmail.com', 'jobportal123')  # Replace with your own email credentials
-     #        smtp.send_message(msg)
+        # Send the message
+        with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+            smtp.starttls()
+            smtp.login('jobseekingajce@gmail.com', 'olmpvffxnqpaljgz')  # Replace with your own email credentials
+            smtp.send_message(msg)
 
         # Render a success message
         messages.success(request,'Message sent Successfully')

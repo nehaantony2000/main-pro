@@ -20,6 +20,7 @@ from django.template.loader import render_to_string
 
 
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
+from matplotlib import pyplot as plt
 from Account.models import Account
 from Employee.models import  Courses, Course_purchase,Videos,Feedback
 
@@ -28,6 +29,7 @@ def coursesenrolled(request):
     c = Course_purchase.objects.filter(userid=request.user.id).values_list('course_id',flat=True)
     # print(c)
     courses=Courses.objects.filter(id__in=c)
+  
     return render(request, 'Courses/coursesenrolled.html', { 'c': courses})
 
 
@@ -58,7 +60,11 @@ def Course_endroll(request,c_slug):
 
 
 
-
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+  
 def feedback(request):
    user=Account.objects.get(email=request.session.get('email'))
    if request.user.is_employee:
@@ -73,7 +79,6 @@ def feedback(request):
         f.save()
         return redirect("coursesenrolled")
     return render(request, 'Courses/feedback.html',{"c":courses})
-
 @login_required
 def Course_cancel(request,course_id):
     id = request.user.id

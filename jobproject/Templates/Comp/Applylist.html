@@ -41,27 +41,24 @@
 
 	<div class="eight columns">
 		<!-- Select -->
-		<select data-placeholder="Filter by status" class="chosen-select-no-single">
+		<select data-placeholder="Filter by status" class="chosen-select-no-single" name="status">
 			<option value="">Filter by status</option>
-			<option value="new">New</option>
-			<option value="interviewed">Interviewed</option>
-			<option value="offer">Offer extended</option>
-			<option value="hired">Hired</option>
-			<option value="archived">Archived</option>
+			<option value="Applied">New</option>
+			<option value="Rejected">Rejected</option>
+			<option value="Selected">Selected</option>
 		</select>
 		<div class="margin-bottom-15"></div>
 	</div>
 
 	<div class="eight columns">
 		<!-- Select -->
-		<select data-placeholder="Newest first" class="chosen-select-no-single">
-			<option value="">Newest first</option>
-			<option value="name">Sort by name</option>
-			<option value="rating">Sort by rating</option>
-		</select>
+		<select name="sort_by" data-placeholder="Newest first" class="chosen-select-no-single">
+    <option value="">Newest first</option>
+    <option value="oldest">Oldest first</option>
+</select>
 		<div class="margin-bottom-35"></div>
 	</div>
-
+	{% if Apply %}
 
 	<!-- Applications -->
 	<div class="sixteen columns">
@@ -69,7 +66,7 @@
 		<!-- Application #1 -->
 		<div class="application">
 			<div class="app-content">
-				{% if Apply %}
+			
 	
 			{% for i in Apply %}
 				<!-- Name / Avatar -->
@@ -93,7 +90,6 @@
 				</div>
 				{% endfor %}
 	
-				{% endif %}
 				
 				<!-- Buttons -->
 				<div class="buttons">
@@ -110,18 +106,17 @@
 
 				<a href="#" class="close-tab button gray"><i class="fa fa-close"></i></a>
 				
-			{% for i in Apply %}
+		
 				<!-- First Tab -->
 			    <div class="app-tab-content" id="one-1">
                     <form action="">
 					<div class="select-grid">
 						<select data-placeholder="Application Status" class="chosen-select-no-single">
 							<option value="">Application Status</option>
-							<option value="new">New</option>
-							<option value="interviewed">Interviewed</option>
-							<option value="offer">Offer extended</option>
-							<option value="hired">Hired</option>
-							<option value="archived">Archived</option>
+			                
+							<option value="Applied">New</option>
+							<option value="Rejected">Rejected</option>
+							<option value="Selected">Selected</option>
 						</select>
 					</div>
 			
@@ -130,12 +125,12 @@
 
 					<div class="clearfix"></div>
 					<a href="#" class="button margin-top-15">Save</a>
-					
+					{% for i in Apply %}
 					<a href="{% url 'deleteApplication' i.id %}" class="button gray margin-top-15 delete-application">Delete this application</a>
-					
+					{% endfor %}
 				</form>
 			    </div>
-				{% endfor %}
+				
 			    
 			    <!-- Second Tab -->
 			    <div class="app-tab-content"  id="two-1">
@@ -144,8 +139,7 @@
 			    </div>
 			    
 			    <!-- Third Tab -->
-				{% if Apply %}
-	
+				
 			{% for i in Apply %}
 			    <div class="app-tab-content"  id="three-1">
 					<i>Full Name:</i>
@@ -157,10 +151,9 @@
 
 					<i>Mobile No:</i>
 					<span>{{i.cand.contact}} </span>
-					<i>Minimum Salary Expectation :</i>
-					<span>{{i.cand.minsalary}} </span>
-					<i>Maximum Salary Expectation :</i>
-					<span>{{i.cand.maxsalary}} </span>
+					<i>Message :</i>
+					<span>{{i.notes}} </span>
+				
 			    </div>
 
 
@@ -171,10 +164,12 @@
 
 				{% endfor %}
 	
-				{% endif %}
+				
 				
 				
 			</div>
+			
+			{% endif %}
 
 			<!-- Footer -->
 			<div class="app-footer">

@@ -14,19 +14,15 @@ from django.urls import reverse
 class Applylist(models.Model):
    cand=models.ForeignKey(Account,on_delete=models.CASCADE)
    job=models.ForeignKey(JobDetails,on_delete=models.CASCADE)
-   education=models.CharField(max_length=200,default='')
-   minsalary=models.CharField(max_length=20,default='')
-   maxsalary=models.CharField(max_length=20,default='')
    resumes= models.FileField(upload_to='AppliedResume',blank=True, null=True)
    applieddate=models.DateTimeField(auto_now_add=True)
-   status = models.BooleanField('status', default=True) 
-   accept = models.BooleanField('accept', default=True) 
-   reject = models.BooleanField('reject', default=True) 
-   applied = models.BooleanField('applied', default=True)
-
-   def __str__(self):
-        return self.job.jobname
-
+   APPLIED = 'applied'
+   REJECTED = 'rejected'
+   SELECTED = 'selected'
+   STATUS_CHOICES = [(APPLIED, 'Applied'), (REJECTED, 'Rejected'), (SELECTED, 'Selected'), ]
+   status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=APPLIED)
+   notes = models.TextField(blank=True, null=True)
+   recruiter_notes = models.TextField(blank=True, null=True)
 
 
 
@@ -69,6 +65,7 @@ class resume(models.Model):
     dob=models.DateField()
     gender=models.CharField(max_length=100,null=True)
     user_id=models.ForeignKey(Account, on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
 
        
 class Courses(models.Model):
@@ -126,6 +123,9 @@ class Feedback(models.Model):
     
     feedback = models.TextField()
     feedbackdate = models.DateField(auto_now_add=True)
+    
+    
+   
 
 
 class Course_purchase(models.Model):

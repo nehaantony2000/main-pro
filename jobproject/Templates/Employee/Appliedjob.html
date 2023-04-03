@@ -38,15 +38,10 @@
 						<span><i class="fa fa-briefcase"></i> {{ applied_job.job.jobname }} </span>
 						<span><i class="fa fa-map-marker"></i> {{applied_job.job.location}}</span>
 						<span><i class="fa fa-money"></i>{{applied_job.job.salarypackage}}</span>
-						{% if applied_job.status %}
-						<button >Applied</button>
-					  {% elif applied_job.accept %}
-						<button >Accepted</button>
-					  {% elif applied_job.reject %}
-					  <button >Rejected</button>
-					  {% endif %}
+						
 					</div>
 					<p> {{applied_job.job.companyaddress}}</p>
+					<p>Status: {{ applied_job.get_status_display }}</p>
 					{% empty %}
 					<tr>
 					  <td colspan="4">You haven't applied to any jobs yet.</td>

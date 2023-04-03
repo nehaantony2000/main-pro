@@ -1,9 +1,12 @@
-{% extends 'Employee/userbase.html' %}
+
 {% load static %}
 <html>
-  {% block content %}
-    <head>
-		
+ 
+  {% block head %}
+ 
+
+		<link rel="stylesheet" type="text/css" href="{% static 'new/css/style.css' %}">
+
 <style>
 	.box-centerside {
 		margin-left: 2%;
@@ -22,7 +25,8 @@
 	  }
 	  
 </style>
-</head>
+{% endblock head %}
+{% block content %}
 <body>
 <div id="wrapper">
 
@@ -39,7 +43,7 @@
 		
 		<div class="ten columns">
 			<div class="resume-titlebar">
-			 
+				<img src="{{user.profilepic.url}}" alt="">
 				<div class="resumes-list-content">
 					<h4>{{i.name}} <span>{{i.position}}</span></h4>
 					<span class="icons"><i class="fa fa-map-marker"></i>  {{i.address}}</span>

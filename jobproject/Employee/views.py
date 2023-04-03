@@ -11,7 +11,7 @@ from django.utils import timezone
 from django.db.models import Q
 from django.contrib import messages
 from Employee.models import Applylist,SavedJobs,Courses,Videos,Course_purchase
-from Company.models import JobDetails,Applicants,Selected
+from Company.models import JobDetails,Selected
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 
 from django.core.paginator import Paginator
@@ -144,15 +144,11 @@ def ApplyJob(request,id):
    user=Account.objects.get(email=request.session.get('email'))
    if request.user.is_employee:
       job=JobDetails.objects.get(id=id)
-      education=request.POST.get('edu')
-      minsalary=request.POST.get('min')
-      maxsalary=request.POST.get('max')
+      notes=request.POST.get('notes')
       resume = request.FILES.get('resume')
       
-      newapply=Applylist.objects.create(cand=user,job=job,education=education,minsalary=minsalary,maxsalary=maxsalary,resumes=resume)
+      newapply=Applylist.objects.create(cand=user,job=job,notes=notes,resumes=resume)
       newapply.save()
-      apply=Applicants.objects.create(applicant=user,job=job)
-      apply.save()
       messages.success(request,'Applied Successfully')
       return render(request,"Employee/Applyjob.html",{'user':user,'job':job})
 
@@ -189,9 +185,9 @@ def save_job(request,id):
 @login_required
 def savedjob_delete(request, id):
     job = SavedJobs.objects.get(id=id)
-    messages.warning(request,'Are you Sure U want to Delete ? ')
+  
     job.delete()
-    messages.success(request,'Deleted Successfully!! ')
+
     return redirect("saved-jobs")
 
 

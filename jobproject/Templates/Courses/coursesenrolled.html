@@ -68,7 +68,32 @@
 	<img src="https://i.pinimg.com/564x/65/20/5f/65205f3ee1b5dd65b91d3fa279990927.jpg" style="height:500px;width:350px;align-self:center;">
 
 	{% endfor %}
-			
+	<div class="clearfix"></div>
+	<div class="pagination-container">
+		<center>
+			<nav class="pagination">
+				<ul>
+					{% if pages.has_previous %}
+						<li><a href="?page=1">First</a></li>
+						<li><a href="?page={{ pages.previous_page_number }}">Previous</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					{% endif %}
+
+					{% for num in pages.paginator.page_range %}
+						{% if pages.number == num %}
+							<li><a href="#" class="current-page">{{ num }}</a></li>&nbsp;&nbsp;&nbsp;
+						{% elif num > pages.number|add:'-3' and num < pages.number|add:'3' %}
+							<li><a href="?page={{ num }}">{{ num }}</a></li>&nbsp;&nbsp;&nbsp;
+						{% endif %}
+					{% endfor %}
+
+					{% if pages.has_next %}
+						<li><a href="?page={{ pages.next_page_number }}">Next</a></li>&nbsp;&nbsp;&nbsp;
+						<li><a href="?page={{ pages.paginator.num_pages }}">Last</a></li>&nbsp;&nbsp;&nbsp;
+					{% endif %}
+				</ul>
+			</nav>
+		</center>
+	</div>	
 	
 <!-- Container / End -->
 </div>
