@@ -9,7 +9,7 @@ from django.contrib import messages
 
 def index(request):
      
-     Job=JobDetails.objects.all().order_by('date_posted')[:3]
+     Job=JobDetails.objects.all().order_by('-date_posted')[:3]
      c = Courses.objects.all()
      context={
            'job_list':Job,

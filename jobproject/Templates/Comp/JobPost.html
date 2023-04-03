@@ -12,7 +12,8 @@
     <div class="single">  
 	   <div class="form-container">
         <h2>Post Job </h2>
-        <form method="POST" action="{% url 'jobdetails' %}" id="postjob" enctype="multipart/form-data">
+        <form method="POST" action="{% url 'jobdetails' %}" id="postjob" enctype="multipart/form-data" onsubmit="return validateForm()">
+
             {% csrf_token %}
             {% include 'Message.html' %}
 
@@ -111,15 +112,16 @@
                 </div>
             </div>
          </div>
-        <div class="row">
+         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable"  for="mobile">Mobile Number</label>
-                <div class="col-md-9">
-                    <input type="tel" path="Mobile" id="mobile"   value=""  required name="mobile" class="form-control input-sm"/>
-                    <span id="pho" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
-                </div>
+              <label class="col-md-3 control-lable" for="mobile">Mobile Number</label>
+              <div class="col-md-9">
+                <input type="tel" path="Mobile" id="mobile" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required name="mobile" class="form-control input-sm"/>
+                <span id="pho" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
+                <small>Format: 123-456-7890</small>
+              </div>
             </div>
-        </div>
+          </div>
 
 
         <div class="row">
@@ -171,22 +173,24 @@
             </div>
         </div>
          
-         <div class="form-group col-md-12">
-            <label class="col-md-3 control-lable" for="startdate"> Date Expires</label>
+        <div class="form-group col-md-12">
+            <label class="col-md-3 control-label" for="enddate">Expiration Date</label>
             <div class="col-md-9">
-                <input type="date" path="enddate" name="enddate" id="enddate"    required class="form-control input-sm"/>
-                <span id="enddate" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
+              <input type="date" path="enddate" name="enddate" id="enddate" required class="form-control input-sm" onchange="validateExpirationDate()"/>
+              <span id="enddate-error" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
             </div>
-        </div>
+          </div>
+          
      </div>
-         <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="logo">Logo</label>
-                <div class="col-md-9">
-    <input type="file" name="logo" id="logo" class="file-uploader pull-left">
-
-</div> 
-</div>
+     <div class="row">
+        <div class="form-group col-md-12">
+            <label class="col-md-3 control-lable" for="logo">Logo</label>
+            <div class="col-md-9">
+                <input type="file" name="logo" id="logo" class="file-uploader pull-left" accept=".png, .jpg, .jpeg, .gif">
+                <span id="logo-error" class="text-danger"></span>
+            </div> 
+        </div>
+    </div>
          </div>
          <br>
          
@@ -200,5 +204,137 @@
 </div>
 </div>
 {% endblock %}
+
+
+<script>
+    // Get the form and input field
+    const form = document.querySelector('form');
+    const mobileInput = document.querySelector('#mobile');
+  
+    // Add a listener for form submission
+    form.addEventListener('submit', function(event) {
+      // Check if the phone number matches the pattern
+      const phoneNumber = mobileInput.value;
+      const phoneNumberPattern = /^\d{3}-\d{3}-\d{4}$/;
+      if (!phoneNumberPattern.test(phoneNumber)) {
+        // If the phone number is invalid, prevent form submission and display an error message
+        event.preventDefault();
+        const phoneNumberError = document.querySelector('#pho');
+        phoneNumberError.textContent = 'Please enter a valid phone number in the format XXX-XXX-XXXX';
+        phoneNumberError.style.display = 'block';
+      }
+    });
+  </script>
+<script>
+
+
+
+
+function validateForm() {
+    var jobname = document.getElementById("jobname").value;
+    var cname = document.getElementById("Cname").value;
+    var add = document.getElementById("add").value;
+    var jobtype = document.getElementById("jobtype").value;
+    var description = document.getElementById("Description").value;
+    var qualification = document.getElementById("qualification").value;
+    var response = document.getElementById("Response").value;
+    var location = document.getElementById("location").value;
+    var web = document.getElementById("Web").value;
+    var email = document.getElementById("Email").value;
+    var inputDate = document.getElementById("enddate").value;
+    var today = new Date().toISOString().slice(0, 10);
+    var errors = [];
+
+    if (jobname === "") {
+        errors.push("Job name cannot be empty");
+    }
+
+    if (cname === "") {
+        errors.push("Company name cannot be empty");
+    }
+
+    if (add === "") {
+        errors.push("Company address cannot be empty");
+    }
+
+    if (jobtype === "") {
+        errors.push("Please select a job type");
+    }
+
+    if (description === "") {
+        errors.push("Job description cannot be empty");
+    }
+
+    if (qualification === "") {
+        errors.push("Qualification cannot be empty");
+    }
+
+    if (response === "") {
+        errors.push("Responsibilities cannot be empty");
+    }
+
+    if (location === "") {
+        errors.push("Location cannot be empty");
+    }
+
+    if (web === "") {
+        errors.push("Company website cannot be empty");
+    }
+    if (inputDate < today) {
+    document.getElementById("enddate-error").innerHTML = "Expiration date must be today or later.";
+  } else {
+    document.getElementById("enddate-error").innerHTML = "";
+  }
+
+    if (email === "") {
+        errors.push("Email cannot be empty");
+    } else {
+        var pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        if (!pattern.test(email)) {
+            errors.push("Invalid email address");
+        }
+    }
+
+    if (errors.length > 0) {
+        var errorMessage = "<ul>";
+        for (var i = 0; i < errors.length; i++) {
+            errorMessage += "<li>" + errors[i] + "</li>";
+        }
+        errorMessage += "</ul>";
+        document.getElementById("error-message").innerHTML = errorMessage;
+        return false;
+    }
+
+    return true;
+}
+
+
+ 
+
+</script>
+<script>
+    const logoInput = document.getElementById("logo");
+    const logoError = document.getElementById("logo-error");
+    
+    logoInput.addEventListener("change", function() {
+        const file = logoInput.files[0];
+        const fileSize = file.size / 1024 / 1024; // Convert to MB
+        const allowedTypes = ["image/png", "image/jpeg", "image/gif"];
+        
+        if (!allowedTypes.includes(file.type)) {
+            logoError.textContent = "Invalid file type. Please upload a PNG, JPEG or GIF file.";
+            logoInput.value = null;
+            return;
+        }
+        
+        if (fileSize > 5) { // 5MB maximum file size
+            logoError.textContent = "File size exceeds 5MB limit.";
+            logoInput.value = null;
+            return;
+        }
+        
+        logoError.textContent = "";
+    });
+</script>
 </body>
 </html>

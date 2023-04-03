@@ -6,14 +6,19 @@
 <html>
 {% block content %}
 <body>
-	<div id="titlebar">
+	<div id="titlebar" class="single">
 		<div class="container">
-			<div class="ten columns">
-				
-				<h2>Jobs Applied by you</h2>
-			</div>
 	
-		
+			<div class="sixteen columns">
+				<h2>Applied Jobs</h2>
+				<nav id="breadcrumbs">
+					<ul>
+						<li>You are here:</li>
+						<li><a href="/Employee/userhome/">Home</a></li>
+						<li>Applied Jobs</li>
+					</ul>
+				</nav>
+			</div>
 	
 		</div>
 	</div>
@@ -43,8 +48,10 @@
 					<p> {{applied_job.job.companyaddress}}</p>
 					<p>Status: {{ applied_job.get_status_display }}</p>
 					{% empty %}
-					<tr>
-					  <td colspan="4">You haven't applied to any jobs yet.</td>
+					
+					<p colspan="4">You haven't Applied for a job.</p>
+					<img src="https://i.pinimg.com/564x/65/20/5f/65205f3ee1b5dd65b91d3fa279990927.jpg" style="height:500px;width:350px;align-self:center;">
+
 				</div>
 				</a>
 				<div class="clearfix"></div>
@@ -77,7 +84,8 @@
 	</div>
 
 
-
+<br>
+<br>
 </div>
 <!-- Back To Top Button -->
 <div id="backtotop"><a href="#"></a></div>

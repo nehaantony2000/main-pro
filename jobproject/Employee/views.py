@@ -11,7 +11,7 @@ from django.utils import timezone
 from django.db.models import Q
 from django.contrib import messages
 from Employee.models import Applylist,SavedJobs,Courses,Videos,Course_purchase
-from Company.models import JobDetails,Selected
+from Company.models import JobDetails,Selected,Applicants
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 
 from django.core.paginator import Paginator
@@ -62,9 +62,12 @@ def cat(request):
 def singlejob(request, id):
     Job=JobDetails.objects.filter(id=id)
     Job11=JobDetails.objects.get(id=id)
+    already_applied = Applylist.objects.filter(job=Job11, cand=request.user).exists()
+    saved_job = SavedJobs.objects.filter(user=request.user, job=Job11).exists()
     context={
         'Job':Job,
-       
+        'already_applied': already_applied,
+        'saved_job': saved_job,
     }
     return render(request,'Employee/singlejob.html',context)  
 
@@ -149,6 +152,8 @@ def ApplyJob(request,id):
       
       newapply=Applylist.objects.create(cand=user,job=job,notes=notes,resumes=resume)
       newapply.save()
+      new=Applicants.objects.create(applicant=user,job=job)
+      new.save()
       messages.success(request,'Applied Successfully')
       return render(request,"Employee/Applyjob.html",{'user':user,'job':job})
 

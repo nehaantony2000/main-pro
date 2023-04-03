@@ -49,7 +49,7 @@
 			<mark id="message"></mark>
 
 			<!-- Form -->
-			<form method="post" action="{% url 'contact' %}">
+			<form method="POST" action="{% url 'contact' %}">
 				{% csrf_token %}
 				{% include 'Message.html' %}
 

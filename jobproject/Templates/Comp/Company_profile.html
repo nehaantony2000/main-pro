@@ -45,12 +45,13 @@
                        
                  </div>
                  </fieldset>
-            <div class="row">
-             <div class="form-inline col-md-10 col-sm-9 col-xs-12">
-                <input type="file" class="file-uploader pull-left" name="pic" value="{{user.profilepic}}"  id="pic">
-                <button type="submit" >Update Image</button>
-             </div> 
-            </div>
+                 <div class="row">
+                    <div class="form-inline col-md-10 col-sm-9 col-xs-12">
+                      <input type="file" class="file-uploader pull-left" name="pic" value="{{user.profilepic}}"  id="pic">
+                      <button type="submit" onclick="return validateImage()">Update Image</button>
+                    </div> 
+                  </div>
+                  
             <div class="row">
             
             <div class="form-group col-md-12">
@@ -246,7 +247,7 @@
 
 
 <script>
-    var AndraPradesh = ["Anantapur","Chittoor","East Godavari","Guntur","Kadapa","Krishna","Kurnool","Prakasam","Nellore","Srikakulam","Visakhapatnam","Vizianagaram","West Godavari"];
+ var AndraPradesh = ["Anantapur","Chittoor","East Godavari","Guntur","Kadapa","Krishna","Kurnool","Prakasam","Nellore","Srikakulam","Visakhapatnam","Vizianagaram","West Godavari"];
 var ArunachalPradesh = ["Anjaw","Changlang","Dibang Valley","East Kameng","East Siang","Kra Daadi","Kurung Kumey","Lohit","Longding","Lower Dibang Valley","Lower Subansiri","Namsai","Papum Pare","Siang","Tawang","Tirap","Upper Siang","Upper Subansiri","West Kameng","West Siang","Itanagar"];
 var Assam = ["Baksa","Barpeta","Biswanath","Bongaigaon","Cachar","Charaideo","Chirang","Darrang","Dhemaji","Dhubri","Dibrugarh","Goalpara","Golaghat","Hailakandi","Hojai","Jorhat","Kamrup Metropolitan","Kamrup (Rural)","Karbi Anglong","Karimganj","Kokrajhar","Lakhimpur","Majuli","Morigaon","Nagaon","Nalbari","Dima Hasao","Sivasagar","Sonitpur","South Salmara Mankachar","Tinsukia","Udalguri","West Karbi Anglong"];
 var Bihar = ["Araria","Arwal","Aurangabad","Banka","Begusarai","Bhagalpur","Bhojpur","Buxar","Darbhanga","East Champaran","Gaya","Gopalganj","Jamui","Jehanabad","Kaimur","Katihar","Khagaria","Kishanganj","Lakhisarai","Madhepura","Madhubani","Munger","Muzaffarpur","Nalanda","Nawada","Patna","Purnia","Rohtas","Saharsa","Samastipur","Saran","Sheikhpura","Sheohar","Sitamarhi","Siwan","Supaul","Vaishali","West Champaran"];
@@ -409,6 +410,34 @@ $("#inputDistrict").html(htmlString);
 
 });
 </script>    
+<script>
+    function validateImage() {
+      var file = document.getElementById("pic").files[0];
+      var allowedTypes = ["image/jpeg", "image/png"]; // allowed file types
+      var maxSize = 5 * 1024 * 1024; // max file size in bytes (5MB in this example)
+      
+      // check if a file is selected
+      if (!file) {
+        alert("Please select an image file.");
+        return false;
+      }
+      
+      // check file type
+      if (!allowedTypes.includes(file.type)) {
+        alert("Invalid file type. Please select a JPEG or PNG image.");
+        return false;
+      }
+      
+      // check file size
+      if (file.size > maxSize) {
+        alert("The file you selected is too large. Please select a file under 5MB.");
+        return false;
+      }
+      
+      // if all checks pass, allow form submission
+      return true;
+    }
+  </script>
 {% endblock %}
 </body>
 </html>	

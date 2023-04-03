@@ -3,13 +3,22 @@
 {% load static %}
 
 {% block content %}
-	<div id="titlebar">
-		<div class="container">
-			<div class="ten columns">
-				<h2>Hi {{ user.username }}, Jobs that you Applied</h2>
-			</div>
+<div id="titlebar" class="single">
+	<div class="container">
+
+		<div class="sixteen columns">
+			<h2>Applied Jobs</h2>
+			<nav id="breadcrumbs">
+				<ul>
+					<li>You are here:</li>
+					<li><a href="/Employee/userhome/">Home</a></li>
+					<li>Applied Jobs</li>
+				</ul>
+			</nav>
 		</div>
+
 	</div>
+</div>
 
 	<div class="container">
 		<!-- Recent Jobs -->{% csrf_token %}

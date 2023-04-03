@@ -30,7 +30,20 @@ class JobDetails(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
 
 
-
+class Applicants(models.Model):
+    id = models.AutoField(primary_key=True)
+    job = models.ForeignKey(JobDetails, related_name='applicants', on_delete=models.CASCADE)
+    applicant = models.ForeignKey(Account, related_name='applied', on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
+  
+    status_choices = [
+        ('PENDING', 'Pending'),
+        ('REJECTED', 'Rejected'),
+        ('ACCEPTED', 'Accepted')
+    
+    ]
+    status = models.CharField(max_length=8, choices=status_choices, default='PENDING')
+    Rnotes = models.TextField(blank=True, null=True)
     
 class Selected(models.Model):
     id            = models.AutoField(primary_key=True)

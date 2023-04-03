@@ -36,7 +36,7 @@
 		<br>
 		<br>
         <div class="col-md-6 order-md-1">
-          <img src="https://i.pinimg.com/564x/bb/93/fd/bb93fdb56d6470ddf7f15a206d26d3bf.jpg" alt="Image" style="height: 1500px;" class="img-fluid">
+          <img src="https://i.pinimg.com/564x/75/60/6a/75606a98c22d7f2092d9be5745b2af68.jpg" alt="Image" style="height: 1500px;" class="img-fluid">
         </div>
         <div class="col-md-6 contents">
           <div class="row justify-content-center">
@@ -44,7 +44,7 @@
               <div class="mb-4">
               <h3>Sign In  </h3>
               </div>
-              <form method="POST"   action="{% url 'Update_profile' %}" id="profile" enctype="multipart/form-data">
+              <form method="POST"   onsubmit="validateForm()" action="{% url 'Update_profile' %}" id="profile" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% include 'Message.html' %}
                 <div class="row">
@@ -63,7 +63,7 @@
                         </div></div>
                             <div class="row">
                                 <div class="form-group col-md-12">
-                    <button class="btn btn-primary btn-sm" style="color: white;background-color: green;height: 50px;width: 210px;" type="submit" >Update Image</button>
+                    <button class="btn btn-primary btn-sm" style="color: white;background-color: green;height: 50px;width: 210px;" type="submit"    onclick="validateFile()">Update Image</button>
                 
                 </div></div>
                 <div class="row">
@@ -257,13 +257,14 @@
               </div>
               </div>
             </div>
-              <div class="row">
-              <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="resume">Resume</label>
-                <div class="col-md-9">
-              <input type="file" name="resume" id="resume">
-              </div>
-              </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                  <label class="col-md-3 control-lable" for="resume">Resume</label>
+                  <div class="col-md-9">
+                    <input type="file" name="resume" id="resume" required>
+                    <span id="resume-error" style="color: red;"></span>
+                  </div>
+                </div>
               </div>
             <div class="row">
                 <div class="form-actions floatRight">
@@ -281,8 +282,63 @@
       </div>
     </div>
   </div>
-
+  <script>
+    const resumeInput = document.getElementById('resume');
+    const resumeError = document.getElementById('resume-error');
   
+    resumeInput.addEventListener('change', function () {
+      const file = this.files[0];
+      const fileType = file.type;
+      const fileSize = file.size;
+  
+      // Check file type
+      if (fileType !== 'application/pdf' && fileType !== 'application/msword' && fileType !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        resumeError.textContent = 'Please select a PDF or Word document';
+        resumeInput.value = '';
+        return;
+      }
+  
+      // Check file size
+      if (fileSize > 5 * 1024 * 1024) {
+        resumeError.textContent = 'File size must be less than 5 MB';
+        resumeInput.value = '';
+        return;
+      }
+  
+      resumeError.textContent = '';
+    });
+  </script>
+  <script>
+    function validateForm() {
+        var firstname = document.getElementById("firstname").value;
+        var lastname = document.getElementById("lastname").value;
+        var mobile = document.getElementById("mobile").value;
+        var email = document.getElementById("email").value;
+        var address = document.getElementById("address").value;
+        
+        if (firstname == "") {
+            document.getElementById("name").innerHTML = "First Name is required";
+            return false;
+        }
+        if (lastname == "") {
+            document.getElementById("names").innerHTML = "Last Name is required";
+            return false;
+        }
+        if (mobile == "") {
+            document.getElementById("pho").innerHTML = "Mobile Number is required";
+            return false;
+        }
+        if (email == "") {
+            document.getElementById("mail").innerHTML = "Email is required";
+            return false;
+        }
+        if (address == "") {
+            document.getElementById("addr").innerHTML = "Address is required";
+            return false;
+        }
+    }
+    </script>
+    
     <script src="{% static 'Account/js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'Account/js/popper.min.js' %}"></script>
     <script src="{% static 'Account/js/bootstrap.min.js' %}"></script>
@@ -453,6 +509,33 @@ $("#inputDistrict").html(htmlString);
 
 });
 </script>  
+<script>
+    function validateFile() {
+        const fileInput = document.getElementById('pic');
+        const filePath = fileInput.value;
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i; // specify allowed file extensions
+        const maxFileSize = 5242880; // specify maximum file size in bytes (5MB)
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type. Only JPG, JPEG, and PNG files are allowed.');
+            fileInput.value = '';
+            return false;
+        } else if (fileInput.files[0].size > maxFileSize) {
+            alert('File size exceeds the maximum limit of 5MB.');
+            fileInput.value = '';
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    const submitButton = document.querySelector('button[type="submit"]');
+    submitButton.addEventListener('click', (event) => {
+        if (!validateFile()) {
+            event.preventDefault(); // prevent form submission if file is not valid
+        }
+    });
+</script>
 </body>  
 
 

@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect
+from django.urls import reverse
 import sweetify
 from django.contrib.auth.decorators import login_required
 from Account.models import Account
 from Employee.models import Applylist,Courses,Course_purchase,Videos,Feedback
-from Company.models import JobDetails,Selected
+from Company.models import JobDetails,Selected,Applicants
 from django.contrib import messages, auth
 from django.utils.text import slugify
 from hashlib import sha256
@@ -101,20 +102,28 @@ def JobApplylist(request):
     user = Account.objects.get(email=request.session.get('email'))
     if user.is_authenticated and user.is_company:
         jobs = JobDetails.objects.filter(email=user)
-        Apply = Applylist.objects.filter(job__in=jobs).order_by('-applieddate')
-        recruiter_notes=request.object.POST['recruiter_notes']
+        applications = Applylist.objects.filter(job__in=jobs).order_by('-applieddate')
+
         # Get the value of the select element
         sort_by = request.GET.get('sort_by')
         
         # Sort the queryset based on the selected option
         if sort_by == 'oldest':
-            Apply = Applylist.objects.filter(job__in=jobs).order_by('applieddate')
+            applications = Applylist.objects.filter(job__in=jobs).order_by('applieddate')
         
-        paginator = Paginator(Apply, 10)
+        paginator = Paginator(applications, 10)
         page = request.GET.get('page')
-        Applys = paginator.get_page(page)
-        context = {'Apply': Applys}
+        applications = paginator.get_page(page)
+
+        # Get the applicants for each application
+        applicants = []
+        for application in applications:
+            applicants_query = Applicants.objects.filter(job=application.job, applicant=application.cand)
+            applicants.append(applicants_query)
+
+        context = {'Apply': applications, 'applicants': applicants}
     return render(request, "Comp/Applylist.html", context)
+
 
 
 @login_required
@@ -191,5 +200,32 @@ def viewfeedback(request):
         std_feed = zip(feed, sentiment_scores, std)
         
         return render(request, 'Comp/viewfeedback.html', {'ins': ins, 'std_feed': std_feed})
+    
 
+def note(request):
+    user = Account.objects.get(email=request.session.get('email'))
+    if request.user.is_authenticated and request.user.is_company:
+        
+        if request.method == "POST":
+              jobs = JobDetails.objects.filter(email=user)
+              Apply = Applylist.objects.filter(job__in=jobs)
+              note = request.POST.get('note')
+             
+              new=Applylist.objects.create(recruiter_notes=note)
+              new.save()
+              return render(request, "Comp/Applylist.html")
+def update_application_status(request,id):
+    application = Applicants.objects.get(id=id)
 
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        application.status = status
+        application.save()
+
+        messages.success(request, 'Application status updated successfully.')
+        return redirect(reverse('application_detail', args=[id]))
+
+    context = {
+        'application': application
+    }
+    return render(request, '"Comp/Applylist.html', context)

@@ -16,13 +16,15 @@ class Applylist(models.Model):
    job=models.ForeignKey(JobDetails,on_delete=models.CASCADE)
    resumes= models.FileField(upload_to='AppliedResume',blank=True, null=True)
    applieddate=models.DateTimeField(auto_now_add=True)
-   APPLIED = 'applied'
-   REJECTED = 'rejected'
-   SELECTED = 'selected'
-   STATUS_CHOICES = [(APPLIED, 'Applied'), (REJECTED, 'Rejected'), (SELECTED, 'Selected'), ]
-   status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=APPLIED)
+   status_choices = [
+        ('PENDING', 'Pending'),
+        ('REJECTED', 'Rejected'),
+        ('ACCEPTED', 'Accepted')
+    
+    ]
+   status = models.CharField(max_length=8, choices=status_choices, default='PENDING')
    notes = models.TextField(blank=True, null=True)
-   recruiter_notes = models.TextField(blank=True, null=True)
+
 
 
 

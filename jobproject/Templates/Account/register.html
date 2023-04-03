@@ -72,12 +72,11 @@
 					<input type="email" name="email" path="email" autocomplete="off" id="email" style="color:red" onkeyup='emailValidation(this)' required  class="form-control input-sm"/>
                     <span id="mail" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
                 </div>
-              <div class="form-group first">
-                <label for="username">Mobile Number:</label>
-				<input type="tel" path="Mobile" id="mobile"  onkeyup='phoneValidation(this)' autocomplete="off"  required name="mobile" class="form-control input-sm"/>
-				<span id="pho" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
-			</div>
-
+				<div class="form-group first">
+					<label for="mobile">Mobile Number:</label>
+					<input type="tel" path="Mobile" id="mobile" autocomplete="off" required name="mobile" class="form-control input-sm" onkeyup="validateMobileNumber()">
+					<span id="pho" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
+				</div>
              
               <div class="form-group last mb-4">
                 <label for="password">Password</label>
@@ -244,24 +243,19 @@
 	}
 	}
 	
-	function phoneValidation(inputTxt){
 	
-	var regx = /^[6-9][0-9]{9}$/;
-	var textField = document.getElementById("pho");
-	
-	if(inputTxt.value != '' ){
-		if(inputTxt.value.match(regx)){
-			textField.textContent = '';
-			textField.style.color = "green";
-			}else{
-				textField.textContent = '**not valid phone number';
-				textField.style.color = "red";
-			}
-	}else{
-		textField.textContent = 'your input is empty';
-		textField.style.color = "red";
-	}
-	}
+function validateMobileNumber() {
+    var mobileNumber = document.getElementById("mobile").value;
+    var pattern = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
+    var isValid = pattern.test(mobileNumber);
+    var errorElement = document.getElementById("pho");
+    if (isValid) {
+        errorElement.innerText = "";
+    } else {
+        errorElement.innerText = "Please enter a valid mobile number (format: 123-456-7890)";
+    }
+}
+
 	
 	
 	// function cityValidation(inputTxt){

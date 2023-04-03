@@ -9,12 +9,13 @@
 	{% block content %}
 	
 <div class="container">
+	{% include 'Message.html' %}
     <div class="single">  
 	   <div class="form-container">
         <h2> Apply Now</h2>
         <form method="POST" onclick="return validation()"   action="{% url 'ApplyJob' id=job.id  %}" id="apply" enctype="multipart/form-data">
             {% csrf_token %}
-            {% include 'Message.html' %}
+            
             
             <div class="row">
             
@@ -51,21 +52,24 @@
 	
 		
 			
+		<div class="form-group col-md-12">
+			<label class="col-md-3 control-lable" for="max">Message </label>
+			<div class="col-md-9">
+				<textarea id="notes" name="notes" placeholder="Your message / cover letter sent to the employer" onkeyup="validateNotes()"></textarea>
+                <span id="notesError" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
+
+			  </div>
+		  </div>
+		  </div>
+		  <div class="row">
 			<div class="form-group col-md-12">
-				<label class="col-md-3 control-lable" for="max">Message </label>
-				<div class="col-md-9">
-				<textarea   id="notes" name="notes" placeholder="Your message / cover letter sent to the employer"></textarea>
-				</div>
+			  <label class="col-md-3 control-lable" for="resume">Resume</label>
+			  <div class="col-md-9">
+				<input type="file" name="resume" id="resume" accept=".pdf,.docx" required onchange="validateResume()">
+				<span id="resumeError" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
+			  </div>
 			</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-md-12">
-				  <label class="col-md-3 control-lable" for="resume">Resume</label>
-				  <div class="col-md-9">
-				  <input type="file" name="resume" id="resume">
-				</div>
-				</div>
-				</div>
+		  </div>
         <div class="row">
             <div class="form-actions floatRight">
                 <input type="submit" value="Post Your Application" class="btn btn-primary btn-sm">
@@ -79,8 +83,42 @@
 </div>
 	</div>
 	</div>
-	
-			<script>
+
+	<script>
+function validateResume() {
+  const resumeInput = document.getElementById('resume');
+  const resumeError = document.getElementById('resumeError');
+
+  // Reset error message
+  resumeError.innerText = '';
+
+  // Check if file is selected
+  if (!resumeInput.value) {
+    resumeError.innerText = 'Please select a file';
+    return;
+  }
+
+  // Check file type
+  const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+  if (!allowedTypes.includes(resumeInput.files[0].type)) {
+    resumeError.innerText = 'Only PDF and DOCX files are allowed';
+    resumeInput.value = ''; // Reset file input
+  }
+}
+	  </script>
+	<script>
+		
+		function validateNotes() {
+  const notesInput = document.getElementById("notes");
+  const notesError = document.getElementById("notesError");
+  
+  if (notesInput.value.length < 100) {
+    notesError.textContent = "Message must be at least 100 characters long";
+  } else {
+    notesError.textContent = "";
+  }
+}
+
 
 
 				function inputValidation(inputTxt){
