@@ -102,11 +102,15 @@ def login(request):
             return redirect('login')
     
     return render(request,'Account/login.html')
+  
 
-@never_cache  
+
+from django.views.decorators.cache import cache_control
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def logout(request):
     auth.logout(request)
-    return redirect('login')
+    return redirect('/')
 
 
 

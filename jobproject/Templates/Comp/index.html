@@ -29,9 +29,9 @@
                                             <th>Job Name</th>
                                             <th>Company Name</th>
                                             <th>Location</th>
-                                            <th>Email</th>
+                                            <th>Job Posted Date</th>
                                             <th>Experience needed</th>
-                                            <th>Salary Package</th>
+                                            <th>Expiry Date</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -41,8 +41,8 @@
                                             <th>Location</th>
                                             
                                             <th>Experience needed</th>
-                                            <th>Email</th>
-                                            <th>Salary Package</th>  
+                                            <th>Job Posted Date</th>
+                                            <th>Expiry Date</th>  
                                         </tr>
                                     </tfoot>
                                     {% if p %}
@@ -53,9 +53,9 @@
                                             <td>{{i.companyname}}</td>
                                             <td>{{i.location}}</td>
                                             
-                                            <td>{{i.email}}</td>
+                                            <td>{{i.date_posted}}</td>
                                             <td>{{i.experience}}</td>
-                                            <td>{{i.salarypackage}}</td>
+                                            <td>{{i.enddate}}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

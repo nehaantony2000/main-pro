@@ -11,7 +11,11 @@ LogEntry.objects.all().delete()
 admin.site.unregister(Group)
 # Register your models here.
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['id','first_name', 'email','contact']
+    list_display = ['username' ,'email','contact']
+    def has_add_permission(self, request):
+        return False
+    def has_change_permission(self, request):
+        return False 
     def has_delete_permission(self, request, obj=None):
         return request.user.is_superuser
     def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
@@ -24,5 +28,6 @@ class UserAdmin(admin.ModelAdmin):
         })
         
         return super().render_change_form(request, context, add, change, form_url, obj)
+
 admin.site.register(Account, UserAdmin)
 

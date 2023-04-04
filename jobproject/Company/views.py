@@ -1,6 +1,8 @@
-from django.shortcuts import render,redirect
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404, render,redirect
 from django.urls import reverse
 import sweetify
+
 from django.contrib.auth.decorators import login_required
 from Account.models import Account
 from Employee.models import Applylist,Courses,Course_purchase,Videos,Feedback
@@ -28,11 +30,20 @@ def postjob(request):
 
 @login_required
 def postedjob(request):
-     user=Account.objects.get(email=request.session.get('email'))
-     if request.user.is_authenticated:
-        if request.user.is_company:
-            p=JobDetails.objects.filter(email_id=request.user)
-     return render(request, 'Comp/Postedjoblist.html',{'p':p})
+    user = Account.objects.get(email=request.session.get('email'))
+    if request.user.is_authenticated and request.user.is_company:
+        p = JobDetails.objects.filter(email_id=request.user)
+        paginator = Paginator(p, 5) # Show 10 jobs per page
+        page = request.GET.get('page')
+        jobs = paginator.get_page(page)
+        context={
+         'jobs': jobs,
+         'p':p,
+        }
+        return render(request, 'Comp/Postedjoblist.html',context)
+    else:
+        return HttpResponseForbidden()
+
 
 @login_required
 def profile(request):
@@ -62,6 +73,37 @@ def JobdetailSubmit(request):
        messages.success(request,'Job Posted ')
        return render(request,"Comp/jobPost.html")
         
+def edit_jobdetails(request,id):
+    job = JobDetails.objects.get(id=id)
+    if request.method == 'POST':
+        job.jobname = request.POST['jobname']
+        job.companyname = request.POST['companyname']
+        job.jobtype = request.POST['jobtype']
+        job.category = request.POST['category']
+        job.qualification = request.POST['qualification']
+        job.jobdescription = request.POST['jobdescription']
+        job.responsibility = request.POST['responsibility']
+        job.experience = request.POST['experience']
+        job.location = request.POST['location']
+        job.salarypackage = request.POST['salarypackage']
+        job.companywebsite = request.POST['companywebsite']
+        job.logo = request.FILES.get('logo') or job.logo
+        job.companycontact = request.POST['companycontact']
+        job.enddate = request.POST['enddate']
+        job.tagline = request.POST['tagline']
+        job.save()
+        return redirect('postedjob',id=job.id)
+
+    context = {'job': job}
+    return render(request, 'Comp/edit_jobdetails.html', context)
+
+
+
+
+
+
+
+
 @login_required
 def Update_profile(request):
    if request.method == "POST":
@@ -156,6 +198,24 @@ def AddVideo(request):
             return redirect("Companyhome")
     return render(request,"Courses/Add_Video.html",{"form":form})
 
+
+
+@login_required
+def edit_video(request, id):
+    user=Account.objects.get(email=request.session.get('email'))
+    if request.user.is_authenticated:
+        if request.user.is_company:
+            video = get_object_or_404(Videos, id=id, course__userid=user)
+            if request.method == 'POST':
+                form = VideoForm(request.POST, request.FILES, instance=video)
+                print(video)
+                if form.is_valid():
+                    form.save()
+                    return redirect('recruiter_videos')
+            else:
+                form = VideoForm(instance=video)
+    return render(request, 'Courses/Editvedio.html', {'form': form})
+
 @login_required
 def jobdelete(request, id):
     user=Account.objects.get(email=request.session.get('email'))
@@ -214,6 +274,8 @@ def note(request):
               new=Applylist.objects.create(recruiter_notes=note)
               new.save()
               return render(request, "Comp/Applylist.html")
+        
+
 def update_application_status(request,id):
     application = Applicants.objects.get(id=id)
 
@@ -229,3 +291,23 @@ def update_application_status(request,id):
         'application': application
     }
     return render(request, '"Comp/Applylist.html', context)
+
+
+from Employee.models import Videos
+
+def recruiter_videos(request):
+    user = Account.objects.get(email=request.session.get('email'))
+    if request.user.is_authenticated and request.user.is_company:
+     videos = Videos.objects.filter(course__userid=user)
+     print(videos)
+     context = {'videos': videos}
+    return render(request, 'Courses/vediolist.html', context)
+
+
+def deletevedio(request, id):
+    user=Account.objects.get(email=request.session.get('email'))
+    if request.user.is_authenticated:
+        if request.user.is_company:
+           videos = Videos.objects.get(id=id)
+           videos.delete()
+    return redirect("recruiter_videos")

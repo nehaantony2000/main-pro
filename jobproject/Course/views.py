@@ -24,7 +24,7 @@ from matplotlib import pyplot as plt
 from Account.models import Account
 from Employee.models import  Courses, Course_purchase,Videos,Feedback
 
-@login_required
+@login_required(login_url='login')
 def coursesenrolled(request):
     c = Course_purchase.objects.filter(userid=request.user.id).values_list('course_id',flat=True)
     # print(c)
@@ -34,7 +34,7 @@ def coursesenrolled(request):
 
 
 
-@login_required
+@login_required(login_url='login')
 def availablecourses(request):
     user = Account.objects.get(email=request.session.get('email'))
     if request.user.is_employee:
@@ -49,7 +49,7 @@ def availablecourses(request):
 
 
 
-@login_required
+@login_required(login_url='login')
 def Course_endroll(request,c_slug):
    user=Account.objects.get(email=request.session.get('email'))
    if request.user.is_employee:
@@ -64,7 +64,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-  
+@login_required(login_url='login')
 def feedback(request):
    user=Account.objects.get(email=request.session.get('email'))
    if request.user.is_employee:
@@ -79,7 +79,7 @@ def feedback(request):
         f.save()
         return redirect("coursesenrolled")
     return render(request, 'Courses/feedback.html',{"c":courses})
-@login_required
+@login_required(login_url='login')
 def Course_cancel(request,course_id):
     id = request.user.id
     course=get_object_or_404(Course_purchase,course_id=course_id,id=id)
@@ -88,7 +88,7 @@ def Course_cancel(request,course_id):
 
 
 
-@login_required
+@login_required(login_url='login')
 def playcourse(request,c_slug=None,v_slug=None):
    std=Account.objects.get(email=request.session.get('email'))
    if request.user.is_authenticated:
@@ -100,7 +100,7 @@ def playcourse(request,c_slug=None,v_slug=None):
               course=get_object_or_404(Courses,slug=c_slug)
               print(course.pk)
               videos=Videos.objects.filter(course_id=course.pk)
-              paginator=Paginator(videos,2)     # 10 videos per page
+              paginator=Paginator(videos,3)     # 10 videos per page
               try:
                   page=int(request.GET.get('page','1'))
               except:

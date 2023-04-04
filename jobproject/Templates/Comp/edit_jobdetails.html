@@ -12,7 +12,7 @@
     <div class="single">  
 	   <div class="form-container">
         <h2>Post Job </h2>
-        <form method="POST" action="{% url 'jobdetails' %}" id="postjob" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <form method="POST" action="" id="postjob" enctype="multipart/form-data" onsubmit="return validateForm()">
 
             {% csrf_token %}
             {% include 'Message.html' %}
@@ -22,7 +22,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="jName">Job name</label>
                 <div class="col-md-9">
-                    <input type="text" path="jobname" name="jobname" id="jobname"    required class="form-control input-sm"/>
+                    <input type="text" path="jobname" name="jobname" id="jobname"  value="{{ job.jobname }}"  required class="form-control input-sm"/>
                     <span id="name" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                 </div>
             </div>
@@ -31,7 +31,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="CName">Company Name</label>
                 <div class="col-md-9">
-                    <input type="text" path="CName" name="Cname" id="Cname"  value=""  class="form-control input-sm"/>
+                    <input type="text" path="CName" name="Cname" id="Cname"  value="{{ job.companyname }}"  class="form-control input-sm"/>
                     <span id="names" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                 </div>
             </div>
@@ -40,33 +40,19 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="Description"> Company Address</label>
                 <div class="col-md-9">
-                    <textarea path="desp" name="add" id="add"  value=""  class="form-control input-sm"/>
+                    <textarea path="desp" name="add" id="add"    class="form-control input-sm"/>{{ job.companyaddress }}
                 </textarea>
                     <span id="names" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="CName">Job Type</label>
-                    <div class="col-md-9">
-                        <select  path="jobtype" name="jobtype" id="jobtype" class="form-control input-sm">
-                            <option value="">Select</option>
-                            <option value="Full-Time">Full-Time</option>
-                            <option value="Part-Time">Part-Time</option>
-                            <option value="Internship">Internship</option>
-                            <option value="Freelance">Freelance</option>
-                        </select>
-                        
-                    </div>
-                </div>
-                
-        </div>
+        
+      
         <div class="row">
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="Description">Job Description</label>
                 <div class="col-md-9">
-                    <textarea path="desp" name="Description" id="Description"  value=""  class="form-control input-sm"/>
+                    <textarea path="desp" name="Description" id="Description"   class="form-control input-sm"/>{{ job.jobdescription }}
                 </textarea>
                     <span id="names" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                 </div>
@@ -76,7 +62,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="qualification">Qualification</label>
                 <div class="col-md-9">
-                    <textarea path="qualification" name="qualification" id="qualification"  value=""  class="form-control input-sm">
+                    <textarea path="qualification" name="qualification" id="qualification"   class="form-control input-sm">{{ job.qualification }}
                 </textarea>
                     <span id="names" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                 </div>
@@ -86,7 +72,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="Response">Responsibilities</label>
                 <div class="col-md-9">
-                    <textarea path="Response" name="Response" id="Response"  value=""  class="form-control input-sm">
+                    <textarea path="Response" name="Response" id="Response"    class="form-control input-sm">{{ job.responsibility }}
                 </textarea>
                     <span id="names" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                 </div>
@@ -97,7 +83,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="location">Location</label>
                 <div class="col-md-9">
-                    <input type="text" path="location" name="location" id="location"    required class="form-control input-sm"/>
+                    <input type="text" path="location" name="location" id="location" value="{{ job.location }}"  required class="form-control input-sm"/>
                     <span id="name" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                 </div>
             </div>
@@ -107,7 +93,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="Web">Company Website</label>
                 <div class="col-md-9">
-                    <input type="text" path="web" name="web" id="web"    required class="form-control input-sm"/>
+                    <input type="text" path="web" name="web" id="web"  value="{{job.companywebsite}}"  required class="form-control input-sm"/>
                     <span id="name" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                 </div>
             </div>
@@ -116,7 +102,7 @@
             <div class="form-group col-md-12">
               <label class="col-md-3 control-lable" for="mobile">Mobile Number</label>
               <div class="col-md-9">
-                <input type="tel" path="Mobile" id="mobile" required name="mobile" class="form-control input-sm"/>
+                <input type="tel" path="Mobile" id="mobile" required name="mobile"   value="{{job.companycontact}}" class="form-control input-sm"/>
                 <span id="pho" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
                 
               </div>
@@ -139,7 +125,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="salary">Salary</label>
                 <div class="col-md-9">
-                    <input type="text" path="salary" name="salary" id="salary"    required class="form-control input-sm"/>
+                    <input type="text" path="salary" name="salary" id="salary" value="{{ job.salarypackage}}"   required class="form-control input-sm"/>
                     <span id="name" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                 </div>
             </div>
@@ -149,25 +135,17 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="Experience">Experience</label>
                 <div class="col-md-9">
-                    <input type="text" path="exp" name="exp" id="exp"    required class="form-control input-sm"/>
+                    <input type="text" path="exp" name="exp" id="exp" value="{{ job.experience}}"   required class="form-control input-sm"/>
                     <span id="name" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                 </div>
             </div>
          </div>
-         <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="CName">Job Category</label>
-                <div class="col-md-9">
-                    <input type="text" path="category" name="category" id="category"  value=""  class="form-control input-sm"/>
-                    <span id="category" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
+        
         <div class="row">
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="CName">Tagline</label>
                 <div class="col-md-9">
-                    <input type="text" path="tagline" name="tagline" id="tagline"  value=""  class="form-control input-sm"/>
+                    <input type="text" path="tagline" name="tagline" id="tagline"  value="{{job.tagline}}"  class="form-control input-sm"/>
                     <span id="tagline" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                 </div>
             </div>
@@ -176,21 +154,13 @@
         <div class="form-group col-md-12">
             <label class="col-md-3 control-label" for="enddate">Expiration Date</label>
             <div class="col-md-9">
-              <input type="date" path="enddate" name="enddate" id="enddate" required class="form-control input-sm" />
+              <input type="date" path="enddate" name="enddate" id="enddate" required class="form-control input-sm" value="{{ job.enddate}}" />
               <span id="enddate-error" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
             </div>
           </div>
           
      </div>
-     <div class="row">
-        <div class="form-group col-md-12">
-            <label class="col-md-3 control-lable" for="logo">Logo</label>
-            <div class="col-md-9">
-                <input type="file" name="logo" id="logo" class="file-uploader pull-left" accept=".png, .jpg, .jpeg, .gif">
-                <span id="logo-error" class="text-danger"></span>
-            </div> 
-        </div>
-    </div>
+
          </div>
          <br>
          
@@ -203,7 +173,7 @@
 </div>
 </div>
 </div>
-
+{% endblock %}
 
 
 <!-- <script>
@@ -226,24 +196,23 @@
     });
   </script> -->
 <script>
-
 const enddateInput = document.getElementById('enddate');
 
 enddateInput.addEventListener('keyup', function() {
-  const selectedDate = new Date(enddateInput.value);
+  const enddate = new Date(enddateInput.value);
   const today = new Date();
 
-  if (selectedDate < today) {
-    document.getElementById('enddate-error').textContent = 'Selected date cannot be earlier than today';
-    enddateInput.setCustomValidity('Selected date cannot be earlier than today');
+  if (enddate < today) {
+    enddateInput.setCustomValidity('Expiration date cannot be earlier than today');
   } else {
-    document.getElementById('enddate-error').textContent = '';
     enddateInput.setCustomValidity('');
   }
 });
 
 
+
 function validateForm() {
+    
     var jobname = document.getElementById("jobname").value;
     var cname = document.getElementById("Cname").value;
     var add = document.getElementById("add").value;
@@ -349,6 +318,5 @@ function validateForm() {
         logoError.textContent = "";
     });
 </script>
-{% endblock %}
 </body>
 </html>

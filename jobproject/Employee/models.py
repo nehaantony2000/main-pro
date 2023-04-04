@@ -1,6 +1,7 @@
 import datetime
 from unittest.util import _MAX_LENGTH
 from django.db import models
+from django.forms import ValidationError
 from Account.models import Account
 from Company.models import JobDetails
 from django_countries.fields import CountryField
@@ -80,7 +81,7 @@ class Courses(models.Model):
     end_date=models.DateField()
     last_date=models.DateField()
     userid=models.OneToOneField(Account,on_delete=models.CASCADE)
-
+    
     class Meta:
         verbose_name="Courses"
         verbose_name_plural="Courses"
@@ -99,7 +100,17 @@ class Courses(models.Model):
            return False
        else:
            return True
-       
+    def clean(self):
+        today = timezone.now().date()
+        if self.start_date and self.start_date < today:
+            raise ValidationError(_('Start date cannot be in the past.'))
+        if self.end_date and self.end_date < today:
+            raise ValidationError(_('End date cannot be in the past.'))
+        if self.start_date and self.end_date and self.start_date > self.end_date:
+            raise ValidationError(_('End date must be after start date.'))
+
+        # Don't forget to call the parent class's clean method!
+        super().clean()   
 
 class Videos(models.Model):
     title=models.CharField(max_length=300,unique=True)

@@ -30,7 +30,7 @@
 			<nav id="breadcrumbs">
 				<ul>
 					<li>You are here:</li>
-					<li><a href="#">Home</a></li>
+					<li><a href="/Company/Companyhome/">Home</a></li>
 					<li>Job Dashboard</li>
 				</ul>
 			</nav>
@@ -71,7 +71,7 @@
 				<td>{{i.enddate}}</td>
 			
 					<td class="action">
-						<a href="#"><i class="fa fa-pencil"></i> Edit</a>
+						<a href="{% url 'edit_jobdetails' i.id %}"><i class="fa fa-pencil"></i> Edit</a>
 						<a href="#"><i class="fa  fa-check "></i> Mark Filled</a>
 						<a href="{% url 'job_delete' i.id %}" class="delete"><i class="fa fa-remove"></i> Delete</a>
 					</td>
@@ -91,8 +91,29 @@
 
 		</table>
 
-		<br>
 		<a href="/Company/postjob/" class="button">Add Job</a>
+
+		{% if jobs.has_other_pages %}
+		<div class="pagination">
+			{% if jobs.has_previous %}
+				<a href="?page=1">&laquo; First</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="?page={{ jobs.previous_page_number }}">previous</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			{% endif %}
+			{% for num in jobs.paginator.page_range %}
+				{% if num == jobs.number %}
+					<span class="current-page">{{ num }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				{% elif num > jobs.number|add:'-3' and num < jobs.number|add:'3' %}
+					<a href="?page={{ num }}">{{ num }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				{% endif %}
+			{% endfor %}
+			{% if jobs.has_next %}
+				<a href="?page={{ jobs.next_page_number }}">next</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="?page={{ jobs.paginator.num_pages }}">Last &raquo;</a></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			{% endif %}
+		</div>
+	{% endif %}
+		<br>
+	
 
 	</div>
 

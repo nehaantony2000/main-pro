@@ -8,7 +8,30 @@ from Account.models import Account
 
 class JobDetails(models.Model):
     job_choices = (('Part-Time','Part-Time'),('Full-Time','Full-Time'),('Internship','Internship'),('Freelance','Freelance'))
-    category_choices = (('Web Developers','Web Developers'),('Mobile Developers','Mobile Developers'),('Designers & Creatives','Designers & Creatives'),('Writers','Writers'),('Virtual Assistants','Virtual Assistants'), ('Accountants & Consultants','Accountants & Consultants'),('Sales & Marketing Experts','Sales & Marketing Experts'),('Customer Service Agents','Customer Service Agents'))
+    category_choices = (
+    ('IT', 'Information Technology'),
+    ('HR', 'Human Resources'),
+    ('SALES', 'Sales'),
+    ('MARKETING', 'Marketing'),
+    ('FINANCE', 'Finance'),
+    ('EDU', 'Education'),
+    ('ENG', 'Engineering'),
+    ('HEALTH', 'Healthcare'),
+    ('HOSP', 'Hospitality'),
+    ('ARTS', 'Arts and Entertainment'),
+    ('LAW', 'Legal'),
+    ('SCI', 'Science and Research'),
+    ('GOV', 'Government and Public Administration'),
+    ('MANU', 'Manufacturing'),
+    ('RETAIL', 'Retail'),
+    ('TRANS', 'Transportation and Logistics'),
+    ('AGRI', 'Agriculture'),
+    ('CONSTR', 'Construction'),
+    ('ENV', 'Environmental Services'),
+    ('MEDIA', 'Media and Communications'),
+    ('SOC', 'Social Services'),
+    # Add more categories as per your requirement
+)
     id  = models.AutoField(primary_key=True)
     email= models.ForeignKey(Account,null=True,blank=True, on_delete=models.CASCADE)
     jobname=models.CharField(max_length=250,default='')

@@ -1,0 +1,91 @@
+
+</html>
+{% extends 'Comp/base1.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    
+    {% block content %}
+    <link rel="stylesheet" href="{% static 'new/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'new/css/colors/blue.css' %}" id="col">
+            <body>
+                
+            <div id="layoutSidenav_content">
+      
+
+
+                <main>
+                    <div class="container-fluid px-4">
+                        
+                       
+                  
+                        <div id="titlebar" class="single">
+                            <div class="container">
+                        
+                                <div class="sixteen columns">
+                                    <h2>Uploaded Vedio List</h2>
+                                    <nav id="breadcrumbs">
+                                        <ul>
+                                            <li>You are here:</li>
+                                            <li><a href="">Home</a></li>
+                                            <li>Uploaded Vedio List</li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                        
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        
+                        
+                        <div class="card mb-4">
+                            
+                            <div class="card-body">
+                                <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>Course </th>
+                                            <th>Title</th>
+                                      
+                                            
+                                            <th>Video</th>
+                                            <th>Action</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Course </th>
+                                            <th>Title</th> 
+                                            <th>Video</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                             
+                                    <tbody>
+                                        {% for video in videos %}
+
+                                        <tr><td>{{ video.course }}</td>
+                                            <td>{{ video.title }}</td>
+                                           
+                                      
+                                            <td><a href="{{ video.video.url }}">Download</a></td>
+                                            <td class="action">
+                                                <a href="{% url 'edit_video' video.id %}"><i class="fa fa-pencil"></i> Edit</a><br>
+                                               
+                                                <a href="{% url 'deletevedio' video.id %}" class="delete"><i class="fa fa-remove"></i> Delete</a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                
+                                </table>
+                            </div>
+                    </div>
+                </main>
+            </div>
+        </body>
+        {% endblock %}
+</html>

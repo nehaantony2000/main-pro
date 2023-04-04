@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% extends 'Comp/base1.html' %}
+
+{% load static %}
+
+<html>
+    {% block content %}
+<head>
+      
+
+      <link rel="stylesheet" href="{% static 'new/css/style.css' %}">
+      <link rel="stylesheet" href="{% static 'new/css/colors/blue.css' %}" id="colors">
+
+
+
+
+
+
+	
+     
+
+
+</head>
+<body>
+
+
+    <div id="wrapper">
+
+
+        <!-- Titlebar
+        ================================================== -->
+        <div id="titlebar" class="single">
+            <div class="container">
+        
+                <div class="sixteen columns">
+                    <h2>Edit Video</h2>
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li>You are here:</li>
+                            <li><a href="#">Home</a></li>
+                            <li>Edit Video</li>
+                        </ul>
+                    </nav>
+                </div>
+        
+            </div>
+        </div>
+        
+        
+    
+
+
+
+        <div class="container">
+            <div class="single">  
+               <div class="form-container">
+       <form method="post" enctype="multipart/form-data" action="">
+       {% csrf_token %}
+
+           {{form.as_p}}
+       <input type="submit" value="Edit video">
+       </form>
+
+
+
+
+    </div>
+</div>
+</div>
+</div>
+</body>
+{% endblock %}
+</html>

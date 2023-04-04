@@ -136,11 +136,12 @@ def searchbar(request):
     return render(request, 'searchbar.html', {}) 
 
 
-@login_required
+@login_required(login_url='login')
 def Apply(request,pk):
     user=Account.objects.get(email=request.session.get('email'))
     if request.user.is_employee:
         job=JobDetails.objects.get(id=pk)
+       
     return render(request, 'Employee/Applyjob.html',{'user':user,'job':job}) 
 
 def ApplyJob(request,id):
@@ -154,11 +155,11 @@ def ApplyJob(request,id):
       newapply.save()
       new=Applicants.objects.create(applicant=user,job=job)
       new.save()
-      messages.success(request,'Applied Successfully')
-      return render(request,"Employee/Applyjob.html",{'user':user,'job':job})
 
+      return redirect("joblist")
+    
    
-@login_required
+@login_required(login_url='login')
 def saved_jobs(request):
     job_list = SavedJobs.objects.filter(user=request.user).order_by('-date_posted')
     paginator = Paginator(job_list, 5) # Show 5 jobs per page
@@ -167,7 +168,7 @@ def saved_jobs(request):
 
     return render(request, 'Employee/saved_jobs.html', {'jobs': jobs})
 
-@login_required
+@login_required(login_url='login')
 def save_job(request,id):
     user = Account.objects.get(email=request.session.get('email'))
     if request.user.is_employee:
@@ -182,12 +183,12 @@ def save_job(request,id):
             saved_job.save()
       except SavedJobs.DoesNotExist:
          SavedJobs.objects.create(job_id=job.id, user=user, is_saved=True)
-         messages.success(request,'Job Saved For Later ')
+        
     return redirect(request.META.get('HTTP_REFERER'))
 
 
 
-@login_required
+@login_required(login_url='login')
 def savedjob_delete(request, id):
     job = SavedJobs.objects.get(id=id)
   
