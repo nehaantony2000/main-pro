@@ -24,15 +24,9 @@
 </div>
 
 
-<!-- Content
-================================================== -->
 <div class="container">
-
-	<!-- Blog Posts -->
-	<div class="eleven columns">
-		<div class="padding-right">
-
-			{% if video_key %}
+	
+	{% if video_key %}
 			<div class="post-container">
 				<div class="post-img">
 					<video  controls>
@@ -42,45 +36,52 @@
 			</div>
 				
 			{% endif %}	
-						
-{% if c_videos %}
+			{% if c_videos %}
 
-{% for v in c_videos.object_list %}
+			{% for v in c_videos.object_list %}
+	<div class="one-third column">
 
-<video autoplay muted style="width: 20%;" >
-	<source src="{{v.video.url}}" >
-</video>
-
- <a href="{{v.get_course_video_url}}"   style="width:100%;height:100%;">{{v.title}} </a>
- <br><br>
- 
- <div class="post-content">
- 
-	
- </div>
-{% endfor %}
-
-<div class="mx-auto">
- {% if c_videos.paginator.num_pages > 1 %}
-
- <hr>
- <div class="text-center">
-	 {% for pg in c_videos.paginator.page_range %}
-		<a href="?page={{pg}}" class="btn btn-light btn-sm {% if c_video.number == pg %} active {% endif %}">{{pg}}</a>
-	 {% endfor %}
- </div>
- {% endif %}
-</div>
-<br>
-{% endif %}
-				
-			</div>
+		<!-- Post #1 -->
+		<div class="recent-post">
+			<div class="recent-post-img">
+				<video autoplay muted style="width: 50%;" >
+				<source src="{{v.video.url}}" >
+			</video></div>
+			<a href="{{v.get_course_video_url}}"   style="width:100%;height:100%;">{{v.title}} </a>
+			
+			
+		
+		</div>
 
 	</div>
-	<!-- Blog Posts / End -->
+	{% endfor %}
+
+	<div class="mx-auto">
+		{% if c_videos.paginator.num_pages > 1 %}
+	   
+		<hr>
+		<div class="text-center">
+			{% for pg in c_videos.paginator.page_range %}
+			   <a href="?page={{pg}}" class="btn btn-light btn-sm {% if c_video.number == pg %} active {% endif %}">{{pg}}</a>
+			{% endfor %}
+		</div>
+		{% endif %}
+	   </div>
+	   <br>
+	   {% endif %}
+	
+
+</div>
 
 
-<!-- Back To Top Button -->
+
+
+
+
+	
+
+
+
 <div id="backtotop"><a href="#"></a></div>
 
 </div>
