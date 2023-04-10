@@ -14,7 +14,6 @@ from Employee.models import Applylist,SavedJobs,Courses,Videos,Course_purchase
 from Company.models import JobDetails,Selected,Applicants
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 
-
 def joblist(request, template='Employee/joblist.html', extra_context=None):
     sorting = request.GET.get('sorting', 'recent')
     sorting_map = {
@@ -26,11 +25,15 @@ def joblist(request, template='Employee/joblist.html', extra_context=None):
 
     jobtype_filters = request.GET.getlist('jobtype[]')
 
+    applied_jobs = []
+    if request.user.is_authenticated:
+        applied_jobs = Applylist.objects.filter(cand=request.user).values_list('job_id', flat=True)
+
     if not jobtype_filters:
         user_category = request.user.category
-        job_list = JobDetails.objects.filter(category=user_category, enddate__gte=timezone.now()).order_by(sorting_criterion)
+        job_list = JobDetails.objects.filter(category=user_category, enddate__gte=timezone.now()).exclude(id__in=applied_jobs).order_by(sorting_criterion)
     else:
-        job_list = JobDetails.objects.filter(jobtype__in=jobtype_filters, enddate__gte=timezone.now()).order_by(sorting_criterion)
+        job_list = JobDetails.objects.filter(jobtype__in=jobtype_filters, enddate__gte=timezone.now()).exclude(id__in=applied_jobs).order_by(sorting_criterion)
 
     paginator = Paginator(job_list, 5)
     page = request.GET.get('page')
@@ -107,8 +110,9 @@ def userhome(request):
    user=Account.objects.get(email=request.session.get('email'))
    if request.user.is_authenticated:
         if request.user.is_employee:
+          applied_jobs = Applylist.objects.filter(cand=request.user).values_list('job_id', flat=True)
           user_category = request.user.category
-          Job=JobDetails.objects.filter(category=user_category, enddate__gte=timezone.now()).order_by('-date_posted')[:3]
+          Job=JobDetails.objects.filter(category=user_category, enddate__gte=timezone.now()).exclude(id__in=applied_jobs).order_by('-date_posted')[:3]
           c = Courses.objects.all()
           context={
            'job_list':Job,
