@@ -12,6 +12,10 @@ from django.utils.text import slugify
 from hashlib import sha256
 from Course.forms import VideoForm
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
+
+
+
+
 def Companyhome(request):
     user=Account.objects.get(email=request.session.get('email'))
     if request.user.is_authenticated:
@@ -138,20 +142,23 @@ def Update_profile(request):
         user.save()
         sweetify.success(request,'Profile Are Successfully Updated. ')
         return redirect('profile')
-   
 @login_required
 def JobApplylist(request):
     user = Account.objects.get(email=request.session.get('email'))
     if user.is_authenticated and user.is_company:
         jobs = JobDetails.objects.filter(email=user)
-        applications = Applylist.objects.filter(job__in=jobs).order_by('-applieddate')
+        jobname_filter = request.GET.get('jobname')
+        if jobname_filter:
+            applications = Applylist.objects.filter(job__in=jobs, job__jobname=jobname_filter).order_by('-applieddate')
+        else:
+            applications = Applylist.objects.filter(job__in=jobs).order_by('-applieddate')
 
         # Get the value of the select element
         sort_by = request.GET.get('sort_by')
         
         # Sort the queryset based on the selected option
         if sort_by == 'oldest':
-            applications = Applylist.objects.filter(job__in=jobs).order_by('applieddate')
+            applications = Applylist.objects.filter(job__in=jobs, job__jobname=jobname_filter).order_by('applieddate')
         
         paginator = Paginator(applications, 10)
         page = request.GET.get('page')
@@ -163,7 +170,7 @@ def JobApplylist(request):
             applicants_query = Applicants.objects.filter(job=application.job, applicant=application.cand)
             applicants.append(applicants_query)
 
-        context = {'Apply': applications, 'applicants': applicants}
+        context = {'Apply': applications, 'applicants': applicants, 'jobs': jobs}
     return render(request, "Comp/Applylist.html", context)
 
 

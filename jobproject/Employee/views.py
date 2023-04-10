@@ -14,10 +14,6 @@ from Employee.models import Applylist,SavedJobs,Courses,Videos,Course_purchase
 from Company.models import JobDetails,Selected,Applicants
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 
-from django.core.paginator import Paginator
-from django.shortcuts import render
-
-from django.utils import timezone
 
 def joblist(request, template='Employee/joblist.html', extra_context=None):
     sorting = request.GET.get('sorting', 'recent')
@@ -31,7 +27,8 @@ def joblist(request, template='Employee/joblist.html', extra_context=None):
     jobtype_filters = request.GET.getlist('jobtype[]')
 
     if not jobtype_filters:
-        job_list = JobDetails.objects.filter(enddate__gte=timezone.now()).order_by(sorting_criterion)
+        user_category = request.user.category
+        job_list = JobDetails.objects.filter(category=user_category, enddate__gte=timezone.now()).order_by(sorting_criterion)
     else:
         job_list = JobDetails.objects.filter(jobtype__in=jobtype_filters, enddate__gte=timezone.now()).order_by(sorting_criterion)
 
@@ -52,8 +49,7 @@ def joblist(request, template='Employee/joblist.html', extra_context=None):
 def profile(request):
     return render(request, 'Employee/Employee_profile.html')
  
-def cat(request):
-    return render(request,'Employee/category.html')
+
 
         
 
@@ -86,17 +82,14 @@ def Update_profile(request):
         district=request.POST.get('District')
         gender = request.POST.get('gender')
         profilepic =request.FILES.get('pic')
-        resume =request.FILES.get('resume')
-        # skills=request.POST.get('skills')
-        # languages=request.POST.get('languages')
-        # education = request.POST.get('education')
+        category =request.POST.get('job-category')
         user_id = request.user.id
         
         user = Account.objects.get(id=user_id)
         user.first_name = first_name
         user.last_name = last_name
         user.email = email
-        user.Resume=resume
+        
         user.profilepic=profilepic
         user.gender=gender
         user.contact = contact
@@ -104,6 +97,7 @@ def Update_profile(request):
         user.district=district
         user.country=country
         user.state=state
+        user.category = category
         user.save()
         messages.success(request,'Profile  Updated Successfully ')
         return redirect('Eprofile')
@@ -113,7 +107,8 @@ def userhome(request):
    user=Account.objects.get(email=request.session.get('email'))
    if request.user.is_authenticated:
         if request.user.is_employee:
-          Job=JobDetails.objects.all().order_by('-date_posted')[:3]
+          user_category = request.user.category
+          Job=JobDetails.objects.filter(category=user_category, enddate__gte=timezone.now()).order_by('-date_posted')[:3]
           c = Courses.objects.all()
           context={
            'job_list':Job,

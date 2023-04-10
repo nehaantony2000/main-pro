@@ -12,6 +12,9 @@ urlpatterns = [
     path ('jobdetails/',views.JobdetailSubmit,name="jobdetails"),
     path ('profile/', views.profile, name="profile"),
     path ('Applylist/', views.JobApplylist, name="Applylist"),
+   
+    path('job/<str:job_name>/applylist/', views.JobApplylist, name='job_applylist'),
+
     path ('update_profile/', views.Update_profile, name="update_profile"),
     path('addvideo/', views.AddVideo, name='addvideo'),
     path('enrolledcandidate/', views.enrolledcandidate, name='enrolledcandidate'),

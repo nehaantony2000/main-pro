@@ -7,9 +7,18 @@
 <link rel="stylesheet" href="{% static 'new/css/style.css' %}">
 <link rel="stylesheet" href="{% static 'new/css/colors/blue.css' %}" id="colors">
 
+<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+
 <body>
 <div id="wrapper">
 
+
+<!-- Header
+================================================== -->
 
 <!-- Titlebar
 ================================================== -->
@@ -35,8 +44,6 @@
 ================================================== -->
 <div class="container">
 	
-	<!-- Table -->
-	
 
 
 	<div class="eight columns">
@@ -58,7 +65,20 @@
 </select>
 		<div class="margin-bottom-35"></div>
 	</div>
-
+	<div class="eight columns">
+		<!-- Select -->
+		<form method="GET">
+			{% csrf_token %}
+			<select data-placeholder="Filter by Jobname" class="chosen-select-no-single" name="jobname" onchange="this.form.submit()">
+				<option value="">Filter by Jobname</option>
+				{% for job in jobs %}
+				<option value="{{ job.jobname }}" {% if request.GET.jobname == job.jobname %}selected{% endif %}>{{ job.jobname }}</option>
+				{% endfor %}
+			</select>
+		</form>
+		<div class="margin-bottom-15"></div>
+	</div>
+	
 
 	<!-- Applications -->
 	<div class="sixteen columns">
@@ -80,11 +100,11 @@
 					
 						<ul>
 							<li><a href="{{i.resumes.url }}" download><i class="fa fa-file-text"></i> Download CV</a></li>
-
-							
+	
 						
 						</ul>
-				
+						  Applied for: {{i.job.jobname}}
+					
 						
 					
 				</div>
@@ -186,13 +206,21 @@
 	{% endif %}
 
 	</div>	
+	
+
 </div>
 
 
 
+	
 
+
+<!-- Back To Top Button -->
+<div id="backtotop"><a href="#"></a></div>
+
+</div>
 <!-- Wrapper / End -->
-</div>
+
 
 <script src="{% static 'new/scripts/jquery-2.1.3.min.js' %}"></script>
 <script src="{% static 'new/scripts/custom.js' %}"></script>
@@ -208,8 +236,8 @@
 <script src="{% static 'new/scripts/jquery.jpanelmenu.js' %}"></script>
 <script src="{% static 'new/scripts/stacktable.js' %}"></script>
 
-
-
 </body>
+
 {% endblock %}
+
 </html>

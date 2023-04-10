@@ -71,7 +71,7 @@
                 <div class="form-group col-md-12">
                     <label class="col-md-3 control-lable" for="firstName">First Name</label>
                     <div class="col-md-9">
-                        <input type="text" path="firstName" name="first_name" id="firstname"  value="{{user.first_name}}" required class="form-control input-sm"/>
+                        <input type="text" path="firstName" name="first_name" id="firstname"  value="{{user.first_name}}"  readonly required class="form-control input-sm"/>
                         <span id="name" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                 <div class="form-group col-md-12">
                     <label class="col-md-3 control-lable" for="lastName">Last Name</label>
                     <div class="col-md-9">
-                        <input type="text" path="lastName" name="last_name" id="lastname"  value="{{user.last_name}}"  class="form-control input-sm"   />
+                        <input type="text" path="lastName" name="last_name" id="lastname"  value="{{user.last_name}}"  class="form-control input-sm"  readonly />
                         <span id="names" style="font-size:12px;margin-top:-5px;" class="text-danger"></span>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                 <div class="form-group col-md-12">
                     <label class="col-md-3 control-lable" for="email">Email</label>
                     <div class="col-md-9">
-                        <input type="email" name="email" path="email"  id="email"   value="{{user.email}}" required  class="form-control input-sm"/>
+                        <input type="email" name="email" path="email"  id="email"   value="{{user.email}}" required  class="form-control input-sm" readonly/>
                         <span id="mail" style="font-size:12px;margin-top:-5px;" class="text-danger font-weight-bold"></span>
                     </div>
                 </div>
@@ -259,13 +259,24 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-12">
-                  <label class="col-md-3 control-lable" for="resume">Resume</label>
-                  <div class="col-md-9">
-                    <input type="file" name="resume" id="resume" required>
-                    <span id="resume-error" style="color: red;"></span>
-                  </div>
-                </div>
+                    <label class="col-md-3 control-lable" for="Job category">Job Category</label>
+                    <div class="col-md-9">
+                        <select id="job-category" name="job-category" onchange="disableDropdown()" class="form-control input-sm"  value="{{user.category}}" >
+
+                            <option value="accounting-finance">Accounting & Finance</option>
+                            <option value="administrative">Administrative</option>
+                            <option value="customer-service">Customer Service</option>
+                            <option value="engineering">Engineering</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="human-resources">Human Resources</option>
+                            <option value="information-technology">Information Technology</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="sales">Sales</option>
+                        </select>
               </div>
+              </div>
+            </div>
+            
             <div class="row">
                 <div class="form-actions floatRight">
                     <input type="submit" value="Update Profile" class="btn btn-primary btn-sm">
@@ -536,6 +547,12 @@ $("#inputDistrict").html(htmlString);
         }
     });
 </script>
+<script>
+    function disableDropdown() {
+      var dropdown = document.getElementById("job-category");
+      dropdown.disabled = true;
+    }
+    </script>
 </body>  
 
 

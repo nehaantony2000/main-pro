@@ -76,7 +76,17 @@ class Account(AbstractBaseUser,PermissionsMixin):
         ('Thiruvananthapuram','Thiruvananthapuram'),
         ('None','None'),
     )
-
+    category_choices = (
+     ('accounting-finance', 'Accounting & Finance'),
+        ('administrative', 'Administrative'),
+        ('customer-service', 'Customer Service'),
+        ('engineering', 'Engineering'),
+        ('healthcare', 'Healthcare'),
+        ('human-resources', 'Human Resources'),
+        ('information-technology', 'Information Technology'),
+        ('marketing', 'Marketing'),
+        ('sales', 'Sales'),
+)
 
     id            = models.AutoField(primary_key=True)
     first_name      = models.CharField(max_length=50, default='')
@@ -95,6 +105,7 @@ class Account(AbstractBaseUser,PermissionsMixin):
     district        = models.CharField(max_length=50,choices=district_choices,default='')
     profilepic= models.ImageField(upload_to="Profile",blank=True, null=True)
     Resume         = models.FileField(upload_to='Resume',blank=True, null=True)
+    category=models.CharField(max_length=250,choices=category_choices,default='')
 
 
 
