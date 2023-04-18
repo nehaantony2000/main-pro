@@ -56,13 +56,14 @@
 				<li>End Date:{{ course.end_date }}</li>
 				<li>Posted For 30 Days</li>
 			</ul>
-			{% if course.endroll_check %}
-			<a class="button" href= "{% url 'endroll' course.slug %}">Enroll Now</a>
-		{% else %}
-			 <a class="button"  href="{{ course.get_course_url }}">View course</a>
-	 {% endif %}
-	
-			
+		{% if course.id in endrolled %}
+		<a class="button"  href="{{ course.get_course_url }}">View course</a>
+{% else %}
+<a href="{% url 'checkoutcourse' c_slug=course.slug %}">Enroll Now</a>
+
+{% endif %}
+
+	 
 		</div>
 	</div>
 	{% empty %}

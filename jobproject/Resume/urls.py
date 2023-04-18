@@ -10,4 +10,8 @@ urlpatterns = [
   path('resubmit', views.resubmit, name='resubmit'),
   path('manage_resumes', views.manage_resumes, name='manage_resumes'),
   path('resume_delete/<int:res_id>', views.resume_delete, name='resume_delete'),
+   path('interdetail', views.interdetail, name='interdetail'),
+  path('projectdetail', views.projectdetail, name='projectdetail'),
+  path('achidetail', views.achidetail, name='achidetail'),
+  path('certidetail', views.certidetail, name='certidetail'),
     ]

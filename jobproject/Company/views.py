@@ -2,7 +2,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render,redirect
 from django.urls import reverse
 import sweetify
-
+import spacy
 from django.contrib.auth.decorators import login_required
 from Account.models import Account
 from Employee.models import Applylist,Courses,Course_purchase,Videos,Feedback
@@ -12,7 +12,13 @@ from django.utils.text import slugify
 from hashlib import sha256
 from Course.forms import VideoForm
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
-
+import PyPDF2
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer
+from spacy.matcher import PhraseMatcher
+from skillNer.general_params import SKILL_DB
+from skillNer.skill_extractor_class import SkillExtractor
+import numpy as np
 
 
 
@@ -20,7 +26,7 @@ def Companyhome(request):
     user=Account.objects.get(email=request.session.get('email'))
     if request.user.is_authenticated:
         if request.user.is_company:
-         p=JobDetails.objects.filter(email_id=request.user)
+         p=JobDetails.objects.filter(email_id=request.user).order_by('-date_posted')
          context = {
              'p': p,
              'user' : user ,
@@ -95,6 +101,7 @@ def edit_jobdetails(request,id):
         job.companycontact = request.POST['companycontact']
         job.enddate = request.POST['enddate']
         job.tagline = request.POST['tagline']
+        job.skills = request.POST['skills']
         job.save()
         return redirect('postedjob',id=job.id)
 
@@ -145,11 +152,72 @@ def Update_profile(request):
 @login_required
 def JobApplylist(request):
     user = Account.objects.get(email=request.session.get('email'))
+    nlp = spacy.load("en_core_web_sm")
+    skill_extractor = SkillExtractor(nlp, SKILL_DB, PhraseMatcher)
     if user.is_authenticated and user.is_company:
         jobs = JobDetails.objects.filter(email=user)
         jobname_filter = request.GET.get('jobname')
         if jobname_filter:
+            applicants={}
+            annotation2 = skill_extractor.annotate(jobname_filter)
+            expectedskills =annotation2['results']
+            expectedskills.keys()
+                        
+            fullmatch1 = expectedskills['full_matches']
+            ngrams_scored1 = expectedskills['ngram_scored']
+            a_key1 = "doc_node_value"
+
+            f_docnodevalues1 = [a_dict1[a_key1] for a_dict1 in fullmatch1]
+            n_docnodevalues1 = [a_dict1[a_key1] for a_dict1 in ngrams_scored1]
+
+            requiredskills = f_docnodevalues1 + n_docnodevalues1
+            sanitized_values = list(set(requiredskills)) 
+
+
+
             applications = Applylist.objects.filter(job__in=jobs, job__jobname=jobname_filter).order_by('-applieddate')
+            for application in applications:
+                candidate_id=application.cand_id
+                resume_path=application.resumes.path
+                application_id = application.id
+
+                with open(resume_path,'rb') as filehandle:
+                    pdfReader = PyPDF2.PdfReader(filehandle)
+                    pagehandle = pdfReader.pages[0]
+                    text = pagehandle.extract_text()
+                    text = text.replace('o','')
+                    text = text.replace('|','')
+                    # print(text)
+
+                    annotations = skill_extractor.annotate(text)
+                    allresult =annotations['results']
+                    allresult.keys()
+                    
+                    fullmatches = allresult['full_matches']
+                    ngrams_scored = allresult['ngram_scored']
+                    a_key = "doc_node_value"
+
+                    f_docnodevalues = [a_dict[a_key] for a_dict in fullmatches]
+                    n_docnodevalues = [a_dict[a_key] for a_dict in ngrams_scored]
+
+                    all_doc_node_values = f_docnodevalues + n_docnodevalues
+                    cleaned_values = list(set(all_doc_node_values)) 
+
+
+                    scraped_data = [' '.join(cleaned_values)]
+                    cv = [' '.join(sanitized_values)]
+                    tfidf_vectorizer = TfidfVectorizer(stop_words='english')
+                    tfidf_jobid = tfidf_vectorizer.fit_transform(scraped_data)
+                    user_tfidf = tfidf_vectorizer.transform(cv)
+                    cos_similarity_tfidf = cosine_similarity(user_tfidf, tfidf_jobid)
+                    similarity_score = round(np.max(cos_similarity_tfidf), 2)
+
+
+                    # print(cleaned_values)
+                applicants[candidate_id] = {'ExtractedSkill': cleaned_values,'application_id': application_id,'required_skills':sanitized_values}
+                print(applicants)
+                
+
         else:
             applications = Applylist.objects.filter(job__in=jobs).order_by('-applieddate')
 

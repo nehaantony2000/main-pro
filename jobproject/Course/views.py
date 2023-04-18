@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -22,7 +22,10 @@ from django.template.loader import render_to_string
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 from matplotlib import pyplot as plt
 from Account.models import Account
-from Employee.models import  Courses, Course_purchase,Videos,Feedback
+from Employee.models import  Courses, Course_purchase,Videos,Feedback,Payment
+import razorpay
+
+from jobproject.settings import RAZORPAY_API_KEY
 
 @login_required(login_url='login')
 def coursesenrolled(request):
@@ -126,4 +129,58 @@ def playcourse(request,c_slug=None,v_slug=None):
    
 
 
+from datetime import date, datetime
 
+def checkoutcourse(request, c_slug):
+    user = Account.objects.get(email=request.session.get('email'))
+    course = get_object_or_404(Courses, slug=c_slug)
+
+
+    razoramount = float(course.amount * 100)
+
+    print(razoramount)
+    client = razorpay.Client(auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET_KEY))
+    data = {
+        "amount": razoramount,
+        "currency": "INR",
+        "receipt": "order_rcptid_11"}
+    payment_response = client.order.create(data=data)
+    print(payment_response)
+    order_id = payment_response['id']
+    request.session['order_id'] = order_id
+    order_status = payment_response['status']
+    if order_status == 'created':
+        payment = Payment(user_id=request.user.id,
+                          amount=razoramount,
+                          razorpay_order_id=order_id,
+                          razorpay_payment_status=order_status)
+        payment.save()
+    request.session['course_id'] = course.id
+    context = {
+        'course': course,
+        'user':user,
+        'razoramount': razoramount
+    }
+    return render(request, 'Courses/checkout.html', context)
+
+def payment_done_course(request):
+    order_id = request.session['order_id']
+    payment_id = request.GET.get('payment_id')
+    print(payment_id)
+
+    payment = Payment.objects.get(razorpay_order_id=order_id)
+
+    payment.paid = True
+    payment.razorpay_payment_id = payment_id
+    payment.course = Courses.objects.get(id=request.session['course_id'])
+    payment.save()
+
+    user = request.user.id
+    course = payment.course.id
+    purchase_date = datetime.now().date()
+    end_date = purchase_date + timedelta(days=30)  # or any other duration you want to set
+    course_purchase = Course_purchase(user_id=user, course_id=course, purhase_date=purchase_date, end_date=end_date)
+    course_purchase.save()
+
+
+    return redirect('availablecourses')

@@ -43,22 +43,44 @@
 		<table class="manage-table resumes responsive-table">
 
 			<tr>
+				<th><i class="fa fa-number"></i> Resume No:</th>
 				<th><i class="fa fa-user"></i> Name</th>
 				<th><i class="fa fa-file-text"></i> Title</th>
 				<th><i class="fa fa-map-marker"></i> Location</th>
 				<th><i class="fa fa-calendar"></i> Created Date</th>
-				<th></th>
+				<th><i class="fa fa-gear"></i> Action</th>
 			</tr>
-            {% for i in resumes %}
+            {% for i in data1 %}
 			<!-- Item #1 -->
 			<tr>
+				<td class="card"><a href="#">{{ forloop.counter }}</a></td>
 				<td class="title"><a href="#">{{i.name}}</a></td>
 				<td>{{i.position}}</td>
 				<td>{{i.coun}}</td>
-				<td>{{i.date_posted|date:"F d, Y"}}</td>
-				<td class="action">
+				<td>{{i.date_posted|date:"F d, Y"}}</td> 
+				<td class="action">&nbsp;
+          
+   
+         	<form action="{% url 'res' %}" method="post">
+						{% csrf_token %}
 					
-					<a href="{% url 'resume_delete' i.res_id %}" class="delete"><i class="fa fa-remove"></i> Delete</a>
+							<input type="hidden" name="iid" value="{{i.res_id}}">
+							 <button type="submit" style="background-color: rgb(39, 202, 39);border-radius:5px; color:white;border:none;width:70px;height:40px;float:right;margin-top:-15%;"><i class="fa fa-eye"></i> </button>
+				   </form>
+           <br>
+           <br>
+				   <form action="{% url 'my_view' %}" method="post">
+					{% csrf_token %}
+						<input type="hidden" name="iid" value="{{i.res_id}}">
+						<button type="submit" style="background-color: rgb(39, 202, 39);border-radius:5px; color:white;border:none;width:70px;height:40px;float:left;margin-top:-15%;margin-left:60%;"><i class="fa fa-download"></i></button>
+				   </form>
+           <br>
+           <br>
+           
+					<button type="submit" style="background-color: rgb(39, 202, 39);border-radius:5px; color:white;border:none;width:70px;height:40px;float:left;margin-top:-15%;margin-left:60%;">
+            <a href="{% url 'resume_delete' i.res_id %}" ><i class="fa fa-trash-o" style="font-size:20px;color:white"></i></a></button>
+            <!-- <i class="fa fa-remove"></i> Delete</a> -->
+            
 				</td>
 			</tr>
 

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+{% extends 'Employee/userbase.html' %}
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+{% block content %}
+ 
+<body>
+<div id="wrapper">
+
+
+
+
+<h2>Order Summary</h2>
+<hr/>
+
+
+     <div class="table-card p-2 flex" >
+        <div class="header">
+
+
+
+            <table style="margin-bottom:50px;">
+              <tr>
+              
+                <td style="padding-left:25px;padding-bottom:10px;"><b style="font-size:25px;">{{course.course}}</b><br><br>
+                Amount:&nbsp;&nbsp;{{course.amount}}<br><br>
+                    Description:&nbsp;&nbsp;{{course.desc}}<br><br>
+                    Start Date:&nbsp; &nbsp;{{course.start_date}}<br><br>
+                    Expected End Date:&nbsp;&nbsp; {{course.end_date}}<br><br>
+                 
+
+                </td>
+
+              </tr>
+
+
+            </table></div></div>
+ <form method="post" id="myform">
+     {% csrf_token %}
+                        <button type="submit" id="rzp-button1" style="margin-left:800px;" class="btn btn-primary"><span style="color:white;">Total Amount&nbsp;:&nbsp;{{course.amount}}&nbsp;&nbsp;||</span>Continue to Payment</button>
+ </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+   
+  
+    
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "rzp_test_K8GjSL7aMH5Enx", // Enter the Key ID generated from the Dashboard
+    "amount": "{{razoramount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "JOB Seeking",
+    "description": "Purchase Product",
+    "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+
+             console.log("success")
+             var form = document.getElementById("myform");
+             var a = response.razorpay_payment_id;
+             var order_id = response.razorpay_order_id;
+             var user_id = response.USER;
+
+
+
+             window.location.href = 'http://127.0.0.1:8000/Course/payment_done_course?order_id=${response.razorpay_order_id}&user_id=${response.USER}&payment_id='+a
+
+    },
+
+    "theme": {
+        "color": "#4fcc33"
+    }
+};
+var rzp1 = new Razorpay(options);
+rzp1.on('payment.failed', function (response){
+
+        alert(response.error.description);
+
+});
+document.getElementById('rzp-button1').onclick = function(e){
+    console.log("button click");
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+
+
+</body>
+{% endblock %}
+</html>
+

@@ -152,7 +152,7 @@ def ApplyJob(request,id):
       
       newapply=Applylist.objects.create(cand=user,job=job,notes=notes,resumes=resume)
       newapply.save()
-      new=Applicants.objects.create(applicant=user,job=job)
+      new=Applicants.objects.create(applicant=user,job=job,Resume=resume)
       new.save()
 
       return redirect("joblist")

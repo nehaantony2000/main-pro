@@ -34,6 +34,7 @@ class JobDetails(models.Model):
     companycontact=models.BigIntegerField(default=0)
     salarypackage=models.CharField(max_length=40,default='')
     experience=models.CharField(max_length=40,default='')
+    skills=models.CharField(max_length=40,default='')
     tagline=models.CharField(max_length=100,default='')
     enddate=models.DateField(blank=True, null=True)
     logo=models.ImageField(upload_to="logos",null=True)
@@ -52,6 +53,7 @@ class Applicants(models.Model):
         ('ACCEPTED', 'Accepted')
     
     ]
+    Resume         = models.FileField(upload_to='Resume',blank=True, null=True)
     status = models.CharField(max_length=8, choices=status_choices, default='PENDING')
     Rnotes = models.TextField(blank=True, null=True)
     

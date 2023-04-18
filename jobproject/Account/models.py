@@ -104,7 +104,7 @@ class Account(AbstractBaseUser,PermissionsMixin):
     state           = models.CharField(max_length=50,choices=state_choices,default='')
     district        = models.CharField(max_length=50,choices=district_choices,default='')
     profilepic= models.ImageField(upload_to="Profile",blank=True, null=True)
-    Resume         = models.FileField(upload_to='Resume',blank=True, null=True)
+  
     category=models.CharField(max_length=250,choices=category_choices,default='')
 
 

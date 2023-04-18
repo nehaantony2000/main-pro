@@ -1,6 +1,6 @@
 
 {% extends 'Employee/userbase.html' %}
-{% load static %}
+
 
 
 <html>
@@ -9,6 +9,8 @@
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.3.0/dist/tagify.css">
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
  <script type='text/javascript' src='/JavaScriptSpellCheck/include.js' ></script>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
   
 .tags-input-wrapper{
@@ -40,13 +42,19 @@
   display: inline-block;
   cursor: pointer;
 }
+.a{
+  width: 50%;
+  background-color: white;
+  border-radius: 10px;
+}
 </style>
  
  
-  <body >
+  <body style="background-image: linear-gradient(to right, rgba(22, 172, 213, 0.973),rgba(15, 184, 227, 0.598),rgba(15, 184, 227, 0.598), rgba(22, 172, 213, 0.973));overflow-x: hidden;">
     <br><br>
-
-    <div  class="container">
+    <div style="width: 100%;">
+    <div style="width: 80%;margin-left:18%;">
+    <div class="container mt-5 mb-5">
       <div class="card">
           <div class="row">
               <div class="col-lg-12">
@@ -78,7 +86,7 @@
                      
                       <div class="form-group">
                           <label>Phone Number</label>
-                          <input type="tel" name="phone" class="form-control mt-2 mb-2" placeholder="Enter your contact number">
+                          <input type="number" name="phone" class="form-control mt-2 mb-2" placeholder="Enter your contact number">
                       </div>
                       
                       <div class="form-group">
@@ -455,108 +463,169 @@
                             </div>
                           </div>
                       </div>
-
-                      <div id="project-container">
-                          <div class="form-group2">
-                            <div class="row">
-                              <!-- <div class="col-md-12">
-                                  <label>Project Title</label>
-                                  
-                                  
-                                </div> -->
-                              <div class="col-md-12">
-                                <label>Project</label>
-                                <script type='text/javascript'>$Spelling.SpellCheckAsYouType('pro')</script>
-                                <textarea class="form-control mt-2 mb-2" name="pro" placeholder="Enter project details" oninput="$Spelling.SpellCheckInWindow('pro')"></textarea>
-                               
-                              </div>
-                            
-                              
-                            </div>
-                          </div>
-                      </div>
                       <div id="project-container">
                         <div class="form-group2">
                           <div class="row">
-                            <!-- <div class="col-md-12">
-                                <label>Internship Title</label>
-                                
-                                
-                              </div> -->
                             <div class="col-md-12">
-                              <script type='text/javascript'>$Spelling.SpellCheckAsYouType('intern')</script>
-                              <label>Internship</label>
-                              <textarea class="form-control mt-2 mb-2" name="intern" placeholder="Enter internship details" oninput="$Spelling.SpellCheckInWindow('intern')"></textarea>
-                              
+                                <label>Reference</label>
+                              </div>
+                            <div class="col-md-12">
+                              <script type='text/javascript'>$Spelling.SpellCheckAsYouType('ref')</script>
+                              <textarea class="form-control mt-2 mb-2" name="ref" placeholder="Enter reference details" oninput="$Spelling.SpellCheckInWindow('ref')"></textarea>
+                             
                             </div>
                           
                             
                           </div>
                         </div>
                     </div>
-                    <div id="project-container">
-                      <div class="form-group2">
-                        <div class="row">
-                          <!-- <div class="col-md-12">
-                              <label>Achievements</label>
-                              
-                              
-                            </div> -->
-                          <div class="col-md-12">
-                            <label>Achievements</label>
-                            <script type='text/javascript'>$Spelling.SpellCheckAsYouType('achi')</script>
-                            <textarea class="form-control mt-2 mb-2" name="achi" placeholder="Enter achievement details" oninput="$Spelling.SpellCheckInWindow('achi')"></textarea>
-                            
-                          </div>
-                        
-                          
-                        </div>
-                      </div>
-                  </div>
-     
-                  <div id="project-container">
-                    <div class="form-group2">
-                      <div class="row">
-                        <!-- <div class="col-md-12">
-                            <label>Certifications</label>
-                            
-                           
-                          </div> -->
-                        <div class="col-md-12">
-                          <label>Certifications</label>
-                          <script type='text/javascript'>$Spelling.SpellCheckAsYouType('certi')</script>
-                          <textarea class="form-control mt-2 mb-2" name="certi" placeholder="Enter certification details" oninput="$Spelling.SpellCheckInWindow('certi')"></textarea>
-                          
-                        </div>
-                      
-                        
-                      </div>
-                    </div>
-                </div>
-
-                  <div id="project-container">
-                    <div class="form-group2">
-                      <div class="row">
-                        <div class="col-md-12">
-                            <label>Reference</label>
-                          </div>
-                        <div class="col-md-12">
-                          <script type='text/javascript'>$Spelling.SpellCheckAsYouType('ref')</script>
-                          <textarea class="form-control mt-2 mb-2" name="ref" placeholder="Enter reference details" oninput="$Spelling.SpellCheckInWindow('ref')"></textarea>
-                         
-                        </div>
-                      
-                        
-                      </div>
-                    </div>
-                </div>
-                          <button type="submit" class="btn btn-primary col-md-12">CREATE RESUME</button>
+<br><br>
+                    
+                   <button type="submit" class="btn btn-primary col-md-12">CREATE RESUME</button>
                   </form>
+                  <br>
+                  <button type="button" class="btn btn-primary "  data-bs-toggle="modal" data-bs-target="#myModal" style="margin-left: 8%;" >
+                    Add Project
+                  </button>
+                  <button type="button" class="btn btn-primary "  data-bs-toggle="modal" data-bs-target="#myModal1" style="margin-left: 8%;">
+                    Add Internship
+                  </button>
+                  <button type="button" class="btn btn-primary "  data-bs-toggle="modal" data-bs-target="#myModal2"  style="margin-left:8%;">
+                    Add Achievements
+                  </button>
+                  <button type="button" class="btn btn-primary "  data-bs-toggle="modal" data-bs-target="#myModal3" style="margin-left: 8%;" >
+                    Add Certifications
+                  </button>
+                  <br><br>
               </div>
           </div>
       </div>
-
+    </div>
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+    
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Project Details</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+    
+          <!-- Modal body -->
+          <center>
+          <div class="modal-body">
+            <form action="{% url 'projectdetail' %}"  method="post" class="shadow p-5"> 
+              {% csrf_token %}
+              <input type="text" name="proname" placeholder="Ener Project Name" class="a"><br><br>
+              <textarea name="prodetails" placeholder="Ener Project Details" class="a" cols="40" rows="5"></textarea><br><br>
+              <input type="submit" value="Submit" class="a">
+            </form>
+          </div>
+        </center>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          </div>
+    
+        </div>
       </div>
+    </div>
+
+    <div class="modal" id="myModal1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+    
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Internship Details</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+    
+          <!-- Modal body -->
+          <center>
+          <div class="modal-body">
+            <form action="{% url 'interdetail' %}"  method="post" class="shadow p-5"> 
+              {% csrf_token %}
+              <input type="text" name="internname" placeholder="Ener Intership Name" class="a"><br><br>
+              <textarea name="interns"  cols="40" rows="5" placeholder="Ener Intership Details" class="a"></textarea><br>
+              <input type="date" name="interndate" class="a"><br><br>
+              <input type="submit" value="Submit" class="a">
+            </form>
+          </div>
+        </center>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="myModal2">
+      <div class="modal-dialog">
+        <div class="modal-content">
+    
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Achievement Details</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+    
+          <!-- Modal body -->
+          <center>
+          <div class="modal-body">
+            <form action="{% url 'achidetail' %}"  method="post" class="shadow p-5"> 
+              {% csrf_token %}
+              <input type="text" name="achiname" placeholder="Ener Achievement Name" class="a"><br><br>
+              <textarea name="achiinfo" id="" cols="40" rows="5" placeholder="Ener Achievement Details" class="a"></textarea><br><br>
+              <input type="text" name="achiinfo" placeholder="Ener Achievement Details" class="a"><br><br>
+              <input type="date" name="achidate" class="a"><br><br>
+              <input type="submit" value="Submit" class="a">
+            </form>
+          </div>
+        </center>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="myModal3">
+      <div class="modal-dialog">
+        <div class="modal-content">
+    
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Certification Details</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+    
+          <!-- Modal body -->
+          <center>
+          <div class="modal-body">
+            <form action="{% url 'certidetail' %}"  method="post" class="shadow p-5"> 
+              {% csrf_token %}
+              <input type="text" name="certiname" placeholder="Ener Certification Name" class="a"><br><br>
+              <textarea name="cerinfo" id="" cols="30" rows="10" placeholder="Ener Certification Details" class="a"></textarea><br><br>
+              <input type="date" name="certidate" class="a"><br><br>
+              <input type="submit" value="Submit">
+            </form>
+          </div>
+        </center>
+    
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+    
     </body>
     <script>
       (function(){
