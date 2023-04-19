@@ -1,0 +1,205 @@
+{% extends 'Comp/base1.html' %}
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+{% block content %}
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="{% static 'new/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'new/css/colors/blue.css' %}" id="colors">
+
+</head>
+
+<body>
+    <div id="wrapper">
+
+
+<!-- Header
+================================================== -->
+
+<!-- Titlebar
+================================================== -->
+<div id="titlebar" class="single">
+	<div class="container">
+
+        {% for i in Job %}
+        <div class="ten columns">
+                                           
+            <span><a href="">{{i.jobname}}</a></span>
+            <h2>{{i.jobname}} - {{i.companyname}}-  
+                {% if i.jobtype == 'Full-Time' %}
+                <span class="full-time">Full-Time</span>
+                {% elif i.jobtype == 'Part-Time' %}
+                <span class="part-time">Part-Time</span>
+                {% elif i.jobtype == 'Internship' %}
+                <span class="internship">Internship</span>
+                {% endif %}</h2>
+        </div>
+   
+        {% endfor %}
+
+	</div>
+</div>
+
+	
+	
+	<!-- Content
+	================================================== -->
+	<div class="container">
+		
+		<!-- Recent Jobs -->
+		<div class="eleven columns">
+		<div class="padding-right">
+			
+			<!-- Company Info -->
+			{% for i in Job %}
+			
+			<div class="company-info">
+				<img src="{{i.logo.url}}" alt="">
+				<div class="content">
+					
+                    <h2>{{i.jobname}} - {{i.companyname}} 
+                        </h2>
+					<span><a href="#"><i class="fa fa-link"></i>{{i.companywebsite}} </a></span>
+					<span><i class="fa fa-calendar"></i>{{i.date_posted|date:"F d, Y"}}</span>
+                   <h4> {% if i.jobtype == 'Full-Time' %}
+                    <span class="full-time">Full-Time</span>
+                    {% elif i.jobtype == 'Part-Time' %}
+                    <span class="part-time">Part-Time</span>
+                    {% elif i.jobtype == 'Internship' %}
+                    <span class="internship">Internship</span>
+                    {% endif %}</h4>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			{% endfor %}
+			{% for i in Job %}
+			<p class="margin-reset">
+				<h4 class="margin-bottom-10">Job Description</h4>
+             {{i.jobdescription}}
+			</p>
+			{% endfor %}
+			<br>
+			{% for i in Job %}
+			<h4 class="margin-bottom-10">Job Responsibility</h4>
+	
+			<ul class="list-1">
+				{{i.responsibility}}
+				</ul>
+				{% endfor %}
+			<br>
+			{% for i in Job %}
+			<h4 class="margin-bottom-10">Job Qualification</h4>
+	
+			<ul class="list-1">
+				{{i.qualification}}
+			</ul>
+			{% endfor %}
+		</div>
+		</div>
+	
+	
+		<!-- Widgets -->
+		<div class="five columns">
+			
+			<!-- Sort by -->
+			<div class="widget">
+				<h4>Overview</h4>
+	        
+				<div class="job-overview" id="ab">
+					{% for i in Job %}
+					<ul>
+						<li>
+							<i class="fa fa-map-marker"></i>
+							<div>
+								<strong>Location:</strong>
+								<span>{{i.location}}</span>
+							</div>
+						</li>
+						<li>
+							<i class="fa fa-user"></i>
+							<div>
+								<strong>Experience</strong>
+								<span>{{i.experience}}</span>
+							</div>
+						</li>
+						<li>
+							<i class="fa fa-phone"></i>
+							<div>
+								<strong>Contact:</strong>
+								<span>{{i.companycontact}}</span>
+							</div>
+						</li>
+						<li>
+							<i class="fa-solid fa-badge-dollar"></i>
+							<div>
+								<strong>Salary Package:</strong>
+								<span>{{i.salarypackage}}</span>
+							</div>
+						</li>
+						<li>
+					        <i class="fa-solid fa-webhook"></i>
+							<div>
+								<strong>Tagline:</strong>
+								<span>{{i.tagline}}</span>
+							</div>
+							
+						</li>
+                        <li>
+                            <i class="fa-solid fa-sitemap"></i>
+							<div>
+								<strong>Job Category:</strong>
+								<span>{{i.category}}</span>
+							</div>
+							
+						</li>
+						<p>  Last date to Apply :{{i.enddate}}</p> 
+					</ul>
+				
+	
+					
+	
+	{% endfor %}
+			
+	
+			</div>
+	
+		</div>
+		<!-- Widgets / End -->
+	
+	
+	</div>
+	
+	
+	
+	
+		<!-- Bottom -->
+		
+		
+	
+	</div>
+	
+	<!-- Back To Top Button -->
+	<div id="backtotop"><a href="#"></a></div>
+	
+	</div>
+	<!-- Wrapper / End -->
+    
+<script src="{% static 'new/scripts/jquery-2.1.3.min.js' %}"></script>
+<script src="{% static 'new/scripts/custom.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.superfish.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.themepunch.tools.min.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.themepunch.revolution.min.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.themepunch.showbizpro.min.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.flexslider-min.js' %}"></script>
+<script src="{% static 'new/scripts/chosen.jquery.min.js' %}"></script>
+
+<script src="{% static 'new/scripts/waypoints.min.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'new/scripts/jquery.jpanelmenu.js' %}"></script>
+<script src="{% static 'new/scripts/stacktable.js' %}"></script>
+
+</body>
+{% endblock %}
+</html>	

@@ -14,6 +14,8 @@ from Employee.models import Applylist,SavedJobs,Courses,Videos,Course_purchase
 from Company.models import JobDetails,Selected,Applicants
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 
+
+# to view all job list
 def joblist(request, template='Employee/joblist.html', extra_context=None):
     sorting = request.GET.get('sorting', 'recent')
     sorting_map = {
@@ -49,6 +51,9 @@ def joblist(request, template='Employee/joblist.html', extra_context=None):
 
     return render(request, template, context)
 
+
+
+#to view profile
 def profile(request):
     return render(request, 'Employee/Employee_profile.html')
  
@@ -56,7 +61,7 @@ def profile(request):
 
         
 
-
+#to view a individual job in  detail
 @login_required(login_url='login')
 def singlejob(request, id):
     Job=JobDetails.objects.filter(id=id)
@@ -70,7 +75,7 @@ def singlejob(request, id):
     }
     return render(request,'Employee/singlejob.html',context)  
 
-
+# to update a profile
 @login_required(login_url='login')         
 def Update_profile(request):
    if request.method == "POST":
@@ -105,7 +110,7 @@ def Update_profile(request):
         messages.success(request,'Profile  Updated Successfully ')
         return redirect('Eprofile')
 
-        
+   #userhome     
 def userhome(request):
    user=Account.objects.get(email=request.session.get('email'))
    if request.user.is_authenticated:
@@ -120,6 +125,9 @@ def userhome(request):
            'user': user,
           }
    return render(request,'Employee/userhome.html',context)
+
+
+#searchbar code
 
 @login_required(login_url='login')
 def searchbar(request):

@@ -10,6 +10,8 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
+
+#to view the resume
 def res(request):
         iid = request.POST.get('iid', None)  # Use request.POST.get() with a default value of None
         data1 = resumme.objects.filter(res_id=iid)
@@ -18,7 +20,11 @@ def res(request):
         data4 = achidetails.objects.filter(cann_id=request.user.id)
         data5 = certidetails.objects.filter(cann_id=request.user.id)
         return render(request, 'Resume/res.html', {'data1': data1, 'data2': data2, 'data3': data3, 'data4': data4, 'data5': data5})
-  
+
+
+
+
+
 def resdetails(request):
     user=Account.objects.get(email=request.session.get('email'))
     if request.user.is_authenticated:
@@ -29,75 +35,9 @@ def resdetails(request):
 
 
 
-# def resubmit(request):
-#     # Get the current user's resume (if it exists)
-#     try:
-#         user = resume.objects.get(user_id=request.user.id)
-#     except resume.DoesNotExist:
-#         user = None
-
-#     if user:
-#         # Update the existing resume
-     
-#         user.position = request.POST['pos']
-#         user.carobj = request.POST['co']
-#         user.email = request.POST['email']
-#         user.college = request.POST['col']
-#         user.plus = request.POST['plus']
-#         user.ten = request.POST['scho']
-#         user.projects = request.POST['pro']
-#         user.certi = request.POST['certi']
-#         user.achi = request.POST['achi']
-#         user.interns = request.POST['intern']
-#         user.refe = request.POST['ref']
-#         user.address = request.POST['address']
-#         user.strength = request.POST['stre']
-#         user.skills = request.POST['skills']
-#         user.lang = request.POST['lang']
-#         user.hob = request.POST['hob']
-#         user.soci = request.POST['soli']
-#         user.coun = request.POST['country']
-#         user.dob = request.POST['dob']
-#         user.gender = request.POST['gen']
-#         user.save()
-#     else:
-#         # Create a new resume for the user
-#         username = request.POST['username']
-#         pos = request.POST['pos']
-#         co = request.POST['co']
-#         email = request.POST['email']
-#         col = request.POST['col']
-#         plus = request.POST['plus']
-#         scho = request.POST['scho']
-#         pro = request.POST['pro']
-#         certi = request.POST['certi']
-#         achi = request.POST['achi']
-#         intern = request.POST['intern']
-#         ref = request.POST['ref']
-#         address = request.POST['address']
-#         stre = request.POST['stre']
-#         skills = request.POST['skills']
-#         lang = request.POST['lang']
-#         hob = request.POST['hob']
-#         soli = request.POST['soli']
-#         country = request.POST['country']
-#         dob = request.POST['dob']
-#         gen = request.POST['gen']
-#         user_id = request.user
-#         userr = resume.objects.create(name=username, position=pos, email=email, carobj=co, college=col, plus=plus, ten=scho, projects=pro, certi=certi, achi=achi, interns=intern, refe=ref, address=address, strength=stre, skills=skills, lang=lang, hob=hob, soci=soli, coun=country, dob=dob, gender=gen, user_id=user_id)
-#         userr.save()
-#     return redirect('res')
 
 
-import os
-from django.http import HttpResponse
-from django.template.loader import get_template
-from django.template import RequestContext
-from django.contrib.staticfiles import finders
-from xhtml2pdf import pisa
-from io import BytesIO
-
-from django.shortcuts import render
+#to view as pdf
 def my_view(request):
     # Retrieve data from the database
             iid=request.POST['iid']
@@ -121,7 +61,7 @@ def my_view(request):
             return response
 
 
-
+#to view all the resume and manage them
 def manage_resumes(request):
    
     data1=resumme.objects.filter(user_id = request.user.id)
@@ -130,7 +70,7 @@ def manage_resumes(request):
 
 
 
-
+# to delete a resume
 @login_required
 def resume_delete(request, res_id):
     r = resumme.objects.get(res_id=res_id)
@@ -143,7 +83,7 @@ def resume_delete(request, res_id):
 
 
 
-
+# to get resume details from the user
 def resubmit(request):
     user = Account.objects.get(email=request.session.get('email'))
     if request.user.is_authenticated:
@@ -207,9 +147,9 @@ def resubmit(request):
             print(userr)
             userr.save()
             print(userr)
-            return redirect('res')
+            return redirect('manage_resumes')
 
-
+#to add internship details
 def interdetail(request):
     user=Account.objects.get(email=request.session.get('email'))
     if request.user.is_authenticated:
@@ -222,6 +162,8 @@ def interdetail(request):
             return redirect('resdetails')
         return redirect('userhome')
 
+
+#to add project details
 def projectdetail(request):
     user=Account.objects.get(email=request.session.get('email'))
     if request.user.is_authenticated:
@@ -233,6 +175,8 @@ def projectdetail(request):
             return redirect('resdetails')
     return redirect('userhome')
 
+
+#to add achievements details
 def achidetail(request):
     user=Account.objects.get(email=request.session.get('email'))
     if request.user.is_authenticated:
@@ -245,6 +189,9 @@ def achidetail(request):
             return redirect('resdetails')
     return redirect('userhome')
 
+
+
+# to add certificate details
 def certidetail(request):
     user=Account.objects.get(email=request.session.get('email'))
     if request.user.is_authenticated:

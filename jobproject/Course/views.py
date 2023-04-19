@@ -17,7 +17,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 
 
-
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 from matplotlib import pyplot as plt
@@ -63,10 +66,7 @@ def Course_endroll(request,c_slug):
 
 
 
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-import json
+
 @login_required(login_url='login')
 def feedback(request):
    user=Account.objects.get(email=request.session.get('email'))
@@ -82,12 +82,46 @@ def feedback(request):
         f.save()
         return redirect("coursesenrolled")
     return render(request, 'Courses/feedback.html',{"c":courses})
+   
+
+
 @login_required(login_url='login')
 def Course_cancel(request,course_id):
     id = request.user.id
     course=get_object_or_404(Course_purchase,course_id=course_id,id=id)
     course.delete()
     return redirect("Course/coursesenrolled")
+
+
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from textblob import TextBlob
+
+
+# def sentiment_analysis(request):
+#     feedback = Feedback.objects.get(id=id)
+#     blob = TextBlob(feedback.feedback)
+#     positive_percentage = round(blob.sentiment.polarity * 100, 2)
+#     negative_percentage = round(100 - positive_percentage, 2)
+#     neutral_percentage = 100 - positive_percentage - negative_percentage
+#     compoud_score = round(blob.sentiment.subjectivity * 100, 2)
+
+#     # Update sentiment model with new data
+#     sent_obj, created = sentiment.objects.get_or_create(review=feedback)
+#     sent_obj.positive_percentage = positive_percentage
+#     sent_obj.negative_percentage = negative_percentage
+#     sent_obj.neutral_percentage = neutral_percentage
+#     sent_obj.compoud_score = compoud_score
+#     sent_obj.num_reviews += 1
+#     sent_obj.save()
+
+#     return render(request, 'Comp/viewfeedback.html', {'feedback': feedback, 'sentiment': sent_obj})
+
+
+
+
+
 
 
 
@@ -175,11 +209,11 @@ def payment_done_course(request):
     payment.course = Courses.objects.get(id=request.session['course_id'])
     payment.save()
 
-    user = request.user.id
+    user =  Account.objects.get(email=request.session.get('email'))
     course = payment.course.id
     purchase_date = datetime.now().date()
     end_date = purchase_date + timedelta(days=30)  # or any other duration you want to set
-    course_purchase = Course_purchase(user_id=user, course_id=course, purhase_date=purchase_date, end_date=end_date)
+    course_purchase = Course_purchase(userid=user, course_id=course, purhase_date=purchase_date, end_date=end_date)
     course_purchase.save()
 
 

@@ -14,7 +14,7 @@ urlpatterns = [
     path ('Applylist/', views.JobApplylist, name="Applylist"),
    
     path('job/<str:job_name>/applylist/', views.JobApplylist, name='job_applylist'),
-
+    path ('viewjob/<int:id>', views.viewjob, name="viewjob"),
     path ('update_profile/', views.Update_profile, name="update_profile"),
     path('addvideo/', views.AddVideo, name='addvideo'),
     path('enrolledcandidate/', views.enrolledcandidate, name='enrolledcandidate'),

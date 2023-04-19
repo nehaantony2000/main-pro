@@ -18,7 +18,7 @@ urlpatterns = [
     path('playcourse/<slug:c_slug>/<slug:v_slug>', views.playcourse, name='playcourse'),
     path('course/<slug:c_slug>/checkoutcourse/', views.checkoutcourse, name='checkoutcourse'),
     path('payment_done_course/', views.payment_done_course, name='payment_done_course'),
-
+    # path('feedback/<int:feedback_id>/sentiment_analysis/', sentiment_analysis, name='sentiment_analysis'),
 
     
 ]

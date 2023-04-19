@@ -136,8 +136,13 @@ class Feedback(models.Model):
     
     feedback = models.TextField()
     feedbackdate = models.DateField(auto_now_add=True)
-    
-    
+class sentiment(models.Model):
+    review = models.ForeignKey(Feedback,on_delete=models.CASCADE)
+    positive_percentage = models.DecimalField(max_digits=5,decimal_places=2)
+    negative_percentage = models.DecimalField(max_digits=5,decimal_places=2)
+    neutral_percentage = models.DecimalField(max_digits=5,decimal_places=2)
+    compoud_score = models.DecimalField(max_digits=5,decimal_places=2)
+    num_reviews = models.IntegerField(default=0)    
    
 
 

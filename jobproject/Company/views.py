@@ -162,17 +162,17 @@ def JobApplylist(request):
             annotation2 = skill_extractor.annotate(jobname_filter)
             expectedskills =annotation2['results']
             expectedskills.keys()
-                        
             fullmatch1 = expectedskills['full_matches']
             ngrams_scored1 = expectedskills['ngram_scored']
             a_key1 = "doc_node_value"
 
             f_docnodevalues1 = [a_dict1[a_key1] for a_dict1 in fullmatch1]
             n_docnodevalues1 = [a_dict1[a_key1] for a_dict1 in ngrams_scored1]
-
+        
             requiredskills = f_docnodevalues1 + n_docnodevalues1
+           
             sanitized_values = list(set(requiredskills)) 
-
+            # print(sanitized_values)
 
 
             applications = Applylist.objects.filter(job__in=jobs, job__jobname=jobname_filter).order_by('-applieddate')
@@ -202,7 +202,7 @@ def JobApplylist(request):
 
                     all_doc_node_values = f_docnodevalues + n_docnodevalues
                     cleaned_values = list(set(all_doc_node_values)) 
-
+                    # print(cleaned_values)
 
                     scraped_data = [' '.join(cleaned_values)]
                     cv = [' '.join(sanitized_values)]
@@ -214,7 +214,7 @@ def JobApplylist(request):
 
 
                     # print(cleaned_values)
-                applicants[candidate_id] = {'ExtractedSkill': cleaned_values,'application_id': application_id,'required_skills':sanitized_values}
+                # applicants[candidate_id] = {'ExtractedSkill': cleaned_values,'application_id': application_id,'required_skills':sanitized_values}
                 print(applicants)
                 
 
@@ -386,3 +386,17 @@ def deletevedio(request, id):
            videos = Videos.objects.get(id=id)
            videos.delete()
     return redirect("recruiter_videos")
+
+
+
+@login_required(login_url='login')
+def viewjob(request, id):
+    Job=JobDetails.objects.filter(id=id)
+    Job11=JobDetails.objects.get(id=id)
+   
+    
+    context={
+        'Job':Job,
+   
+    }
+    return render(request,'Comp/ViewJob.html',context)  
