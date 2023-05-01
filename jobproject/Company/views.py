@@ -1,4 +1,4 @@
-from django.http import HttpResponseForbidden
+from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render,redirect
 from django.urls import reverse
 import sweetify
@@ -12,6 +12,7 @@ from django.utils.text import slugify
 from hashlib import sha256
 from Course.forms import VideoForm
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
+
 import PyPDF2
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -154,12 +155,26 @@ def JobApplylist(request):
     user = Account.objects.get(email=request.session.get('email'))
     nlp = spacy.load("en_core_web_sm")
     skill_extractor = SkillExtractor(nlp, SKILL_DB, PhraseMatcher)
+    ranked_applicants = []
+    seen_candidate_ids = set()
+    unique_ranked_applicants=[]
     if user.is_authenticated and user.is_company:
         jobs = JobDetails.objects.filter(email=user)
+       
         jobname_filter = request.GET.get('jobname')
+        jobdetails = None
+        jobrequiredskills = []
+
+        if jobname_filter is not None:
+            try:
+                jobdetails = JobDetails.objects.get(jobname=jobname_filter)
+                jobrequiredskills = jobdetails.skills
+            except JobDetails.DoesNotExist:
+                pass
+       
         if jobname_filter:
             applicants={}
-            annotation2 = skill_extractor.annotate(jobname_filter)
+            annotation2 = skill_extractor.annotate(jobrequiredskills)
             expectedskills =annotation2['results']
             expectedskills.keys()
             fullmatch1 = expectedskills['full_matches']
@@ -170,9 +185,9 @@ def JobApplylist(request):
             n_docnodevalues1 = [a_dict1[a_key1] for a_dict1 in ngrams_scored1]
         
             requiredskills = f_docnodevalues1 + n_docnodevalues1
-           
+            # print(requiredskills)
             sanitized_values = list(set(requiredskills)) 
-            # print(sanitized_values)
+            #print(sanitized_values)
 
 
             applications = Applylist.objects.filter(job__in=jobs, job__jobname=jobname_filter).order_by('-applieddate')
@@ -212,11 +227,32 @@ def JobApplylist(request):
                     cos_similarity_tfidf = cosine_similarity(user_tfidf, tfidf_jobid)
                     similarity_score = round(np.max(cos_similarity_tfidf), 2)
 
+                    if similarity_score == 0.0:
+                        similarity_score = -1.0
 
+
+                   
                     # print(cleaned_values)
-                # applicants[candidate_id] = {'ExtractedSkill': cleaned_values,'application_id': application_id,'required_skills':sanitized_values}
-                print(applicants)
+                applicants[candidate_id] = {'ExtractedSkill': cleaned_values,'application_id': application_id,'required_skills':sanitized_values,'Similarity_scores':similarity_score}
+                sorted_applicants = sorted(applicants.items(),key=lambda x:x[1]['Similarity_scores'],reverse=True)
                 
+                rank = 1
+                for i, (candidate_id, application_details) in enumerate(sorted_applicants):
+                 
+                    application_details['rank'] = rank
+                    ranked_applicants.append((candidate_id, application_details))
+                   
+                    if i < len(sorted_applicants) - 1 and application_details['Similarity_scores'] != sorted_applicants[i+1][1]['Similarity_scores']:
+                        rank += 1
+            # print(ranked_applicants)
+            for k in ranked_applicants:
+                candidate_id = k[0]
+                if candidate_id not in seen_candidate_ids :
+                    seen_candidate_ids.add(candidate_id)
+                    unique_ranked_applicants.append(k)
+
+            print(unique_ranked_applicants)
+
 
         else:
             applications = Applylist.objects.filter(job__in=jobs).order_by('-applieddate')
@@ -234,11 +270,12 @@ def JobApplylist(request):
 
         # Get the applicants for each application
         applicants = []
+        # print(ranked_applicants)
         for application in applications:
             applicants_query = Applicants.objects.filter(job=application.job, applicant=application.cand)
             applicants.append(applicants_query)
-
-        context = {'Apply': applications, 'applicants': applicants, 'jobs': jobs}
+        
+        context = {'Apply': applications, 'applicants': applicants, 'jobs': jobs,'rankedapplicants':unique_ranked_applicants}
     return render(request, "Comp/Applylist.html", context)
 
 
@@ -351,8 +388,37 @@ def note(request):
               return render(request, "Comp/Applylist.html")
         
 
-def update_application_status(request,id):
-    application = Applicants.objects.get(id=id)
+# def update_application_status(request, id):
+#     try:
+#         application = Applicants.objects.get(id=id)
+#     except Applicants.DoesNotExist:
+#         raise Http404("Application does not exist")
+
+#     if request.method == 'POST':
+#         status = request.POST.get('status')
+#         application.status = status
+#         application.save()
+
+#         messages.success(request, 'Application status updated successfully.')
+#         return redirect(reverse('Applylist', args=[id]))
+
+#     context = {
+#         'application': application
+#     }
+#     return render(request, 'Comp/Applylist.html', context)
+
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.http import Http404
+from django.contrib import messages
+
+from .models import Applicants
+
+def update_application_status(request, id):
+    try:
+        application = Applicants.objects.get(applicant=id)
+    except Applicants.DoesNotExist:
+        raise Http404("Application does not exist")
 
     if request.method == 'POST':
         status = request.POST.get('status')
@@ -360,12 +426,13 @@ def update_application_status(request,id):
         application.save()
 
         messages.success(request, 'Application status updated successfully.')
-        return redirect(reverse('application_detail', args=[id]))
+        # Redirect to the current page
+        return redirect(request.META.get('HTTP_REFERER'))
 
     context = {
         'application': application
     }
-    return render(request, '"Comp/Applylist.html', context)
+    return render(request, 'Comp/Applylist.html', context)
 
 
 from Employee.models import Videos

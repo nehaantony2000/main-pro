@@ -25,7 +25,7 @@ import json
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 from matplotlib import pyplot as plt
 from Account.models import Account
-from Employee.models import  Courses, Course_purchase,Videos,Feedback,Payment
+from Employee.models import  Courses, Course_purchase,Videos,Feedback,Payment,sentiment
 import razorpay
 
 from jobproject.settings import RAZORPAY_API_KEY
@@ -99,24 +99,24 @@ from django.http import HttpResponse
 from textblob import TextBlob
 
 
-# def sentiment_analysis(request):
-#     feedback = Feedback.objects.get(id=id)
-#     blob = TextBlob(feedback.feedback)
-#     positive_percentage = round(blob.sentiment.polarity * 100, 2)
-#     negative_percentage = round(100 - positive_percentage, 2)
-#     neutral_percentage = 100 - positive_percentage - negative_percentage
-#     compoud_score = round(blob.sentiment.subjectivity * 100, 2)
+def sentiment_analysis(request):
+    feedback = Feedback.objects.get(id=id)
+    blob = TextBlob(feedback.feedback)
+    positive_percentage = round(blob.sentiment.polarity * 100, 2)
+    negative_percentage = round(100 - positive_percentage, 2)
+    neutral_percentage = 100 - positive_percentage - negative_percentage
+    compoud_score = round(blob.sentiment.subjectivity * 100, 2)
 
-#     # Update sentiment model with new data
-#     sent_obj, created = sentiment.objects.get_or_create(review=feedback)
-#     sent_obj.positive_percentage = positive_percentage
-#     sent_obj.negative_percentage = negative_percentage
-#     sent_obj.neutral_percentage = neutral_percentage
-#     sent_obj.compoud_score = compoud_score
-#     sent_obj.num_reviews += 1
-#     sent_obj.save()
+    # Update sentiment model with new data
+    sent_obj, created = sentiment.objects.get_or_create(review=feedback)
+    sent_obj.positive_percentage = positive_percentage
+    sent_obj.negative_percentage = negative_percentage
+    sent_obj.neutral_percentage = neutral_percentage
+    sent_obj.compoud_score = compoud_score
+    sent_obj.num_reviews += 1
+    sent_obj.save()
 
-#     return render(request, 'Comp/viewfeedback.html', {'feedback': feedback, 'sentiment': sent_obj})
+    return render(request, 'Courses/viewfeedback.html', {'feedback': feedback, 'sentiment': sent_obj})
 
 
 

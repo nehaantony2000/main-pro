@@ -1,0 +1,55 @@
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.css">
+  </head>
+  <h1>Sentiment Analysis</h1>
+  <hr>
+  <h3>Feedback:</h3>
+  <p>{{ feedback.feedback }}</p>
+  <p><small>Submitted on {{ feedback.feedbackdate }}</small></p>
+
+  <h3>Sentiment Analysis:</h3>
+  <div style="width: 500px; height: 500px;">
+    <canvas id="myChart"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Positive', 'Negative', 'Neutral'],
+        datasets: [{
+          label: 'Sentiment Analysis',
+          data: [{{ sentiment.positive_percentage }}, {{ sentiment.negative_percentage }}, {{ sentiment.neutral_percentage }}],
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 206, 86, 0.2)'
+          ],
+          borderColor: [
+            'rgba(75, 192, 192, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            callback: function(value) {return value + "%"}
+          }
+        }
+      }
+    });
+  </script>
+
+{% endblock %}

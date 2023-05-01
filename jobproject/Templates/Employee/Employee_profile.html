@@ -259,23 +259,30 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label class="col-md-3 control-lable" for="Job category">Job Category</label>
-                    <div class="col-md-9">
-                        <select id="job-category" name="job-category" onchange="disableDropdown()" class="form-control input-sm"  value="{{user.category}}" >
-
-                            <option value="accounting-finance">Accounting & Finance</option>
-                            <option value="administrative">Administrative</option>
-                            <option value="customer-service">Customer Service</option>
-                            <option value="engineering">Engineering</option>
-                            <option value="healthcare">Healthcare</option>
-                            <option value="human-resources">Human Resources</option>
-                            <option value="information-technology">Information Technology</option>
-                            <option value="marketing">Marketing</option>
-                            <option value="sales">Sales</option>
-                        </select>
+                  <label class="col-md-3 control-lable" for="Job category">Job Category</label>
+                  <div class="col-md-9">
+                    <select id="job-category" name="job-category" onchange="disableDropdown()" class="form-control input-sm" value="{{ user.category }}" {% if user.category %} disabled {% endif %}>
+                      <option value="">Select a category</option>
+                      <option value="accounting-finance">Accounting &amp; Finance</option>
+                      <option value="administrative">Administrative</option>
+                      <option value="customer-service">Customer Service</option>
+                      <option value="engineering">Engineering</option>
+                      <option value="healthcare">Healthcare</option>
+                      <option value="human-resources">Human Resources</option>
+                      <option value="information-technology">Information Technology</option>
+                      <option value="marketing">Marketing</option>
+                      <option value="sales">Sales</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-              </div>
-            </div>
+              
+              
+              
+              
+              
+              
+              
             
             <div class="row">
                 <div class="form-actions floatRight">
@@ -293,6 +300,18 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function disableDropdown() {
+      var jobCategory = document.getElementById('job-category');
+      var selectedOption = jobCategory.options[jobCategory.selectedIndex].value;
+      if (selectedOption === 'engineering') {
+        document.getElementById('job-category-group').style.display = 'none';
+      } else {
+        document.getElementById('job-category-group').style.display = 'block';
+      }
+    }
+  </script>
   <script>
     const resumeInput = document.getElementById('resume');
     const resumeError = document.getElementById('resume-error');

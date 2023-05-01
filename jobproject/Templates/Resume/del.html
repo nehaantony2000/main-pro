@@ -52,41 +52,41 @@
  
   <body style="background-image: linear-gradient(to right, rgba(22, 172, 213, 0.973),rgba(15, 184, 227, 0.598),rgba(15, 184, 227, 0.598), rgba(22, 172, 213, 0.973));overflow-x: hidden;">
     <br><br>
-    <div style="width: 100%;">
-    <div style="width: 80%;margin-left:18%;">
-    <div class="container mt-5 mb-5">
-      <div class="card">
-          <div class="row">
+<div style="width: 100%;">
+  <div style="width: 70%;margin-left:18%;">
+  <div class="container mt-5 mb-5">
+    <div class="card">
+        <div class="row">
               <div class="col-lg-12">
                   <form action="{% url 'resubmit' %}"  method="post" enctype="multipart/form-data" class="shadow p-5"> 
                       {% csrf_token %}
                       <h5 class="mt-3 mb-3">Resume Builder</h5>
                       <div class="form-group">
                           <label>Name</label>
-                          <input type="text" name="username" class="form-control mt-2 mb-2" placeholder="Enter your name">
+                          <input type="text" name="username" class="form-control mt-2 mb-2" placeholder="Enter your name"  onkeypress="return /[a-z /st]/i.test(event.key)">
                       </div>
                      
                       <div class="form-group">
                         <label>Position</label>
                         <script type='text/javascript'>$Spelling.SpellCheckAsYouType('pos')</script>
-                        <input type="text" name="pos" class="form-control mt-2 mb-2" placeholder="Enter your name" oninput="$Spelling.SpellCheckInWindow('pos')">
+                        <input type="text" name="pos" class="form-control mt-2 mb-2" placeholder="Enter your name" oninput="$Spelling.SpellCheckInWindow('pos')" onkeypress="return /[a-z /st]/i.test(event.key)">
                      </div>
 
                       <div class="form-group">
                           <label>Career Objective</label>
                           <script type='text/javascript'>$Spelling.SpellCheckAsYouType('co')</script>
-                          <textarea  class="form-control mt-2 mb-2 " name="co" placeholder="Enter your career objective" oninput="$Spelling.SpellCheckInWindow('co')"></textarea>
+                          <textarea  class="form-control mt-2 mb-2 " name="co" placeholder="Enter your career objective" oninput="$Spelling.SpellCheckInWindow('co')" onkeypress="return /[a-z /st]/i.test(event.key)"></textarea>
                       </div>
                       
                       <div class="form-group">
                           <label>Address</label>
-                          <textarea  class="form-control mt-2 mb-2 " name="address" placeholder="Enter your address"></textarea>
+                          <textarea  class="form-control mt-2 mb-2 " name="address" placeholder="Enter your address" onkeypress="return /[a-z /st]/i.test(event.key)"></textarea>
                           
                       </div>
                      
                       <div class="form-group">
                           <label>Phone Number</label>
-                          <input type="number" name="phone" class="form-control mt-2 mb-2" placeholder="Enter your contact number">
+                          <input type="number" name="phone" class="form-control mt-2 mb-2" placeholder="Enter your contact number" >
                       </div>
                       
                       <div class="form-group">
@@ -100,29 +100,29 @@
                             <div class="col-md-4">
                           <label>Skills</label>
                           <script type='text/javascript'>$Spelling.SpellCheckAsYouType('skills')</script>
-                          <input type="text" id="tag-input1" name="skills" oninput="$Spelling.SpellCheckInWindow('skills')">
+                          <input type="text" id="tag-input1" name="skills" oninput="$Spelling.SpellCheckInWindow('skills')" onkeypress="return /[a-z /st]/i.test(event.key)">
                       </div>
 
                       <div class="col-md-4">
                         <label>Strengths</label>
                         <script type='text/javascript'>$Spelling.SpellCheckAsYouType('stre')</script>
-                        <input type="text" id="tag-input2" name="stre" oninput="$Spelling.SpellCheckInWindow('stre')">
+                        <input type="text" id="tag-input2" name="stre" oninput="$Spelling.SpellCheckInWindow('stre')" onkeypress="return /[a-z /st]/i.test(event.key)">
                     </div>
                     <div class="col-md-4">
                       <label>Languages</label>
                       <script type='text/javascript'>$Spelling.SpellCheckAsYouType('lang')</script>
-                      <input type="text" id="tag-input3" name="lang" oninput="$Spelling.SpellCheckInWindow('lang')">
+                      <input type="text" id="tag-input3" name="lang" oninput="$Spelling.SpellCheckInWindow('lang')" onkeypress="return /[a-z /st]/i.test(event.key)">
                   </div>
                   <div class="col-md-4">
                     <label>Hobbies</label>
                     <script type='text/javascript'>$Spelling.SpellCheckAsYouType('hob')</script>
-                    <input type="text" name="hob" id="tag-input4" oninput="$Spelling.SpellCheckInWindow('hob')">
+                    <input type="text" name="hob" id="tag-input4" oninput="$Spelling.SpellCheckInWindow('hob')" >
                 </div>
                           </div></div></div>
                 <div class="form-group">
                   <label>User URL</label>
                   <script type='text/javascript'>$Spelling.SpellCheckAsYouType('soli')</script>
-                  <input type="text" name="soli" class="form-control mt-2 mb-2" placeholder="Enter your address" oninput="$Spelling.SpellCheckInWindow('soli')">
+                  <input type="text" name="soli" class="form-control mt-2 mb-2" placeholder="Enter your address" oninput="$Spelling.SpellCheckInWindow('soli')" >
                 </div>
                 <div class="form-group">
                   <label>Country</label>
@@ -371,7 +371,7 @@
                 <option value="Yemen">Yemen</option>
                 <option value="Zambia">Zambia</option>
                 <option value="Zimbabwe">Zimbabwe</option>
-            </select>
+                </select>
                 </div>
                 <div class="form-group">
                   <label>Date of Birth</label>
@@ -393,12 +393,12 @@
                               <div class="col-md-4">
                                   <label>College Name</label>
                                   <script type='text/javascript'>$Spelling.SpellCheckAsYouType('col')</script>
-                                  <input  class="form-control mt-2 mb-2" type="text" placeholder="Enter the college name" name="col" oninput="$Spelling.SpellCheckInWindow('col')">
+                                  <input  onkeypress="return /[a-z /st]/i.test(event.key)"  class="form-control mt-2 mb-2" type="text" placeholder="Enter the college name" name="col" oninput="$Spelling.SpellCheckInWindow('col')">
                                 </div>
                               <div class="col-md-4">
                                 <label>Course Name</label>
                                 <script type='text/javascript'>$Spelling.SpellCheckAsYouType('colcourse')</script>
-                                <input  class="form-control mt-2 mb-2" type="text" placeholder="Enter the course name" name="colcourse" oninput="$Spelling.SpellCheckInWindow('colcourse')">
+                                <input onkeypress="return /[a-z /st]/i.test(event.key)"  class="form-control mt-2 mb-2" type="text" placeholder="Enter the course name" name="colcourse" oninput="$Spelling.SpellCheckInWindow('colcourse')">
                               </div>
                               <div class="col-md-4">
                                   <label>Passing year</label>
@@ -419,7 +419,7 @@
                               <div class="col-md-4">
                                   <label>Higher Secondary school name</label>
                                   <script type='text/javascript'>$Spelling.SpellCheckAsYouType('plus')</script>
-                                  <input  class="form-control mt-2 mb-2" type="text" placeholder="Enter the school name" name="plus" oninput="$Spelling.SpellCheckInWindow('plus')">
+                                  <input onkeypress="return /[a-z /st]/i.test(event.key)"  class="form-control mt-2 mb-2" type="text" placeholder="Enter the school name" name="plus" oninput="$Spelling.SpellCheckInWindow('plus')">
                                 </div>
                               <div class="col-md-4">
                                 <label>Marks</label>
@@ -445,7 +445,7 @@
                               <div class="col-md-4">
                                   <label>High School Name</label>
                                   <script type='text/javascript'>$Spelling.SpellCheckAsYouType('scho')</script>
-                                  <input  class="form-control mt-2 mb-2" type="text" placeholder="Enter the high school name" name="scho" oninput="$Spelling.SpellCheckInWindow('scho')">
+                                  <input onkeypress="return /[a-z /st]/i.test(event.key)"  class="form-control mt-2 mb-2" type="text" placeholder="Enter the high school name" name="scho" oninput="$Spelling.SpellCheckInWindow('scho')">
                                 </div>
                               <div class="col-md-4">
                                 <label>Tenth marks</label>
@@ -471,14 +471,15 @@
                               </div>
                             <div class="col-md-12">
                               <script type='text/javascript'>$Spelling.SpellCheckAsYouType('ref')</script>
-                              <textarea class="form-control mt-2 mb-2" name="ref" placeholder="Enter reference details" oninput="$Spelling.SpellCheckInWindow('ref')"></textarea>
+                              <textarea  onkeypress="return /[a-z /st]/i.test(event.key)" class="form-control mt-2 mb-2" name="ref" placeholder="Enter reference details" oninput="$Spelling.SpellCheckInWindow('ref')"></textarea>
                              
                             </div>
                           
                             
                           </div>
                         </div>
-                    </div>
+     </div>
+  
 <br><br>
                     
                    <button type="submit" class="btn btn-primary col-md-12">CREATE RESUME</button>
@@ -516,8 +517,8 @@
           <div class="modal-body">
             <form action="{% url 'projectdetail' %}"  method="post" class="shadow p-5"> 
               {% csrf_token %}
-              <input type="text" name="proname" placeholder="Ener Project Name" class="a"><br><br>
-              <textarea name="prodetails" placeholder="Ener Project Details" class="a" cols="40" rows="5"></textarea><br><br>
+              <input type="text" name="proname" placeholder="Ener Project Name" onkeypress="return /[a-z /st]/i.test(event.key)" class="a"><br><br>
+              <textarea name="prodetails" onkeypress="return /[a-z /st]/i.test(event.key)" placeholder="Ener Project Details" class="a" cols="40" rows="5"></textarea><br><br>
               <input type="submit" value="Submit" class="a">
             </form>
           </div>
@@ -546,8 +547,8 @@
           <div class="modal-body">
             <form action="{% url 'interdetail' %}"  method="post" class="shadow p-5"> 
               {% csrf_token %}
-              <input type="text" name="internname" placeholder="Ener Intership Name" class="a"><br><br>
-              <textarea name="interns"  cols="40" rows="5" placeholder="Ener Intership Details" class="a"></textarea><br>
+              <input type="text" onkeypress="return /[a-z /st]/i.test(event.key)" name="internname" placeholder="Ener Intership Name" class="a"><br><br>
+              <textarea name="interns"  onkeypress="return /[a-z /st]/i.test(event.key)" cols="40" rows="5" placeholder="Ener Intership Details" class="a"></textarea><br>
               <input type="date" name="interndate" class="a"><br><br>
               <input type="submit" value="Submit" class="a">
             </form>
@@ -577,9 +578,9 @@
           <div class="modal-body">
             <form action="{% url 'achidetail' %}"  method="post" class="shadow p-5"> 
               {% csrf_token %}
-              <input type="text" name="achiname" placeholder="Ener Achievement Name" class="a"><br><br>
-              <textarea name="achiinfo" id="" cols="40" rows="5" placeholder="Ener Achievement Details" class="a"></textarea><br><br>
-              <input type="text" name="achiinfo" placeholder="Ener Achievement Details" class="a"><br><br>
+              <input type="text" name="achiname" onkeypress="return /[a-z /st]/i.test(event.key)" placeholder="Ener Achievement Name" class="a"><br><br>
+              <textarea name="achiinfo" onkeypress="return /[a-z /st]/i.test(event.key)"  id="" cols="40" rows="5" placeholder="Ener Achievement Details" class="a"></textarea><br><br>
+              <input type="text" onkeypress="return /[a-z /st]/i.test(event.key)"  name="achiinfo" placeholder="Ener Achievement Details" class="a"><br><br>
               <input type="date" name="achidate" class="a"><br><br>
               <input type="submit" value="Submit" class="a">
             </form>
@@ -609,8 +610,8 @@
           <div class="modal-body">
             <form action="{% url 'certidetail' %}"  method="post" class="shadow p-5"> 
               {% csrf_token %}
-              <input type="text" name="certiname" placeholder="Ener Certification Name" class="a"><br><br>
-              <textarea name="cerinfo" id="" cols="30" rows="10" placeholder="Ener Certification Details" class="a"></textarea><br><br>
+              <input type="text" onkeypress="return /[a-z /st]/i.test(event.key)"  name="certiname" placeholder="Ener Certification Name" class="a"><br><br>
+              <textarea name="cerinfo" onkeypress="return /[a-z /st]/i.test(event.key)"  id="" cols="30" rows="10" placeholder="Ener Certification Details" class="a"></textarea><br><br>
               <input type="date" name="certidate" class="a"><br><br>
               <input type="submit" value="Submit">
             </form>

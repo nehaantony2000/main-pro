@@ -72,7 +72,7 @@
 			<select data-placeholder="Filter by Jobname" class="chosen-select-no-single" name="jobname" onchange="this.form.submit()">
 				<option value="">Filter by Jobname</option>
 				{% for job in jobs %}
-				<option value="{{ job.jobname }}" {% if request.GET.jobname == job.jobname %}selected{% endif %}>{{ job.jobname }}</option>
+					<option value="{{ job.jobname }}" {% if request.GET.jobname == job.jobname %}selected{% endif %}>{{ job.jobname }}</option>
 				{% endfor %}
 			</select>
 		</form>
@@ -103,7 +103,34 @@
 	
 						
 						</ul>
-						  Applied for: {{i.job.jobname}}
+					Applied for:						  <span> {{i.job.jobname}}</span>
+						  <br>
+						  <i>Rank :</i>
+							{% for applicant in rankedapplicants %}
+								{% if i.id == applicant.1.application_id %}
+									{% if applicant.1.Similarity_scores == -1.0 %}
+										<span>-</span>
+									{% else %}
+										<span>{{applicant.1.rank}}</span>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+						  
+						  
+						  <!-- <ul>
+							{% for applicant in rankedapplicants %}
+							  {% if i.id == applicant.1.application_id%}
+							  <li>
+							
+								<p>Extracted Skills: {{ applicant.1.ExtractedSkill }}</p>
+								<p>Application ID: {{ applicant.1.application_id }}</p>
+								<p>Required Skills: {{ applicant.1.required_skills }}</p>
+								<p>Similarity Score: {{ applicant.1.Similarity_Scores }}</p>
+								<p>Rank: {{ applicant.1.rank }}</p>
+							  </li>
+							  {% endif %}
+							{% endfor %}
+						  </ul> -->
 					
 						
 					
@@ -173,7 +200,7 @@
 					<span>{{i.cand.contact}} </span>
 					<i>Message :</i>
 					<span>{{i.notes}} </span>
-				
+				    
 			    </div>
 
 
@@ -192,8 +219,15 @@
 				
 
 				<ul>
-					<li><i class="fa fa-file-text-o"></i> {{i.status}}</li>
+
 					
+        
+   
+		{% for applicant in applicants %}
+		{% if i.cand_id == applicant.id and i.job_id == applicant.job_id %}
+					<li><i class="fa fa-file-text-o"></i>{{ applicant.status }} </li>
+					{% endif %}
+					{% endfor %}
 					<li><i class="fa fa-calendar"></i>{{i.applieddate|date:"F d, Y"}} </li>
 				
 				</ul>

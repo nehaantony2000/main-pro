@@ -62,9 +62,13 @@
 									</div>
 									<br>
 									<p>{{i.jobdescription|truncatewords:30}}
-										<a href="{% url 'singlejob' i.id %}">Read More</a>
+										<a href="{% url 'singlejob' i.id %}"><b>Read More</b></a>
 									</p>
 								
+								
+    
+    <p style="color: green;"> {{ i.applicants.count }} applicants</p>
+
 								<div class="clearfix"></div>
 							</div>
 						</li>

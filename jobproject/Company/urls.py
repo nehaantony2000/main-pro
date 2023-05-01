@@ -12,7 +12,7 @@ urlpatterns = [
     path ('jobdetails/',views.JobdetailSubmit,name="jobdetails"),
     path ('profile/', views.profile, name="profile"),
     path ('Applylist/', views.JobApplylist, name="Applylist"),
-   
+    path('Applylist/<int:id>/update-status/', views.update_application_status, name='update_application_status'),
     path('job/<str:job_name>/applylist/', views.JobApplylist, name='job_applylist'),
     path ('viewjob/<int:id>', views.viewjob, name="viewjob"),
     path ('update_profile/', views.Update_profile, name="update_profile"),
@@ -22,7 +22,7 @@ urlpatterns = [
     path('deleteApplication/<int:id>', views.deleteApplication, name='deleteApplication'),
     path('viewfeedback/', views.viewfeedback, name='viewfeedback'),
     path('note/', views.note, name='note'),
-    path('application/<int:id>/update-status/', views.update_application_status, name='update_application_status'),
+    
     path('recruiter_videos/', views.recruiter_videos, name='recruiter_videos'),
     path('deletevedio/<int:id>', views.deletevedio, name='deletevedio'),
    path('edit_video/<int:id>/',views.edit_video, name='edit_video'),

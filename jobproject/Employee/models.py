@@ -42,34 +42,6 @@ class SavedJobs(models.Model):
 
 
 
-# class resume(models.Model):
-#     res_id = models.AutoField(primary_key=True)
-#     name=models.CharField(max_length=100,blank=True)
-#     position=models.CharField(max_length=200,blank=True)
-#     email=models.EmailField(max_length=100,blank=True, null=True)
-#     carobj=models.TextField(max_length=300,blank=True)
-#     college=models.CharField(max_length=200,blank=True)
-#     plus=models.CharField(max_length=200,blank=True)
-#     ten=models.CharField(max_length=200,blank=True)
-#     projects=models.TextField(max_length=100,blank=True)
-#     certi=models.TextField(max_length=100,blank=True)
-#     achi=models.TextField(max_length=100,blank=True)
-#     interns=models.TextField(max_length=100,blank=True)
-#     refe=models.TextField(max_length=100,blank=True)
-#     phone=models.TextField(max_length=100,blank=True, null=True)
-#     address=models.TextField(max_length=100,blank=True)
-#     strength=models.TextField(max_length=100,null=True,blank=True)
-#     skills=models.TextField(max_length=100,null=True,blank=True)
-#     lang=models.TextField(max_length=100,null=True,blank=True)
-#     hob=models.TextField(max_length=100,null=True,blank=True)
-#     soci=models.CharField(max_length=100,blank=True)
-#     coun=models.CharField(max_length=100,blank=True)
-#     status=models.BooleanField('status', default=0) 
-#     dob=models.DateField()
-#     gender=models.CharField(max_length=100,null=True)
-#     user_id=models.ForeignKey(Account, on_delete=models.CASCADE)
-#     date_posted = models.DateTimeField(default=timezone.now)
-
        
 class Courses(models.Model):
     course=models.CharField(max_length=30,unique=True)
@@ -136,12 +108,16 @@ class Feedback(models.Model):
     
     feedback = models.TextField()
     feedbackdate = models.DateField(auto_now_add=True)
+
+
+
 class sentiment(models.Model):
     review = models.ForeignKey(Feedback,on_delete=models.CASCADE)
-    positive_percentage = models.DecimalField(max_digits=5,decimal_places=2)
-    negative_percentage = models.DecimalField(max_digits=5,decimal_places=2)
-    neutral_percentage = models.DecimalField(max_digits=5,decimal_places=2)
-    compoud_score = models.DecimalField(max_digits=5,decimal_places=2)
+    positive_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True)
+    positive_percentage = models.DecimalField(max_digits=5,decimal_places=2, null=True)
+    negative_percentage = models.DecimalField(max_digits=5,decimal_places=2, null=True)
+    neutral_percentage = models.DecimalField(max_digits=5,decimal_places=2, null=True)
+    compoud_score = models.DecimalField(max_digits=5,decimal_places=2, null=True)
     num_reviews = models.IntegerField(default=0)    
    
 

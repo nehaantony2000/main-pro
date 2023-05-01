@@ -98,14 +98,12 @@ class Account(AbstractBaseUser,PermissionsMixin):
     address =        models.CharField(max_length=150,default='')
     country         = CountryField(max_length=50,blank_label='(select country)')
     gender          = models.CharField(max_length=50, default='None')
-    dob             = models.DateField(blank=True, null=True)
-    language=models.CharField(max_length=50,choices=language_choices,default='')
-    skills=models.CharField(max_length=50,choices=skill_choices,default='')
+
     state           = models.CharField(max_length=50,choices=state_choices,default='')
     district        = models.CharField(max_length=50,choices=district_choices,default='')
     profilepic= models.ImageField(upload_to="Profile",blank=True, null=True)
   
-    category=models.CharField(max_length=250,choices=category_choices,default='')
+    category = models.CharField(max_length=250, choices=category_choices, blank=True, null=True)
 
 
 

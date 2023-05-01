@@ -10,7 +10,7 @@ from hashlib import sha256
 from django.utils import timezone
 from django.db.models import Q
 from django.contrib import messages
-from Employee.models import Applylist,SavedJobs,Courses,Videos,Course_purchase
+from Employee.models import Applylist,SavedJobs,Courses,Videos,Course_purchase,Feedback,sentiment
 from Company.models import JobDetails,Selected,Applicants
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 
@@ -78,7 +78,7 @@ def singlejob(request, id):
 # to update a profile
 @login_required(login_url='login')         
 def Update_profile(request):
-   if request.method == "POST":
+    if request.method == "POST":
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
@@ -86,11 +86,10 @@ def Update_profile(request):
         address = request.POST.get('address')
         country = request.POST.get('country')
         state = request.POST.get('state')
-        
-        district=request.POST.get('District')
+        district = request.POST.get('District')
         gender = request.POST.get('gender')
-        profilepic =request.FILES.get('pic')
-        category =request.POST.get('job-category')
+        profilepic = request.FILES.get('pic')
+        category = request.POST.get('job-category')
         user_id = request.user.id
         
         user = Account.objects.get(id=user_id)
@@ -98,16 +97,20 @@ def Update_profile(request):
         user.last_name = last_name
         user.email = email
         
-        user.profilepic=profilepic
-        user.gender=gender
+        user.profilepic = profilepic
+        user.gender = gender
         user.contact = contact
         user.address = address
-        user.district=district
-        user.country=country
-        user.state=state
-        user.category = category
+        user.district = district
+        user.country = country
+        user.state = state
+        
+        # Check if category is already set
+        if not user.category:
+            user.category = category
+            
         user.save()
-        messages.success(request,'Profile  Updated Successfully ')
+        messages.success(request,'Profile Updated Successfully')
         return redirect('Eprofile')
 
    #userhome     
@@ -267,3 +270,7 @@ def get_news(request):
     
     return render(request, 'Employee/news.html', {"page": "Newsplatform", "page_obj": page_obj})
   
+
+
+
+
