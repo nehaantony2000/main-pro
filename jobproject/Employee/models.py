@@ -18,12 +18,12 @@ class Applylist(models.Model):
    resumes= models.FileField(upload_to='AppliedResume',blank=True, null=True)
    applieddate=models.DateTimeField(auto_now_add=True)
    status_choices = [
-        ('PENDING', 'Pending'),
-        ('REJECTED', 'Rejected'),
-        ('ACCEPTED', 'Accepted')
-    
-    ]
-   status = models.CharField(max_length=8, choices=status_choices, default='PENDING')
+    ('PENDING', 'Pending'),
+    ('REJECTED', 'Rejected'),
+    ('SELECTED', 'Selected'),
+    ('INTERVIEW SHEDULED', 'Interview Sheduled')
+]
+   status = models.CharField(max_length=20, choices=status_choices, default='PENDING')
    notes = models.TextField(blank=True, null=True)
 
 

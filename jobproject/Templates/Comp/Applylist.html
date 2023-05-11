@@ -46,16 +46,21 @@
 	
 
 
-	<div class="eight columns">
-		<!-- Select -->
+	<!-- <div class="eight columns">
+		
 		<select data-placeholder="Filter by status" class="chosen-select-no-single" name="status">
 			<option value="">Filter by status</option>
-			<option value="Applied">New</option>
-			<option value="Rejected">Rejected</option>
-			<option value="Selected">Selected</option>
+    <option value="PENDING">Pending</option>
+    <option value="REJECTED">Rejected</option>
+    <option value="ACCEPTED">Accepted</option>
+    <option value="IN REVIEW">In Review</option>
+    <option value="APPROVED">Approved</option>
+    <option value="ON HOLD">On Hold</option>
+    <option value="CANCELLED">Cancelled</option>
+    <option value="COMPLETED">Completed</option>
 		</select>
 		<div class="margin-bottom-15"></div>
-	</div>
+	</div> -->
 
 	<div class="eight columns">
 		<!-- Select -->
@@ -158,13 +163,16 @@
 			    <div class="app-tab-content" id="one-{{ i.id }}">
 			
 					<form action="{% url 'update_application_status' i.id %}" method="POST">
+						{% include 'Message.html' %}
 						{% csrf_token %}
 						<div class="select-grid">
-							<select data-placeholder="Application Status" class="chosen-select-no-single" name="status">
+							<select data-placeholder="Application Status"   id ="status" class="chosen-select-no-single" name="status">
 								<option value="">Application Status</option>
-								<option value="Applied">New</option>
-								<option value="Rejected">Rejected</option>
-								<option value="Selected">Selected</option>
+								<option value="PENDING">Pending</option>
+								<option value="REJECTED">Rejected</option>
+								<option value="ACCEPTED">Accepted</option>
+								<option value="Interview Sheduled">Interview Sheduled</option>
+								
 							</select>
 						</div>
 						<div class="clearfix"></div>
@@ -223,11 +231,9 @@
 					
         
    
-		{% for applicant in applicants %}
-		{% if i.cand_id == applicant.id and i.job_id == applicant.job_id %}
-					<li><i class="fa fa-file-text-o"></i>{{ applicant.status }} </li>
-					{% endif %}
-					{% endfor %}
+
+					<li><i class="fa fa-file-text-o"></i>{{ i.status }} </li>
+					
 					<li><i class="fa fa-calendar"></i>{{i.applieddate|date:"F d, Y"}} </li>
 				
 				</ul>
@@ -241,7 +247,36 @@
 
 	</div>	
 	
+	
+</div>
 
+
+
+<div class="pagination-container">
+	<center>
+		<nav class="pagination">
+			<ul>
+				{% if Apply.has_previous %}
+					<li><a href="?page=1">First</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<li><a href="?page={{ Apply.previous_page_number }}">Previous</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				{% endif %}
+
+				{% for num in Apply.paginator.page_range %}
+					{% if Apply.number == num %}
+						<li><a href="#" class="current-page">{{ num }}</a></li>&nbsp;&nbsp;&nbsp;
+					{% elif num > Apply.number|add:'-3' and num < Apply.number|add:'3' %}
+						<li><a href="?page={{ num }}">{{ num }}</a></li>&nbsp;&nbsp;&nbsp;
+					{% endif %}
+				{% endfor %}
+
+				{% if Apply.has_next %}
+					<li><a href="?page={{ Apply.next_page_number }}">Next</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<li><a href="?page={{ Apply.paginator.num_pages }}">Last</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				{% endif %}
+			</ul>
+		</nav>
+	</center>
+</div>
 </div>
 
 

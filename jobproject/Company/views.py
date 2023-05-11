@@ -150,6 +150,9 @@ def Update_profile(request):
         user.save()
         sweetify.success(request,'Profile Are Successfully Updated. ')
         return redirect('profile')
+
+
+        
 @login_required
 def JobApplylist(request):
     user = Account.objects.get(email=request.session.get('email'))
@@ -190,7 +193,7 @@ def JobApplylist(request):
             #print(sanitized_values)
 
 
-            applications = Applylist.objects.filter(job__in=jobs, job__jobname=jobname_filter).order_by('-applieddate')
+            applications = Applylist.objects.filter(job__in=jobs, job__jobname=jobname_filter).order_by('applieddate')
             for application in applications:
                 candidate_id=application.cand_id
                 resume_path=application.resumes.path
@@ -255,7 +258,7 @@ def JobApplylist(request):
 
 
         else:
-            applications = Applylist.objects.filter(job__in=jobs).order_by('-applieddate')
+            applications = Applylist.objects.filter(job__in=jobs).order_by('applieddate')
 
         # Get the value of the select element
         sort_by = request.GET.get('sort_by')
@@ -416,8 +419,8 @@ from .models import Applicants
 
 def update_application_status(request, id):
     try:
-        application = Applicants.objects.get(applicant=id)
-    except Applicants.DoesNotExist:
+        application = Applylist.objects.get(id=id)
+    except Applylist.DoesNotExist:
         raise Http404("Application does not exist")
 
     if request.method == 'POST':

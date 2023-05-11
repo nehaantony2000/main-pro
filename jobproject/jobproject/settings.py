@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Resume',
     'Employee',
     'Company',
+    'textrazor',
     'django_countries',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -166,6 +167,7 @@ LOGOUT_REDIRECT_URL = "login"
 
 
 TEXTRAZOR_API_KEY = '3ce7b89fecec0fe6367e21b3b1ba8043e35329aab1ae5476564d4aa0'
+
 
 
 

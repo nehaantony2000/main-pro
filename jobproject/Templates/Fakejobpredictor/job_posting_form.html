@@ -2,14 +2,24 @@
 {% extends 'Employee/userbase.html' %}
 {% load static %}
 
-<!DOCTYPE HTML>
-<html>
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
-
-{%  endblock %}
-</html>
+    <h1>Predict Job Post</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    
+    {% if is_job_post_legitimate is not None %}
+        <h2>Results</h2>
+        <p>The job post is {% if is_job_post_legitimate %}legitimate{% else %}fake{% endif %}.</p>
+        {% if not is_job_post_legitimate %}
+        <p>Red flags:</p>
+        <ul>
+            {% for entity in entities_with_dbpedia %}
+                <li>{{ entity.matched_text }} - {{ entity.dbpedia_types|join:', ' }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% endif %}
+{% endblock %}

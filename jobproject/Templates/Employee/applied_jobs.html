@@ -46,13 +46,10 @@
 									<span><i class="fa fa-money"></i>{{ applied_job.job.salarypackage }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								</div>
 								<p>{{ applied_job.job.companyaddress }}</p>
-								{% if applied_job.status %}
-									<button>Applied</button>
-								{% elif applied_job.accept %}
-									<button>Accepted</button>
-								{% elif applied_job.reject %}
-									<button>Rejected</button>
-								{% endif %}
+							
+									<button>{{applied_job.status }}</button>
+								
+								
 							</div>
               {% empty %}
 					

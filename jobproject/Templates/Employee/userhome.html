@@ -20,7 +20,7 @@
 				<!-- Form -->
 				<form action="{% url 'searchbar' %}" method="GET">
 				<h2>Find job</h2>
-				<input type="text" class="ico-01" placeholder="job title, keywords or company name" value="" name="query" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Keyword(s)';}"/>
+				<input type="text" class="ico-01" placeholder="job title, keywords or company name" id="query" name="query" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Keyword(s)';}"/>
 				
 				<button><i class="fa fa-search"></i></button>
 				</form>
