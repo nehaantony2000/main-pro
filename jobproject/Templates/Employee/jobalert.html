@@ -62,11 +62,10 @@
 				<td>{{job_alert.location}}</td>
 			
 				<td class="action">
-					<a href="#"><i class="fa fa-check-circle-o"></i> Show Results</a>
-					<a href="#"><i class="fa fa-envelope"></i> Email</a>
-					<a href="#"><i class="fa fa-pencil"></i> Edit</a>
+					
+					<a href="{% url 'edit_job_alert' job_alert.id %}"><i class="fa fa-pencil"></i> Edit</a>
 					<a href="#"><i class="fa  fa-eye-slash"></i> Disable</a>
-					<a href="#" class="delete"><i class="fa fa-remove"></i> Delete</a>
+					<a href="{% url 'job_alerts_delete' job_alert.id %}" class="delete"><i class="fa fa-remove"></i> Delete</a>
 				</td>
 			</tr>
             {% endfor %}

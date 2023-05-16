@@ -20,6 +20,8 @@ urlpatterns = [
     path('news/', views.get_news, name='get_news'),
     path('create_job_alert/', views.create_job_alert, name='create_job_alert'),
     path('job_alerts/', views.job_alerts, name='job_alerts'),
+    path('edit_job_alert/<int:id>/', views.edit_job_alert, name='edit_job_alert'),
+     path('job_alerts_delete/<int:id>', views.job_alerts_delete, name='job_alerts_delete'),
 
    
 

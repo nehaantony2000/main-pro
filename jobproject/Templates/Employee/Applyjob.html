@@ -9,13 +9,13 @@
 	{% block content %}
 	
 <div class="container">
-	{% include 'Message.html' %}
+	
     <div class="single">  
 	   <div class="form-container">
         <h2> Apply Now</h2>
         <form method="POST" onclick="return validation()"   action="{% url 'ApplyJob' id=job.id  %}" id="apply" enctype="multipart/form-data">
             {% csrf_token %}
-            
+            {% include 'Message.html' %}
             
             <div class="row">
             

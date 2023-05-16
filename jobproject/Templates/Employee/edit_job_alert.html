@@ -74,7 +74,7 @@
             <td>{{ form.location }}</td>
           </tr>
         </table>
-        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="submit" class="btn btn-primary">Update</button>
       </form>
     </div>
 </div>
@@ -90,43 +90,6 @@
 <script src="{% static 'Account/js/popper.min.js' %}"></script>
 <script src="{% static 'Account/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'Account/js/main.js' %}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function() {
-  // Keywords field onkeyup validation
-  $('#id_keywords').on('keyup', function() {
-    var keywords = $(this).val();
-    var keywordsLength = keywords.trim().length;
-    if (keywordsLength < 3) {
-      $(this).addClass('is-invalid');
-    } else {
-      $(this).removeClass('is-invalid');
-    }
-  });
-
-  // Industry field onkeyup validation
-  $('#id_industry').on('keyup', function() {
-    var industry = $(this).val();
-    var industryLength = industry.trim().length;
-    if (industryLength < 3) {
-      $(this).addClass('is-invalid');
-    } else {
-      $(this).removeClass('is-invalid');
-    }
-  });
-
-  // Location field onkeyup validation
-  $('#id_location').on('keyup', function() {
-    var location = $(this).val();
-    var locationLength = location.trim().length;
-    if (locationLength < 3) {
-      $(this).addClass('is-invalid');
-    } else {
-      $(this).removeClass('is-invalid');
-    }
-  });
-});
-</script>
 
 </body>
 {% endblock %}

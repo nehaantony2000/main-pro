@@ -283,7 +283,7 @@ def create_job_alert(request):
             job_alert = form.save(commit=False)
             job_alert.user = request.user
             job_alert.save()
-            messages.success(request, 'Job alert created successfully.')
+            # messages.success(request, 'Job alert created successfully.')
             return redirect('job_alerts')
     else:
         form = JobAlertForm()
@@ -314,3 +314,26 @@ def send_job_alert_notification(email, matching_job_posts):
 
 
 
+@login_required(login_url='login')
+def job_alerts_delete(request, id):
+    job =JobAlert.objects.get(id=id)
+  
+    job.delete()
+
+    return redirect("job_alerts")
+
+
+
+
+def edit_job_alert(request, id):
+    job_alert = get_object_or_404(JobAlert, id=id, user=request.user)
+
+    if request.method == 'POST':
+        form = JobAlertForm(request.POST, instance=job_alert)
+        if form.is_valid():
+            form.save()
+            return redirect('job_alerts')
+    else:
+        form = JobAlertForm(instance=job_alert)
+
+    return render(request, 'Employee/edit_job_alert.html', {'form': form})
