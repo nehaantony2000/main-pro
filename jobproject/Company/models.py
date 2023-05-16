@@ -41,6 +41,30 @@ class JobDetails(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
 
 
+class JobAlert(models.Model):
+    category_choices = ( ('accounting-finance', 'Accounting & Finance'),
+        ('administrative', 'Administrative'),
+        ('customer-service', 'Customer Service'),
+        ('engineering', 'Engineering'),
+        ('healthcare', 'Healthcare'),
+        ('human-resources', 'Human Resources'),
+        ('information-technology', 'Information Technology'),
+        ('marketing', 'Marketing'),
+        ('sales', 'Sales'),)
+    job_choices = (('Part-Time','Part-Time'),('Full-Time','Full-Time'),('Internship','Internship'),('Freelance','Freelance'))
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    keywords = models.CharField(max_length=100)
+    industry = models.CharField(max_length=100)
+    experience_level = models.CharField(max_length=50)
+    category=models.CharField(max_length=250,choices=category_choices,default='')
+    jobtype=models.CharField(max_length=250,choices=job_choices,default='')
+    location=models.CharField(max_length=250,default='')
+    date_posted = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.user.username}'s Job Alert"
+
+
 class Applicants(models.Model):
     id = models.AutoField(primary_key=True)
     job = models.ForeignKey(JobDetails, related_name='applicants', on_delete=models.CASCADE)

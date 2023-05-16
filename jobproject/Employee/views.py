@@ -6,12 +6,15 @@ from Account.models import Account
 from django.http import HttpResponse
 from django.utils.text import slugify
 from hashlib import sha256
-
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
+from .forms import JobAlertForm
 from django.utils import timezone
 from django.db.models import Q
 from django.contrib import messages
 from Employee.models import Applylist,SavedJobs,Courses,Videos,Course_purchase,Feedback,sentiment
-from Company.models import JobDetails,Selected,Applicants
+from Company.models import JobDetails,Selected,Applicants,JobAlert
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 
 
@@ -271,6 +274,43 @@ def get_news(request):
     return render(request, 'Employee/news.html', {"page": "Newsplatform", "page_obj": page_obj})
   
 
+
+
+def create_job_alert(request):
+    if request.method == 'POST':
+        form = JobAlertForm(request.POST)
+        if form.is_valid():
+            job_alert = form.save(commit=False)
+            job_alert.user = request.user
+            job_alert.save()
+            messages.success(request, 'Job alert created successfully.')
+            return redirect('job_alerts')
+    else:
+        form = JobAlertForm()
+    return render(request, 'Employee/myjobalert.html', {'form': form})
+
+
+def job_alerts(request):
+    job_alerts = JobAlert.objects.filter(user=request.user)
+
+    for job_alert in job_alerts:
+        matching_job_posts = JobDetails.objects.filter(
+            jobname__icontains=job_alert.keywords,
+            
+            category__icontains=job_alert.industry,
+            experience__icontains=job_alert.experience_level
+        )
+
+        if matching_job_posts.exists():
+            send_job_alert_notification(request.user.email, matching_job_posts)
+
+    return render(request, 'Employee/jobalert.html', {'job_alerts': job_alerts})
+
+
+def send_job_alert_notification(email, matching_job_posts):
+    subject = 'New Job Alert'
+    message = render_to_string('Employee/job_alert_notification.html', {'matching_job_posts': matching_job_posts})
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
 
 
 

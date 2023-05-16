@@ -18,6 +18,9 @@ urlpatterns = [
     path ('Search/', views.search, name="search"),
     path('appliedjobs/', views.appliedjobs, name='appliedjobs'),
     path('news/', views.get_news, name='get_news'),
+    path('create_job_alert/', views.create_job_alert, name='create_job_alert'),
+    path('job_alerts/', views.job_alerts, name='job_alerts'),
+
    
 
   

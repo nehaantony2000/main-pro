@@ -1,0 +1,22 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>New Job Alert</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/email.css' %}">
+</head>
+<body>
+  <h2>New Job Alert</h2>
+  <ul>
+    {% for job_post in matching_job_posts %}
+      <li>{{ job_post.title }}</li>
+      <p>{{ job_post.description }}</p>
+      <p>Location: {{ job_post.location }}</p>
+      <p>Industry: {{ job_post.industry }}</p>
+      <p>Experience Level: {{ job_post.experience_level }}</p>
+      <hr>
+    {% endfor %}
+  </ul>
+</body>
+</html>

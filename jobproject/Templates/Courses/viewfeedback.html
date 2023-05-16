@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.css">
-  </head>
+</head>
+<body>
   <h1>Sentiment Analysis</h1>
   <hr>
   <h3>Feedback:</h3>
@@ -19,27 +20,11 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
+    const data = {{ data|safe }};
     const ctx = document.getElementById('myChart').getContext('2d');
     const myChart = new Chart(ctx, {
       type: 'bar',
-      data: {
-        labels: ['Positive', 'Negative', 'Neutral'],
-        datasets: [{
-          label: 'Sentiment Analysis',
-          data: [{{ sentiment.positive_percentage }}, {{ sentiment.negative_percentage }}, {{ sentiment.neutral_percentage }}],
-          backgroundColor: [
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 206, 86, 0.2)'
-          ],
-          borderColor: [
-            'rgba(75, 192, 192, 1)',
-            'rgba(255, 99, 132, 1)',
-            'rgba(255, 206, 86, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
+      data: data,
       options: {
         scales: {
           y: {
@@ -52,4 +37,5 @@
     });
   </script>
 
+</body>
 {% endblock %}

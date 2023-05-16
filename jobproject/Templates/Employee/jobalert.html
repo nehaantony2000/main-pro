@@ -1,0 +1,102 @@
+{% extends 'Employee/userbase.html' %}
+{% load static %}
+<html>
+    
+
+{% block content %}
+
+
+<body>
+<div id="wrapper">
+
+
+<div class="clearfix"></div>
+
+
+<!-- Titlebar
+================================================== -->
+<div id="titlebar" class="single">
+	<div class="container">
+
+		<div class="sixteen columns">
+			<h2>Job Alerts</h2>
+			<nav id="breadcrumbs">
+				<ul>
+					<li>You are here:</li>
+					<li><a href="#">Home</a></li>
+					<li>Job Alerts</li>
+				</ul>
+			</nav>
+		</div>
+
+	</div>
+</div>
+
+
+<!-- Content
+================================================== -->
+<div class="container">
+	
+	<!-- Table -->
+	<div class="sixteen columns">
+
+		<p class="margin-bottom-25">Your job alerts are shown below.</p>
+
+		<table class="manage-table resumes responsive-table">
+
+			<tr>
+				<th><i class="fa fa-number"></i>  No:</th>
+				<th><i class="fa fa-calendar"></i> Date Created</th>
+				<th><i class="fa fa-tags"></i> Keywords</th>
+				<th><i class="fa fa-map-marker"></i> Location</th>
+				
+				<th></th>
+			</tr>
+            {% if job_alerts %}
+			<!-- Item #1 -->
+            {% for job_alert in job_alerts %}
+			<tr>
+				<td class="card"><a href="#">{{ forloop.counter }}</a></td>
+				<td>{{job_alert.date_posted|date:"F d, Y"}}</td>
+				<td class="keywords">{{job_alert.keywords}}</td>
+				<td>{{job_alert.location}}</td>
+			
+				<td class="action">
+					<a href="#"><i class="fa fa-check-circle-o"></i> Show Results</a>
+					<a href="#"><i class="fa fa-envelope"></i> Email</a>
+					<a href="#"><i class="fa fa-pencil"></i> Edit</a>
+					<a href="#"><i class="fa  fa-eye-slash"></i> Disable</a>
+					<a href="#" class="delete"><i class="fa fa-remove"></i> Delete</a>
+				</td>
+			</tr>
+            {% endfor %}
+        </ul>
+      {% else %}
+        <p>No job alerts found.</p>
+      {% endif %}
+    
+		</table>
+
+		<br>
+
+		<a href="{%  url 'create_job_alert'  %}" class=" button">Add Alert</a>
+
+		
+	</div>
+
+</div>
+
+
+
+
+<!-- Back To Top Button -->
+<div id="backtotop"><a href="#"></a></div>
+
+</div>
+<!-- Wrapper / End -->
+
+
+
+</body>
+</html>
+{% endblock %}

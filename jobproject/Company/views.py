@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render,redirect
 from django.urls import reverse
@@ -6,7 +7,7 @@ import spacy
 from django.contrib.auth.decorators import login_required
 from Account.models import Account
 from Employee.models import Applylist,Courses,Course_purchase,Videos,Feedback
-from Company.models import JobDetails,Selected,Applicants
+from Company.models import JobDetails,Selected,Applicants,JobAlert
 from django.contrib import messages, auth
 from django.utils.text import slugify
 from hashlib import sha256
@@ -377,7 +378,7 @@ def viewfeedback(request):
         return render(request, 'Comp/viewfeedback.html', {'ins': ins, 'std_feed': std_feed})
     
 
-def note(request):
+def note(request,id):
     user = Account.objects.get(email=request.session.get('email'))
     if request.user.is_authenticated and request.user.is_company:
         
@@ -391,24 +392,7 @@ def note(request):
               return render(request, "Comp/Applylist.html")
         
 
-# def update_application_status(request, id):
-#     try:
-#         application = Applicants.objects.get(id=id)
-#     except Applicants.DoesNotExist:
-#         raise Http404("Application does not exist")
 
-#     if request.method == 'POST':
-#         status = request.POST.get('status')
-#         application.status = status
-#         application.save()
-
-#         messages.success(request, 'Application status updated successfully.')
-#         return redirect(reverse('Applylist', args=[id]))
-
-#     context = {
-#         'application': application
-#     }
-#     return render(request, 'Comp/Applylist.html', context)
 
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -470,3 +454,10 @@ def viewjob(request, id):
    
     }
     return render(request,'Comp/ViewJob.html',context)  
+
+def list_selected_candidates(request):
+    candidates = Applylist.objects.filter(status='SELECTED')
+    return render(request, 'Comp/selected_candidates.html', {'candidates': candidates})
+
+
+

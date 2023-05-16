@@ -22,11 +22,13 @@ urlpatterns = [
     path('deleteApplication/<int:id>', views.deleteApplication, name='deleteApplication'),
     path('viewfeedback/', views.viewfeedback, name='viewfeedback'),
     path('note/', views.note, name='note'),
+    path('note/', views.note, name='note'),
+    path('list_selected_candidates/', views.list_selected_candidates, name='list_selected_candidates'),
     
     path('recruiter_videos/', views.recruiter_videos, name='recruiter_videos'),
     path('deletevedio/<int:id>', views.deletevedio, name='deletevedio'),
    path('edit_video/<int:id>/',views.edit_video, name='edit_video'),
-
+   
 
 
 

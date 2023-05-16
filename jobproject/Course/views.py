@@ -99,8 +99,13 @@ from django.http import HttpResponse
 from textblob import TextBlob
 
 
-def sentiment_analysis(request):
-    feedback = Feedback.objects.get(id=id)
+from django.shortcuts import render, get_object_or_404
+
+from textblob import TextBlob
+import json
+
+def sentiment_analysis(request, feedback_id):
+    feedback = get_object_or_404(Feedback, id=feedback_id)
     blob = TextBlob(feedback.feedback)
     positive_percentage = round(blob.sentiment.polarity * 100, 2)
     negative_percentage = round(100 - positive_percentage, 2)
@@ -116,10 +121,30 @@ def sentiment_analysis(request):
     sent_obj.num_reviews += 1
     sent_obj.save()
 
-    return render(request, 'Courses/viewfeedback.html', {'feedback': feedback, 'sentiment': sent_obj})
+    data = {
+        'labels': ['Positive', 'Negative', 'Neutral'],
+        'datasets': [
+            {
+                'label': 'Sentiment Analysis',
+                'data': [sent_obj.positive_percentage, sent_obj.negative_percentage, sent_obj.neutral_percentage],
+                'backgroundColor': [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 206, 86, 0.2)'
+                ],
+                'borderColor': [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                'borderWidth': 1
+            }
+        ]
+    }
+    # convert the dictionary to JSON format
+    json_data = json.dumps(data)
 
-
-
+    return render(request, 'Courses/sentiment_analysis.html', {'feedback': feedback, 'sentiment': sent_obj, 'data': json_data})
 
 
 

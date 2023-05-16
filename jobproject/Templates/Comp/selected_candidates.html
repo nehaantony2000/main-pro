@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Selected Candidates</title>
+</head>
+<body>
+    <h1>Selected Candidates</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th>Job</th>
+                <th>Applied Date</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for candidate in candidates %}
+            <tr>
+                <td>{{ candidate.cand.first_name }} {{ candidate.cand.last_name }}</td>
+                <td>{{ candidate.jobname }}</td>
+                <td>{{ candidate.applieddate }}</td>
+                <td>{{ candidate.notes }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
