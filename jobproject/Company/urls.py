@@ -21,8 +21,8 @@ urlpatterns = [
     path('job_delete/<int:id>', views.jobdelete, name='job_delete'),
     path('deleteApplication/<int:id>', views.deleteApplication, name='deleteApplication'),
     path('viewfeedback/', views.viewfeedback, name='viewfeedback'),
-    path('note/', views.note, name='note'),
-    path('note/', views.note, name='note'),
+    path('note/<int:id>/', note, name='note'),
+   
     path('list_selected_candidates/', views.list_selected_candidates, name='list_selected_candidates'),
     
     path('recruiter_videos/', views.recruiter_videos, name='recruiter_videos'),

@@ -456,8 +456,8 @@ def viewjob(request, id):
     return render(request,'Comp/ViewJob.html',context)  
 
 def list_selected_candidates(request):
-    candidates = Applylist.objects.filter(status='SELECTED')
-    return render(request, 'Comp/selected_candidates.html', {'candidates': candidates})
-
+    applicants = Applylist.objects.filter(status='SELECTED')
+    return render(request, 'Comp/selected_candidates.html', {'applicants': applicants})
+    
 
 

@@ -188,11 +188,12 @@
 			    
 			    <!-- Second Tab -->
 			    <div class="app-tab-content"  id="two-{{ i.id }}">
-					<form action="{% url 'note' %} " method="POST">
-					<textarea   name="note" placeholder="Private note regarding this application"></textarea>
-					<a href="#" class="button margin-top-15">Add Note</a>
-			    </div>
-			</form>
+					<form action="{% url 'note' id=i.id %}" method="POST">
+						{% csrf_token %}
+						<textarea name="note" placeholder="Private note regarding this application"></textarea>
+						<button type="submit" class="button margin-top-15">Add Note</button>
+					</form>
+					
 			    <!-- Third Tab -->
 				
 			

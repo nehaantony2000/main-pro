@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'Resume',
     'Employee',
     'Company',
-    'textrazor',
+    
     'django_countries',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'sweetify',
-    'Fakejob' 
+     
     
 
 ]

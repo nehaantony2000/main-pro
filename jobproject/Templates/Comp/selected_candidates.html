@@ -1,29 +1,67 @@
+{% extends 'Comp/base1.html' %}
+{% load static %}
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Selected Candidates</title>
-</head>
-<body>
-    <h1>Selected Candidates</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Candidate</th>
+<html lang="en">
+    
+    {% block content %}
+            <body class="sb-nav-fixed">
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Selected Candidate List</h1>
+                      
+                       
+                        
+                        
+                        
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                             Selected Candidate List
+                            </div>
+                            <div class="card-body">
+                                <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>Candidate</th>
                 <th>Job</th>
+                <th>Resume</th>
                 <th>Applied Date</th>
+                <th>Status</th>
                 <th>Notes</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for candidate in candidates %}
-            <tr>
-                <td>{{ candidate.cand.first_name }} {{ candidate.cand.last_name }}</td>
-                <td>{{ candidate.jobname }}</td>
-                <td>{{ candidate.applieddate }}</td>
-                <td>{{ candidate.notes }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Candidate</th>
+                <th>Job</th>
+                <th>Resume</th>
+                <th>Applied Date</th>
+                <th>Status</th>
+                <th>Notes</th>
+                                        </tr>
+                                    </tfoot>
+                                    {% if applicants %}
+                                    <tbody>
+                                        {% for applicant in applicants %}
+                                        <tr>
+                                            <td>{{ applicant.cand }}</td>
+                                            <td>{{ applicant.job.jobname }}</td>
+                                            <td><a href="{{applicant.resumes.url }}" download> Download CV</a></td>
+                                            
+                                            <td>{{ applicant.applieddate }}</td>
+                                            <td>{{ applicant.status }}</td>
+                                            <td>{{ applicant.notes }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    {% endif %}
+                                </table>
+                            </div>
+                    </div>
+                </main>
+            </div>
+        </body>
+        {% endblock %}
 </html>
