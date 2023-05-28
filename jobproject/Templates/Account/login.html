@@ -10,6 +10,20 @@
 	{% block content %}
 
   <head>
+    <style>
+      .password-wrapper {
+  position: relative;
+}
+
+.password-wrapper .eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+    </style>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <!-- Sweetify CSS -->
@@ -31,7 +45,8 @@
     <!-- Style -->
     <link rel="stylesheet" href="'{% static 'Account/css/style.css' %}">
 
-  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
   </head>
   <body>
   
@@ -49,7 +64,7 @@
               <div class="mb-4">
               <h3>Sign In  </h3>
               </div>
-            <form  onsubmit="return validatee()" method="POST" action="{% url 'login' %}" id="form">
+            <form  onsubmit=" return validatee()" method="POST" action="{% url 'login' %}" id="form">
               {% include 'Message.html' %}
               {% csrf_token %}
               <div class="form-group first">
@@ -62,10 +77,11 @@
               </div>
               <div class="form-group last mb-4">
                 <label for="password">Password</label>
-                <input type="password" required="required" class="form-control " onkeyup="passwordValidate()" id="password" name="password" placeholder="Password">
-                                <span id="names" style="font-size:12px;margin-top:-5px;" style="color:red" class="text-danger"></span>
-					
-                
+                <div class="password-wrapper">
+                  <input type="password" required="required" class="form-control" id="password" name="password" placeholder="Password">
+                  <i class="eye-icon fas fa-eye" onclick="togglePasswordVisibility()"></i>
+                </div>
+                <span id="names" style="font-size:12px;margin-top:-5px;" style="color:red" class="text-danger"></span>
               </div>
               <div class="form-group last mb-4">
               <div style="margin-left:+0%;">
@@ -74,11 +90,13 @@
               <div id="g-recaptcha-error"></div>
               </div>
                 </div>
-              <div class="d-flex mb-5 align-items-center">
-                <!-- <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
-                  <input type="checkbox" />
-                  <div class="control__indicator"></div>
-                </label> -->
+              
+                <div class="d-flex mb-5 align-items-center">
+                  <label class="control control--checkbox mb-0">
+                    <span class="caption">Remember me</span>
+                    <input type="checkbox" name="remember_me" id="remember_me">
+                    <div class="control__indicator"></div>
+                  </label>
                 <span class="ml-auto"><a href="/Account/forgotPassword/" class="forgot-pass">Forgot Password</a></span> 
               </div>
 
@@ -99,13 +117,27 @@
       </div>
     </div>
   </div>
-
+ 
   
     <script src="{% static 'Account/js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'Account/js/popper.min.js' %}"></script>
     <script src="{% static 'Account/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'Account/js/main.js' %}"></script>
     <script type="text/javascript">
+function togglePasswordVisibility() {
+  var passwordField = document.getElementById("password");
+  var eyeIcon = document.querySelector(".eye-icon");
+
+  if (passwordField.type === "password") {
+    passwordField.type = "text";
+    eyeIcon.classList.remove("fa-eye");
+    eyeIcon.classList.add("fa-eye-slash");
+  } else {
+    passwordField.type = "password";
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
+  }
+}
 
 function clearBorder(e) {
 		document.getElementById(e).textContent = "";
@@ -157,6 +189,16 @@ function clearBorder(e) {
       
       
        function validatee() {
+
+       
+    
+  
+  
+
+              var rememberMeCheckbox = document.getElementById("remember_me");
+              if (rememberMeCheckbox.checked) {
+              setRememberMeCookie();
+               }
                var frm = document.getElementById('form').value;
 		           var email = document.getElementById('email').value;
 		           var password = document.getElementById("password").value;
@@ -193,6 +235,16 @@ function clearBorder(e) {
 			return true;
 		}
          }
+         
+         function setRememberMeCookie() {
+  var rememberMeCheckbox = document.getElementById("remember_me");
+  if (rememberMeCheckbox.checked) {
+    document.cookie = "remember_me=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+  } else {
+    document.cookie = "remember_me=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+  }
+}
+
     </script>
     </body>
     {% endblock %}
