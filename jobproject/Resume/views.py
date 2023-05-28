@@ -12,6 +12,7 @@ from xhtml2pdf import pisa
 
 
 #to view the resume
+@login_required(login_url='login')
 def res(request):
         iid = request.POST.get('iid', None)  # Use request.POST.get() with a default value of None
         data1 = resumme.objects.filter(res_id=iid)
@@ -24,7 +25,7 @@ def res(request):
 
 
 
-
+@login_required(login_url='login')
 def resdetails(request):
     user=Account.objects.get(email=request.session.get('email'))
     if request.user.is_authenticated:

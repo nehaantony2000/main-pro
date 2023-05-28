@@ -26,12 +26,12 @@
 	<div class="container">
 
 		<div class="sixteen columns">
-			<h2>Manage Applications</h2>
+			<h2>Schedule Interview</h2>
 			<nav id="breadcrumbs">
 				<ul>
 					<li>You are here:</li>
 					<li><a href="/Company/Companyhome/">Home</a></li>
-					<li>Job Dashboard</li>
+					<li>Shedule Interview </li>
 				</ul>
 			</nav>
 		</div>
@@ -45,33 +45,16 @@
 <div class="container">
 	
 
-
 	<!-- <div class="eight columns">
 		
-		<select data-placeholder="Filter by status" class="chosen-select-no-single" name="status">
-			<option value="">Filter by status</option>
-    <option value="PENDING">Pending</option>
-    <option value="REJECTED">Rejected</option>
-    <option value="ACCEPTED">Accepted</option>
-    <option value="IN REVIEW">In Review</option>
-    <option value="APPROVED">Approved</option>
-    <option value="ON HOLD">On Hold</option>
-    <option value="CANCELLED">Cancelled</option>
-    <option value="COMPLETED">Completed</option>
-		</select>
-		<div class="margin-bottom-15"></div>
-	</div> -->
-
-	<div class="eight columns">
-		<!-- Select -->
 		<select name="sort_by" data-placeholder="Newest first" class="chosen-select-no-single">
     <option value="">Newest first</option>
     <option value="oldest">Oldest first</option>
 </select>
 		<div class="margin-bottom-35"></div>
-	</div>
-	<div class="eight columns">
-		<!-- Select -->
+	</div> -->
+	<!-- <div class="eight columns">
+		
 		<form method="GET">
 			{% csrf_token %}
 			<select data-placeholder="Filter by Jobname" class="chosen-select-no-single" name="jobname" onchange="this.form.submit()">
@@ -82,13 +65,13 @@
 			</select>
 		</form>
 		<div class="margin-bottom-15"></div>
-	</div>
+	</div> -->
 	
 
 	<!-- Applications -->
 	<div class="sixteen columns">
-		{% if Apply %}
-		{% for i in Apply %}
+		{% if applicants %}
+		{% for i in applicants %}
 		<div class="application">
 			<div class="app-content">
 			
@@ -110,33 +93,10 @@
 						</ul>
 					Applied for:						  <span> {{i.job.jobname}}</span>
 						  <br>
-						  <i>Rank :</i>
-							{% for applicant in rankedapplicants %}
-								{% if i.id == applicant.1.application_id %}
-									{% if applicant.1.Similarity_scores == -1.0 %}
-										<span>-</span>
-									{% else %}
-										<span>{{applicant.1.rank}}</span>
-									{% endif %}
-								{% endif %}
-							{% endfor %}
+						 
 						  
 						  
-						  <!-- <ul>
-							{% for applicant in rankedapplicants %}
-							  {% if i.id == applicant.1.application_id%}
-							  <li>
-							
-								<p>Extracted Skills: {{ applicant.1.ExtractedSkill }}</p>
-								<p>Application ID: {{ applicant.1.application_id }}</p>
-								<p>Required Skills: {{ applicant.1.required_skills }}</p>
-								<p>Similarity Score: {{ applicant.1.Similarity_Scores }}</p>
-								<p>Rank: {{ applicant.1.rank }}</p>
-							  </li>
-							  {% endif %}
-							{% endfor %}
-						  </ul> -->
-					
+						  
 						
 					
 				</div>
@@ -145,8 +105,8 @@
 				
 				<!-- Buttons -->
 				<div class="buttons">
-					<a href="#one-{{ i.id }}" class="button gray app-link"><i class="fa fa-pencil"></i> Edit</a>
-					<a href="#two-{{ i.id }}" class="button gray app-link"><i class="fa fa-sticky-note"></i> Add Note</a>
+
+					<a href="#two-{{ i.id }}" class="button gray app-link"><i class="fa fa-sticky-note"></i>Shedule Interview</a>
 					<a href="#three-{{ i.id }}" class="button gray app-link"><i class="fa fa-plus-circle"></i> Show Details</a>
 				</div>
 				<div class="clearfix"></div>
@@ -160,40 +120,19 @@
 				
 		
 				<!-- First Tab -->
-			    <div class="app-tab-content" id="one-{{ i.id }}">
-			
-					<form action="{% url 'update_application_status' i.id %}" method="POST">
-						{% include 'Message.html' %}
-						{% csrf_token %}
-						<div class="select-grid">
-							<select data-placeholder="Application Status"   id ="status" class="chosen-select-no-single" name="status">
-								<option value="">Application Status</option>
-								<option value="PENDING">Pending</option>
-								<option value="REJECTED">Rejected</option>
-								<option value="SELECTED">Selected</option>
-								<option value="Interview Sheduled">Interview Sheduled</option>
-								
-							</select>
-						</div>
-						<div class="clearfix"></div>
-						<button type="submit" class="button margin-top-15">Save</button>
-					
-					
-					<a href="{% url 'deleteApplication' i.id %}" class="button gray margin-top-15 delete-application">Delete this application</a>
-				</form>
-				
-				
-			    </div>
+			    
 				
 			    
 			    <!-- Second Tab -->
-			    <div class="app-tab-content"  id="two-{{ i.id }}">
-					<form action="{% url 'note' id=i.id %}" method="POST">
-						{% csrf_token %}
-						<textarea name="note" placeholder="Private note regarding this application"></textarea>
-						<button type="submit" class="button margin-top-15">Add Note</button>
-					</form>
-				</div>
+			    <div class="app-tab-content" id="two-{{ i.id }}">
+                    <form action="{% url 'interview_schedule' i.id %}" method="POST">
+                      {% csrf_token %}
+                      
+                      <textarea name="note" placeholder="Private note regarding this application"></textarea>
+                      <button type="submit" class="button margin-top-15">Shedule interview_schedule</button>
+                    </form>
+                  </div>
+                  
 			    <!-- Third Tab -->
 				
 			
@@ -257,22 +196,22 @@
 	<center>
 		<nav class="pagination">
 			<ul>
-				{% if Apply.has_previous %}
+				{% if applicants.has_previous %}
 					<li><a href="?page=1">First</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<li><a href="?page={{ Apply.previous_page_number }}">Previous</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<li><a href="?page={{ applicants.previous_page_number }}">Previous</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				{% endif %}
 
-				{% for num in Apply.paginator.page_range %}
-					{% if Apply.number == num %}
+				{% for num in applicants.paginator.page_range %}
+					{% if applicants.number == num %}
 						<li><a href="#" class="current-page">{{ num }}</a></li>&nbsp;&nbsp;&nbsp;
-					{% elif num > Apply.number|add:'-3' and num < Apply.number|add:'3' %}
+					{% elif num > applicants.number|add:'-3' and num < applicants.number|add:'3' %}
 						<li><a href="?page={{ num }}">{{ num }}</a></li>&nbsp;&nbsp;&nbsp;
 					{% endif %}
 				{% endfor %}
 
-				{% if Apply.has_next %}
-					<li><a href="?page={{ Apply.next_page_number }}">Next</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<li><a href="?page={{ Apply.paginator.num_pages }}">Last</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				{% if applicants.has_next %}
+					<li><a href="?page={{ applicants.next_page_number }}">Next</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<li><a href="?page={{ applicants.paginator.num_pages }}">Last</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				{% endif %}
 			</ul>
 		</nav>

@@ -13,7 +13,7 @@ from django.utils.text import slugify
 from hashlib import sha256
 from Course.forms import VideoForm
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
-
+from django.core.mail import send_mail
 import PyPDF2
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -378,19 +378,25 @@ def viewfeedback(request):
         return render(request, 'Comp/viewfeedback.html', {'ins': ins, 'std_feed': std_feed})
     
 
-def note(request,id):
-    user = Account.objects.get(email=request.session.get('email'))
+
+def note(request, id):
     if request.user.is_authenticated and request.user.is_company:
-        
+        user = get_object_or_404(Account, email=request.session.get('email'))
+        apply = get_object_or_404(Applylist, id=id, job__email=user)
         if request.method == "POST":
-              jobs = JobDetails.objects.filter(email=user)
-              Apply = Applylist.objects.filter(job__in=jobs)
-              note = request.POST.get('note')
-             
-              new=Applylist.objects.create(recruiter_notes=note)
-              new.save()
-              return render(request, "Comp/Applylist.html")
-        
+            note = request.POST.get('note')
+            apply.recruiter_notes = note
+            apply.save()
+
+            # Send email to the candidate
+            candidate_email = apply.cand.email
+            subject = "Recruiter Note for Job Application"
+            message = f"Dear {apply.cand.username},\n\nYou have received a note from the recruiter regarding your job application:\n\n{note}\n\nBest regards,\nThe Recruiter"
+            job = apply.job
+            sender_email = job.email.email  # Use the recruiter's email address from the JobDetails model
+            send_mail(subject, message, sender_email, [candidate_email], fail_silently=False)
+
+    return redirect('Applylist')  # Replace 'applylist' with the appropriate URL name
 
 
 
@@ -459,5 +465,84 @@ def list_selected_candidates(request):
     applicants = Applylist.objects.filter(status='SELECTED')
     return render(request, 'Comp/selected_candidates.html', {'applicants': applicants})
     
+def schedule_zoom_meeting(applicant_email):
+    zoom_client = ZoomClient(api_key=settings.ZOOM_API_KEY, api_secret=settings.ZOOM_API_SECRET)
 
+    # Generate a unique meeting topic based on the applicant's email
+    meeting_topic = f"Interview with {applicant_email}"
+
+    # Set up the meeting parameters
+    meeting_params = {
+        "topic": meeting_topic,
+        "type": 1,  # Scheduled meeting
+        "start_time": "YYYY-MM-DDTHH:MM:SSZ",  # Replace with the actual start time of the meeting
+        "duration": 60,  # Meeting duration in minutes
+        "timezone": "UTC",  # Replace with the appropriate timezone
+        "password": "123456",  # Replace with a secure password for the meeting
+        "agenda": "Interview with the applicant",  # Meeting agenda
+        "settings": {
+            "host_video": False,  # Disable host video
+            "participant_video": True,  # Enable participant video
+            "join_before_host": False,  # Participants cannot join before the host
+        }
+    }
+
+    # Create the Zoom meeting
+    response = zoom_client.meeting.create(data=meeting_params)
+
+    if response['status'] == 'success':
+        meeting_id = response['response']['id']
+        join_url = response['response']['join_url']
+        start_url = response['response']['start_url']
+        return meeting_id, join_url, start_url
+    else:
+        return None, None, None
+
+from django.shortcuts import render, redirect
+from django.core.mail import send_mail
+from django.conf import settings
+
+from .utils import schedule_zoom_meeting
+
+def interview_schedule(request, id):
+    # Get the selected applicant using the provided id
+    applicant = Applylist.objects.get(id=id)
+
+    if request.method == "POST":
+        # Schedule a Zoom meeting for the applicant
+        meeting_id, join_url, start_url = schedule_zoom_meeting(applicant.cand.email)
+
+        if meeting_id and join_url and start_url:
+            # Update the Applylist object with the Zoom meeting details
+            applicant.zoom_meeting_id = meeting_id
+            applicant.zoom_join_url = join_url
+            applicant.zoom_start_url = start_url
+            applicant.save()
+
+            # Send the interview link to the candidate via email
+            subject = "Interview Invitation"
+            message = f"Dear {applicant.cand.username},\n\nYou have been invited for an interview. Here is the Zoom meeting link:\n\n{applicant.zoom_join_url}\n\nBest regards,\nRecruiter"
+            from_email = settings.DEFAULT_FROM_EMAIL
+            recipient_list = [applicant.cand.email]
+            html_message = f"<p>Dear {applicant.cand.username},</p><p>You have been invited for an interview. Here is the Zoom meeting link:</p><p><a href='{applicant.zoom_join_url}'>Join the Zoom Meeting</a></p><p>Best regards,<br>Recruiter</p>"
+
+            send_mail(subject, message, from_email, recipient_list, html_message=html_message, fail_silently=False)
+
+            # Perform any additional actions or redirect as needed
+            return redirect('Interview_App')  # Redirect to the applicant list page after scheduling the interview
+        else:
+            # Handle the case when the Zoom meeting creation fails
+            pass
+
+    context = {
+        'applicant': applicant
+    }
+    return render(request, 'Comp/interview.html', context)
+
+
+
+
+def Interview_App(request):
+    applicants = Applylist.objects.all()
+    return render(request, 'Comp/interview.html', {'applicants': applicants})
 

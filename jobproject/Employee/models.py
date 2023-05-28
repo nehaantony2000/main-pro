@@ -15,7 +15,7 @@ from django.urls import reverse
 class Applylist(models.Model):
    cand=models.ForeignKey(Account,on_delete=models.CASCADE)
    job=models.ForeignKey(JobDetails,on_delete=models.CASCADE)
-   resumes= models.FileField(upload_to='AppliedResume',blank=True, null=True)
+   resumes= models.FileField(upload_to='AppliedR        esume',blank=True, null=True)
    applieddate=models.DateTimeField(auto_now_add=True)
    status_choices = [
     ('PENDING', 'Pending'),

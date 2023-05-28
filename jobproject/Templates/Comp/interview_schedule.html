@@ -1,0 +1,28 @@
+<h2>Interview Scheduling</h2>
+
+{% if applicant_list %}
+  <ul>
+    {% for applicant in applicant_list %}
+      <li>
+        <h3>{{ applicant.cand.username }}</h3>
+        <p>Email: {{ applicant.cand.email }}</p>
+        <p>Applied Date: {{ applicant.applieddate }}</p>
+        <p>Resume: <a href="{{ applicant.resumes.url }}">{{ applicant.resumes.name }}</a></p>
+        <p>Status: {{ applicant.status }}</p>
+        {% if applicant.status == 'PENDING' %}
+          <form action="{% url 'interview_schedule' applicant.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">Schedule Interview</button>
+          </form>
+        {% else %}
+          <p>Interview Scheduled</p>
+          {% if applicant.zoom_join_url %}
+            <p>Zoom Meeting Link: <a href="{{ applicant.zoom_join_url }}" target="_blank">{{ applicant.zoom_join_url }}</a></p>
+          {% endif %}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No applicants found.</p>
+{% endif %}

@@ -19,6 +19,7 @@ from django.core.paginator import Paginator, EmptyPage,InvalidPage
 
 
 # to view all job list
+@login_required(login_url='login')
 def joblist(request, template='Employee/joblist.html', extra_context=None):
     sorting = request.GET.get('sorting', 'recent')
     sorting_map = {

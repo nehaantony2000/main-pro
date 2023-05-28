@@ -21,14 +21,16 @@ urlpatterns = [
     path('job_delete/<int:id>', views.jobdelete, name='job_delete'),
     path('deleteApplication/<int:id>', views.deleteApplication, name='deleteApplication'),
     path('viewfeedback/', views.viewfeedback, name='viewfeedback'),
-    path('note/<int:id>/', note, name='note'),
+    path('note/<int:id>/',views.note, name='note'),
    
     path('list_selected_candidates/', views.list_selected_candidates, name='list_selected_candidates'),
     
     path('recruiter_videos/', views.recruiter_videos, name='recruiter_videos'),
     path('deletevedio/<int:id>', views.deletevedio, name='deletevedio'),
    path('edit_video/<int:id>/',views.edit_video, name='edit_video'),
-   
+   path('interview/<int:id>/', views.interview_schedule, name='interview_schedule'),
+    path('Interview_App/', views.Interview_App, name='Interview_App'),
+
 
 
 
